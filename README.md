@@ -1,5 +1,4 @@
 <p align="right"><a href="https://github.com/PicoSupport/PicoSupport" target="_blank">Pico Support Home</a></p>
-<p align="right"><a href="README_CN.md/" target="_blank">中文</a></p>
 
 ## Unity_Demo_Drag3DObject
 
