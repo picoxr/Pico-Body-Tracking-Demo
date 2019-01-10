@@ -1,25 +1,25 @@
-###  [ `Return | 首页` ](https://github.com/PicoSupport/PicoSupport)
+<p align="right"><a href="README_CN.md/" target="_blank">中文</a></p>
+###  [ `Return` ](https://github.com/PicoSupport/PicoSupport)
 
 ## Unity_Demo_Drag3DObject
 
 ## Unity_Versions：
 - 2017.1.0f3 Or UP
 
-## Explain 说明：
+## Explain：
 
-- 实现控制3D物体的拖拽功能
+- Realize the drag and drop function of controlling 3D objects
 
-## Use 使用：
-- 场景位置： Assets -> PicoMobileSDK -> Pvr_Controller -> Scenes -> Pvr_DragController_Demo
-- 按压 **OK按键** 或者 **手柄TouchPad按键** 拖拽3d物体，进行移动
+## Use：
+- Find： Assets -> PicoMobileSDK -> Pvr_Controller -> Scenes -> Pvr_DragController_Demo
+- Control **OK** Or **TouchPad** Drag the 3d object and move it
 
-## Announcements 注意事项：
-- 拖拽速度过快会使物体脱离控制
+## Announcements：
+- Too fast a drag can take an object out of control
 
-## Pico技术支持
-欢迎更多地了解我们，如果您有任何问题，请联系我们。
-Learn about us, and contact us if you have any questions. 
+## TechnicalSupport 
 
+- Learn about us, and contact us if you have any questions. 
 - Email:  support@picovr.com
-- Web:  [https://www.picovr.com/](https://www.picovr.com/)
+- Pico SDK: https://www.picovr.com/en/sdk.html
 
