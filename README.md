@@ -7,12 +7,9 @@
 
 ## Description：
 
-- Realize the drag and drop function of controlling 3D objects
+- This demo implement the functions of dragging and dropping 3D objects with controller
 
 ## Usage：
 - Scene： Assets -> PicoMobileSDK -> Pvr_Controller -> Scenes -> Pvr_DragController_Demo
-- Control **OK** Or **TouchPad** Drag the 3d object and move it
-
-- Too fast a drag can take an object out of control
-
+- Hold **Confirm** Or **TouchPad** button to drag the 3d objects.
 
