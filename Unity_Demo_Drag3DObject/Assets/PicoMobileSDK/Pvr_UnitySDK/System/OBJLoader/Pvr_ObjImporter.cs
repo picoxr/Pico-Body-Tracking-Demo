@@ -57,7 +57,6 @@ public class Pvr_ObjImporter
         mesh.triangles = triangles.ToArray();
 
         mesh.RecalculateBounds();
-        ;
 
         return mesh;
     }

@@ -3,28 +3,32 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Text;
 
-public class InputManager : MonoBehaviour {
+public class InputManager : MonoBehaviour
+{
     public delegate void doEnterEventHandler();
+
     public static doEnterEventHandler doEnter;
     StringBuilder sb = new StringBuilder();
     ArrayList btnsName = new ArrayList();
-    void Awake() {
+
+    private GameObject enter;
+
+    void Awake()
+    {
         InitKeyBoard();
     }
-	// Use this for initialization
-	void Start () {
-        
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
-    void InitKeyBoard(){
-        //绑定事件
-        
+    void Start()
+    {
+    }
 
+    void Update()
+    {
+
+    }
+
+    void InitKeyBoard()
+    {
         btnsName.Add("1");
         btnsName.Add("2");
         btnsName.Add("3");
@@ -73,41 +77,52 @@ public class InputManager : MonoBehaviour {
             btn.onClick.AddListener(delegate() { OnClick(btnObj); });
         }
 
+        enter = GameObject.Find("Enter");
+        enter.SetActive(sb.Length > 0);
     }
 
-    //ButtonClickedEvent
-    void OnClick(GameObject btnObj) {
-        if (btnObj.name.Equals("Capslock")) {
-            if (GameObject.Find("Q").transform.GetChild(0).GetComponent<Text>().text.Equals("Q")){
+    void OnClick(GameObject btnObj)
+    {
+        if (btnObj.name.Equals("Capslock"))
+        {
+            if (GameObject.Find("Q").transform.GetChild(0).GetComponent<Text>().text.Equals("Q"))
+            {
                 DoCapslock(true);
             }
-            else {
+            else
+            {
                 DoCapslock(false);
             }
+
             return;
-            
         }
-        if (btnObj.name.Equals("Clear")) {
+
+        if (btnObj.name.Equals("Clear"))
+        {
             GameObject.Find("CodeText").GetComponent<Text>().text = "";
             ClearBuffer();
             return;
         }
-        if (btnObj.name.Equals("Enter")) {
+
+        if (btnObj.name.Equals("Enter"))
+        {
             ClearBuffer();
             doEnter();
             return;
         }
-        EnterChar(btnObj.transform.GetChild(0).GetComponent<Text>().text);
-        
 
+        EnterChar(btnObj.transform.GetChild(0).GetComponent<Text>().text);
     }
 
-    void EnterChar(string s) {
+    void EnterChar(string s)
+    {
         sb.Append(s);
         GameObject.Find("CodeText").GetComponent<Text>().text = sb.ToString();
+        enter.SetActive(sb.Length > 0);
     }
 
-    void DoCapslock(bool IsUpper) {
+    void DoCapslock(bool IsUpper)
+    {
         if (IsUpper)
         {
             foreach (string btnName in btnsName)
@@ -115,22 +130,22 @@ public class InputManager : MonoBehaviour {
                 GameObject btnObj = GameObject.Find(btnName);
                 Text btnText = btnObj.transform.GetChild(0).GetComponent<Text>();
                 btnText.text = btnText.text.ToLower();
-
             }
         }
-        else {
+        else
+        {
             foreach (string btnName in btnsName)
             {
                 GameObject btnObj = GameObject.Find(btnName);
                 Text btnText = btnObj.transform.GetChild(0).GetComponent<Text>();
                 btnText.text = btnText.text.ToUpper();
-
             }
         }
-        
     }
 
-    void ClearBuffer() {
+    void ClearBuffer()
+    {
         sb.Remove(0, sb.Length);
+        enter.SetActive(sb.Length > 0);
     }
 }

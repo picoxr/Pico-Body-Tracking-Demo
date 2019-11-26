@@ -5,14 +5,13 @@ using UnityEngine.UI;
 
 public class Pvr_UICanvas : MonoBehaviour
 {
-
     public bool clickOnPointerCollision = false;
 
     public float autoActivateWithinDistance = 0f;
 
     protected BoxCollider canvasBoxCollider;
     protected Rigidbody canvasRigidBody;
-    
+
     protected Coroutine draggablePanelCreation;
     protected const string CANVAS_DRAGGABLE_PANEL = "UICANVAS_DRAGGABLE_PANEL";
 
@@ -30,7 +29,7 @@ public class Pvr_UICanvas : MonoBehaviour
     {
         RemoveCanvas();
     }
-    
+
     protected virtual void SetupCanvas()
     {
         var canvas = GetComponent<Canvas>();
@@ -46,7 +45,7 @@ public class Pvr_UICanvas : MonoBehaviour
         var defaultRaycaster = canvas.gameObject.GetComponent<GraphicRaycaster>();
         var customRaycaster = canvas.gameObject.GetComponent<Pvr_UIGraphicRaycaster>();
 
-        
+
         if (!customRaycaster)
         {
             customRaycaster = canvas.gameObject.AddComponent<Pvr_UIGraphicRaycaster>();
@@ -96,7 +95,7 @@ public class Pvr_UICanvas : MonoBehaviour
 
         }
     }
-    
+
     protected virtual void RemoveCanvas()
     {
         var canvas = GetComponent<Canvas>();
@@ -135,7 +134,7 @@ public class Pvr_UICanvas : MonoBehaviour
         {
             Destroy(draggablePanel.gameObject);
         }
-        
+
     }
 }
 

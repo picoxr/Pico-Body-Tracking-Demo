@@ -1,31 +1,31 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using LitJson;
 using System.Collections.Generic;
-using LitJson;
 
-public class CommonDic 
+public class CommonDic
 {
-    #region 字典单例
     private static CommonDic dic;
     private static Dictionary<string, string> mydic;
-    public static CommonDic getInstance() {
-        if (dic == null) {
+    public static CommonDic getInstance()
+    {
+        if (dic == null)
+        {
             dic = new CommonDic();
         }
-        if(mydic==null){
+        if (mydic == null)
+        {
             mydic = new Dictionary<string, string>();
             InitDicData(mydic);
         }
         return dic;
     }
 
-    public  Dictionary<string,string> getDic(){
+    public Dictionary<string, string> getDic()
+    {
         return mydic;
     }
-    #endregion
 
-    private string _app_ID=null;
-    private string _app_Key=null;
+    private string _app_ID = null;
+    private string _app_Key = null;
 
     private string _user_token = null;
     private string _access_token = "";
@@ -35,13 +35,13 @@ public class CommonDic
 
     private string _user_info = null;
 
-    private string _subject=null;
-    private string _body=null;
-    private string _order_id=null;
-    private string _total= null;
-    private string _goods_tag=null;
-    private string _notify_url=null;
-    private string _trade_type=null;
+    private string _subject = null;
+    private string _body = null;
+    private string _order_id = null;
+    private string _total = null;
+    private string _goods_tag = null;
+    private string _notify_url = null;
+    private string _trade_type = null;
     private string _pay_code = "";
 
     private string _order_info = null;
@@ -50,45 +50,54 @@ public class CommonDic
     private string _msg = "null";
 
 
-    private string _merchant_ID=null;
+    private string _merchant_ID = null;
     private string _payKey = null;
 
     private string _isSuucess = null;
     private string _loginMsg = null;
 
-    //填写订单参数
-    public void setParameters(string name, string value) {
-        if (name.Equals("subject")) {
+    public void setParameters(string name, string value)
+    {
+        if (name.Equals("subject"))
+        {
             subject = value;
         }
-        if (name.Equals("body")) {
+        if (name.Equals("body"))
+        {
             body = value;
         }
-        if (name.Equals("order_id")){
+        if (name.Equals("order_id"))
+        {
             order_id = value;
         }
-        if (name.Equals("total")) {
+        if (name.Equals("total"))
+        {
             total = value;
         }
-        if (name.Equals("goods_tag"))  {
+        if (name.Equals("goods_tag"))
+        {
             goods_tag = value;
         }
-        if (name.Equals("notify_url")) {
+        if (name.Equals("notify_url"))
+        {
             notify_url = value;
         }
-        if (name.Equals("trade_type"))  {
+        if (name.Equals("trade_type"))
+        {
             trade_type = value;
         }
-        if (name.Equals("pay_code")) {
+        if (name.Equals("pay_code"))
+        {
             pay_code = value;
         }
     }
 
-    public string PayOrderString()  {
+    public string PayOrderString()
+    {
         string json = JsonMapper.ToJson(CommonDic.getInstance());
         return json;
     }
-    //支付部分参数
+
     public string subject
     {
         get { return _subject; }
@@ -131,8 +140,8 @@ public class CommonDic
         set { _trade_type = value; }
     }
 
-    //登陆授权部分参数
-    public string user_token {
+    public string user_token
+    {
         get { return _user_token; }
         set { _user_token = value; }
     }
@@ -172,36 +181,34 @@ public class CommonDic
         set { _loginMsg = value; }
     }
 
-    //用户信息Json原串
-    public string user_info{
+    public string user_info
+    {
         get { return _user_info; }
         set { _user_info = value; }
     }
 
-    //订单信息Json原串
     public string order_info
     {
         get { return _order_info; }
         set { _order_info = value; }
     }
 
-    //支付回调部分参数
-    public string code {
+    public string code
+    {
         get { return _code; }
         set { _code = value; }
     }
 
-    public string msg  {
+    public string msg
+    {
         get { return _msg; }
         set { _msg = value; }
     }
 
-
-    //验证部分参数
     public string app_ID
     {
         get { return _app_ID; }
-        set { _app_ID =value; }
+        set { _app_ID = value; }
     }
 
     public string app_Key
@@ -216,12 +223,14 @@ public class CommonDic
         set { _merchant_ID = value; }
     }
 
-    public string paykey {
+    public string paykey
+    {
         get { return _payKey; }
         set { _payKey = value; }
     }
 
-    public static void InitDicData(Dictionary<string, string> mydic) {
+    public static void InitDicData(Dictionary<string, string> mydic)
+    {
         mydic.Add("00000", "网络异常");
         mydic.Add("10000", "登录成功");
         mydic.Add("10001", "用户未登陆");

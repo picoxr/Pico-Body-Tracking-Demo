@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class Pvr_UIGraphicRaycaster : GraphicRaycaster
 {
-
-
     protected Canvas currentCanvas;
     protected Vector2 lastKnownPosition;
     protected const float UI_CONTROL_OFFSET = 0.00001f;

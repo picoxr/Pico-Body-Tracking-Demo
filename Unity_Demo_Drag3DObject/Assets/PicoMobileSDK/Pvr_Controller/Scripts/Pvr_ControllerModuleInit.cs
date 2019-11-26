@@ -31,64 +31,61 @@ public class Pvr_ControllerModuleInit : MonoBehaviour
     void Awake()
     {
         Pvr_ControllerManager.PvrServiceStartSuccessEvent += ServiceStartSuccess;
-        Pvr_ControllerManager.SetControllerAbilityEvent += CheckControllerStateOfAbility;
-        Pvr_ControllerManager.ControllerStatusChangeEvent += CheckControllerStateForGoblin;
+        Pvr_ControllerManager.PvrControllerStateChangedEvent += ControllerStateChanged;
+        Pvr_ControllerManager.ChangeMainControllerCallBackEvent += MainControllerIDChanged;
+
+        if(Pvr_ControllerManager.Instance.LengthAdaptiveRay)
+        {           
+            rayLine = transform.GetComponentInChildren<LineRenderer>(true).gameObject;
+#if UNITY_2017_1_OR_NEWER
+            rayLine.GetComponent<LineRenderer>().startWidth = 0.003f;
+            rayLine.GetComponent<LineRenderer>().endWidth = 0.0015f;
+#else
+            rayLine.GetComponent<LineRenderer>().SetWidth(0.003f, 0.0015f);
+#endif
+        }
     }
     void OnDestroy()
     {
         Pvr_ControllerManager.PvrServiceStartSuccessEvent -= ServiceStartSuccess;
-        Pvr_ControllerManager.SetControllerAbilityEvent -= CheckControllerStateOfAbility;
-        Pvr_ControllerManager.ControllerStatusChangeEvent -= CheckControllerStateForGoblin;
+        Pvr_ControllerManager.PvrControllerStateChangedEvent -= ControllerStateChanged;
+        Pvr_ControllerManager.ChangeMainControllerCallBackEvent -= MainControllerIDChanged;
     }
 
     private void ServiceStartSuccess()
     {
-        mainHand = Controller.UPvr_GetMainHandNess();
-        if (Variety == ControllerVariety.Controller0)
-        {
-            StartCoroutine(ShowAndHideRay(mainHand == 0 && Pvr_ControllerManager.controllerlink.controller0Connected));
-            
-        }
-        if (Variety == ControllerVariety.Controller1)
-        {
-            StartCoroutine(ShowAndHideRay(mainHand == 1 && Pvr_ControllerManager.controllerlink.controller1Connected));
-        }
+        RefreshRay();
     }
-
-    private void CheckControllerStateForGoblin(string state)
+    //Controller connection status changes
+    private void ControllerStateChanged(string data)
     {
-        if (Pvr_ControllerManager.controllerlink.controller0Connected)
-        {
-            moduleState = true;
-            controller.transform.localScale = Vector3.one;
-        }
-        if (Variety == ControllerVariety.Controller0)
-        {
-            StartCoroutine(ShowAndHideRay(Convert.ToBoolean(Convert.ToInt16(state))));
-        }
-    }
-
-    private void CheckControllerStateOfAbility(string data)
-    {
-        mainHand = Controller.UPvr_GetMainHandNess();
         if (Pvr_ControllerManager.controllerlink.controller0Connected ||
             Pvr_ControllerManager.controllerlink.controller1Connected)
         {
             moduleState = true;
             controller.transform.localScale = Vector3.one;
         }
+        RefreshRay();
+    }
+    //Main Controller ID changes
+    private void MainControllerIDChanged(string data)
+    {
+        RefreshRay();
+    }
+
+    private void RefreshRay()
+    {
+        mainHand = Controller.UPvr_GetMainHandNess();
         if (Variety == ControllerVariety.Controller0)
         {
-            StartCoroutine(ShowAndHideRay(mainHand == 0 && Pvr_ControllerManager.controllerlink.controller0Connected));
-
+            StartCoroutine(ShowOrHideRay(mainHand == 0 && Pvr_ControllerManager.controllerlink.controller0Connected));
         }
         if (Variety == ControllerVariety.Controller1)
         {
-            StartCoroutine(ShowAndHideRay(mainHand == 1 && Pvr_ControllerManager.controllerlink.controller1Connected));
+            StartCoroutine(ShowOrHideRay(mainHand == 1 && Pvr_ControllerManager.controllerlink.controller1Connected));
         }
     }
-    
-    private IEnumerator ShowAndHideRay(bool state)
+    private IEnumerator ShowOrHideRay(bool state)
     {
         yield return null;
         yield return null;
@@ -105,5 +102,37 @@ public class Pvr_ControllerModuleInit : MonoBehaviour
         rayLine.SetActive(state);
         controller.transform.localScale = state ? Vector3.one : Vector3.zero;
         moduleState = state;
+    }
+
+    public void UpdateRay()
+    {
+        if (!Pvr_ControllerManager.Instance.LengthAdaptiveRay)
+        {
+            return;
+        }
+        bool isupdate = false;
+        
+        if (Pvr_ControllerManager.controllerlink.controller0Connected || Pvr_ControllerManager.controllerlink.controller1Connected)
+        {
+            isupdate = true;
+        }
+        else
+        {
+            isupdate = false;
+        }
+        
+        if (isupdate && rayLine != null && rayLine.gameObject.activeSelf)
+        {
+            int type = Controller.UPvr_GetDeviceType();
+            if (type == 1)
+            {
+                rayLine.GetComponent<LineRenderer>().SetPosition(0, transform.TransformPoint(0, 0, 0.058f));
+            }
+            else
+            {
+                rayLine.GetComponent<LineRenderer>().SetPosition(0, transform.TransformPoint(0, 0.009f, 0.055f));
+            }
+            rayLine.GetComponent<LineRenderer>().SetPosition(1, dot.transform.position);
+        }
     }
 }

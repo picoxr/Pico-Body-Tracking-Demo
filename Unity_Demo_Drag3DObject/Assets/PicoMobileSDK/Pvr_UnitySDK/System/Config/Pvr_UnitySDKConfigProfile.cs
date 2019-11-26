@@ -1,22 +1,15 @@
-﻿///////////////////////////////////////////////////////////////////////////////
-// Copyright 2015-2017  Pico Technology Co., Ltd. All Rights 
-// File: Pvr_UnitySDKConfigProfile
-// Author: AiLi.Shang
-// Date:  2017/01/13
-// Discription:Sone configurations.
-///////////////////////////////////////////////////////////////////////////////
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 
-[System.Serializable]
+[Serializable]
 public class Pvr_UnitySDKConfigProfile
 {
     public struct Lenses
     {
-        public float separation;            
-        public float offset;                
-        public float distance;              
+        public float separation;
+        public float offset;
+        public float distance;
         public int alignment;
         public const int AlignTop = -1;    // Offset is measured down from top of device.
         public const int AlignCenter = 0;  // Center alignment ignores offset, hence scale is zero.
@@ -29,14 +22,13 @@ public class Pvr_UnitySDKConfigProfile
     /// </summary>
     public struct MaxFOV
     {
-        public float upper;            
-        public float lower;             
-        public float inner;           
-        public float outer;           
+        public float upper;
+        public float lower;
+        public float inner;
+        public float outer;
 
     }
 
-  
     public struct Distortion
     {
         public float k1;
@@ -63,7 +55,7 @@ public class Pvr_UnitySDKConfigProfile
 
     }
 
- 
+
     public struct Device
     {
         public Lenses devLenses;
@@ -71,7 +63,7 @@ public class Pvr_UnitySDKConfigProfile
         public Distortion devDistortion;
         public Distortion devDistortionInv;
     }
-    
+
     public static readonly Device SimulateDevice = new Device
     {
         devLenses = { separation = 0.062f, offset = 0.0f, distance = 0.0403196f, alignment = Lenses.AlignCenter },
@@ -101,7 +93,7 @@ public class Pvr_UnitySDKConfigProfile
     {
         device = SimulateDevice
     };
-    
+
     public Pvr_UnitySDKConfigProfile Clone()
     {
         return new Pvr_UnitySDKConfigProfile

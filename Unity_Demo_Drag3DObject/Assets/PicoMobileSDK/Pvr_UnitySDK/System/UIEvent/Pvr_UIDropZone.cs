@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.EventSystems;
 
 public class Pvr_UIDropZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -26,5 +25,5 @@ public class Pvr_UIDropZone : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
         droppableItem = null;
     }
-    
+
 }

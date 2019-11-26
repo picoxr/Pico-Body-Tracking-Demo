@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class PLOG:MonoBehaviour
+public class PLOG : MonoBehaviour
 {
     public static int logLevel = 0;
     public static void getConfigTraceLevel()
@@ -34,5 +33,4 @@ public class PLOG:MonoBehaviour
     {
         Debug.LogError(msg);
     }
-	
 }

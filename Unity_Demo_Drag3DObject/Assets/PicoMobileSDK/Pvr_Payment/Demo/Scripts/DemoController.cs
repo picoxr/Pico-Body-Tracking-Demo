@@ -8,14 +8,12 @@
 #endif
 #endif
 
-using UnityEngine;
 using System.Collections;
-using LitJson;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
-#if UNITY_ANDROID
-public class DemoController : MonoBehaviour {
+public class DemoController : MonoBehaviour
+{
     Callback callback;
     GameObject msg;
     Pvr_UnitySDKManager picoVrManager;
@@ -28,7 +26,6 @@ public class DemoController : MonoBehaviour {
 
     void Awake()
     {
-        // picoVrManager.get
         Debug.Log(loading.name);
         Debug.Log(BG.name);
         showLoading += StopLoading;
@@ -43,56 +40,53 @@ public class DemoController : MonoBehaviour {
 
         picoVrManager = GameObject.Find("Pvr_UnitySDK").GetComponent<Pvr_UnitySDKManager>();
         InputPanel.SetActive(false);
-        
-    }	
 
-	void Update () {
+    }
 
-        
-        //X键校准    
-        if (picoVrManager != null)  {
+    void Update()
+    {
+        if (picoVrManager != null)
+        {
             if (Input.GetKeyDown(KeyCode.Y) || Input.GetKeyDown(KeyCode.Joystick1Button2))
             {
                 Debug.Log("update");
-               // picoVrManager.pvr_UnitySDKSensor.ResetUnitySDKSensor();
                 Pvr_UnitySDKManager.pvr_UnitySDKSensor.ResetUnitySDKSensor();
             }
         }
-        //B键退出
-        if (Input.GetKeyDown(KeyCode.Joystick1Button1)) {
+        if (Input.GetKeyDown(KeyCode.Joystick1Button1) || Input.GetKeyDown(KeyCode.Escape))
+        {
             if (InputPanel.activeInHierarchy)
             {
                 InputPanel.SetActive(false);
             }
-            else {
-            Application.Quit();
-        }
-      
-	}
+            else
+            {
+                Application.Quit();
+            }
 
+        }
     }
-    void InitDelegate(){
-        //绑定事件
+
+    void InitDelegate()
+    {
         ArrayList btnsName = new ArrayList();
-    
+
         btnsName.Add("Login");
         btnsName.Add("GetUserAPI");
         btnsName.Add("PayOne");
         btnsName.Add("PayCode");
         btnsName.Add("QueryOrder");
 
-        foreach (string btnName in btnsName){
+        foreach (string btnName in btnsName)
+        {
             GameObject btnObj = GameObject.Find(btnName);
             Button btn = btnObj.GetComponent<Button>();
-            btn.onClick.AddListener(delegate() { OnClick(btnObj); });
-        } 
+            btn.onClick.AddListener(delegate () { OnClick(btnObj); });
+        }
     }
 
-
-
-    //ButtonClickedEvent
-    void OnClick(GameObject btnObj) {
-        //判断网络
+    void OnClick(GameObject btnObj)
+    {
         if (Application.internetReachability == NetworkReachability.NotReachable)
         {
             GameObject.Find("MassageInfo").GetComponent<Text>().text = "{" +
@@ -101,13 +95,13 @@ public class DemoController : MonoBehaviour {
             return;
         }
         switch (btnObj.name)
-        {        
-            case "Login": //登陆
+        {
+            case "Login":
                 StartLoading();
                 PicoPaymentSDK.Login();
                 break;
 
-            case "PayOne": //支付1P币
+            case "PayOne":
                 CommonDic.getInstance().setParameters("subject", "game");
                 CommonDic.getInstance().setParameters("body", "gamePay");
                 CommonDic.getInstance().setParameters("order_id", getRamdomTestOrderID());
@@ -117,52 +111,28 @@ public class DemoController : MonoBehaviour {
                 CommonDic.getInstance().setParameters("pay_code", "");
 
                 StartLoading();
-                //if (!VerifyLocalToken()) {
-                //    return;
-                //}
                 PicoPaymentSDK.Pay(CommonDic.getInstance().PayOrderString());
 
                 break;
-            case "PayCode": //使用商品码支付1P币
-                //if (!VerifyLocalToken()) {
-                //    return;
-                //}
-                /*
-                if (CommonDic.getInstance().access_token.Equals(""))
-                {
-                    GameObject.Find("MassageInfo").GetComponent<Text>().text = "请先登录";
-                    currentOrderID = "";
-                    StopLoading();
-                    return;
-                }
-                 * */
+            case "PayCode":
                 InputPanel.SetActive(true);
-
                 break;
 
-            case "QueryOrder": //查询订单
+            case "QueryOrder":
                 StartLoading();
-                //if (currentOrderID.Equals(""))
-                //{
-                //    GameObject.Find("MassageInfo").GetComponent<Text>().text = "{code:exception,msg:请先支付}";
-
-                //    StopLoading();
-                //    return;
-                //}
                 PicoPaymentSDK.QueryOrder(currentOrderID);
                 break;
 
-            case "GetUserAPI": //查看用户信息
+            case "GetUserAPI":
                 StartLoading();
                 PicoPaymentSDK.GetUserAPI();
-                
                 break;
 
         }
     }
 
-
-    public string getRamdomTestOrderID(){
+    public string getRamdomTestOrderID()
+    {
         currentOrderID = (Random.value * 65535).ToString();
         return currentOrderID;
     }
@@ -172,6 +142,7 @@ public class DemoController : MonoBehaviour {
         loading.SetActive(true);
         BG.SetActive(true);
     }
+
     public void StopLoading()
     {
         if (loading && BG)
@@ -183,10 +154,11 @@ public class DemoController : MonoBehaviour {
         {
             Debug.LogError("用户自定义，非演示demo");
         }
-		
+
     }
 
-    public void DoPayByCode(){
+    public void DoPayByCode()
+    {
         CommonDic.getInstance().setParameters("subject", "game");
         CommonDic.getInstance().setParameters("body", "gamePay");
         CommonDic.getInstance().setParameters("order_id", getRamdomTestOrderID());
@@ -196,22 +168,23 @@ public class DemoController : MonoBehaviour {
         CommonDic.getInstance().setParameters("pay_code", GameObject.Find("CodeText").GetComponent<Text>().text);
         Debug.Log("商品码支付" + GameObject.Find("CodeText").GetComponent<Text>().text);
         StartLoading();
-      //  GameObject.Find("CodeText").GetComponent<Text>().text = "Enter Code";
+        GameObject.Find("CodeText").GetComponent<Text>().text = "";
         InputPanel.SetActive(false);
-
         PicoPaymentSDK.Pay(CommonDic.getInstance().PayOrderString());
     }
 
-    bool VerifyLocalToken() {
-        if (CommonDic.getInstance().access_token.Equals("")) {
+    bool VerifyLocalToken()
+    {
+        if (CommonDic.getInstance().access_token.Equals(""))
+        {
             GameObject.Find("MassageInfo").GetComponent<Text>().text = "{code:exception,msg:请先登录}";
             currentOrderID = "";
             StopLoading();
             return false;
         }
-        else {
+        else
+        {
             return true;
         }
     }
 }
-#endif

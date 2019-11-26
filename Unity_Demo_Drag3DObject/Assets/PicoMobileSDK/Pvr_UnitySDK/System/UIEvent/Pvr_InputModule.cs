@@ -4,17 +4,54 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+public enum ConfirmBtn
+{
+    App = 1,
+    TouchPad = 2,
+    Trigger = 4,
+}
+
 public class Pvr_InputModule : PointerInputModule
 {
-    public List<Pvr_UIPointer> pointers = new List<Pvr_UIPointer>();
+    public static List<Pvr_UIPointer> pointers = new List<Pvr_UIPointer>();
+
+    [Pvr_EnumFlags]
+    public ConfirmBtn confirmBtn = ConfirmBtn.TouchPad;
 
     public virtual void Initialise()
     {
         pointers.Clear();
     }
 
+    public static void AddPoint(Pvr_UIPointer point)
+    {
+        if (!pointers.Contains(point))
+            pointers.Add(point);
+    }
+
+    public static void RemovePoint(Pvr_UIPointer point)
+    {
+        if (pointers.Contains(point))
+            pointers.Remove(point);
+    }
+
     public override void Process()
     {
+        if (Pvr_UnitySDKManager.SDK.isHasController)
+        {
+            if ((int)(confirmBtn & ConfirmBtn.App) == 1)
+            {
+                Pvr_UIPointer.AppBtnValue = Pvr_UnitySDKAPI.Controller.UPvr_GetKey(Pvr_ControllerManager.controllerlink.mainHandID, Pvr_UnitySDKAPI.Pvr_KeyCode.APP);
+            }
+            if ((int)(confirmBtn & ConfirmBtn.TouchPad) == 2)
+            {
+                Pvr_UIPointer.TouchBtnValue = Pvr_UnitySDKAPI.Controller.UPvr_GetKey(Pvr_ControllerManager.controllerlink.mainHandID, Pvr_UnitySDKAPI.Pvr_KeyCode.TOUCHPAD);
+            }
+            if ((int)(confirmBtn & ConfirmBtn.Trigger) == 4)
+            {
+                Pvr_UIPointer.TriggerBtnValue = Pvr_UnitySDKAPI.Controller.UPvr_GetKey(Pvr_ControllerManager.controllerlink.mainHandID, Pvr_UnitySDKAPI.Pvr_KeyCode.TRIGGER);
+            }
+        }
 
         for (int i = 0; i < pointers.Count; i++)
         {
@@ -300,5 +337,5 @@ public class Pvr_InputModule : PointerInputModule
         }
 
     }
-    
+
 }

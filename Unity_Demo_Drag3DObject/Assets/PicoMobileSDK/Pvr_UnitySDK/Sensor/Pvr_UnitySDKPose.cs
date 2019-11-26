@@ -1,11 +1,4 @@
-﻿///////////////////////////////////////////////////////////////////////////////
-// Copyright 2015-2017  Pico Technology Co., Ltd. All Rights 
-// File: Pvr_UnitySDKPose
-// Author: AiLi.Shang
-// Date:  2017/01/13
-// Discription:Be fully careful of  Code modification
-///////////////////////////////////////////////////////////////////////////////
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Pvr_UnitySDKPose
 {
@@ -33,18 +26,17 @@ public class Pvr_UnitySDKPose
     public Pvr_UnitySDKPose(Matrix4x4 matrix)
     {
         Set(matrix);
-    }     
-   
+    }
+
     public Pvr_UnitySDKPose(Vector3 position, Quaternion orientation)
     {
         Set(position, orientation);
     }
 
-   
     public void Set(Vector3 position, Quaternion orientation)
     {
-        Position = position;  
-        Orientation = orientation;   
+        Position = position;
+        Orientation = orientation;
         Matrix = Matrix4x4.TRS(position, orientation, Vector3.one);
     }
 
@@ -63,7 +55,7 @@ public class Pvr_UnitySDKPose
         }
         return q;
     }
-    
+
     protected void Set(Matrix4x4 matrix)
     {
         Matrix = matrix;
@@ -71,5 +63,4 @@ public class Pvr_UnitySDKPose
         Orientation = Quaternion.LookRotation(matrix.GetColumn(2), matrix.GetColumn(1));
     }
     #endregion  
-
 }

@@ -1,23 +1,13 @@
-﻿///////////////////////////////////////////////////////////////////////////////
-// Copyright 2015-2017  Pico Technology Co., Ltd. All Rights 
-// File: Pvr_UnitySDKEditor
-// Author: AiLi.Shang
-// Date:  2017/01/13
-// Discription: Be fully careful of  Code modification
-///////////////////////////////////////////////////////////////////////////////
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 
 
 [ExecuteInEditMode]
 public class Pvr_UnitySDKEditor : MonoBehaviour
 {
-
-
     /************************************    Properties  *************************************/
     #region Properties
-   
-    private bool vrModeEnabled = true;   
+
+    private bool vrModeEnabled = true;
     private float mouseX = 0;
     private float mouseY = 0;
     private float mouseZ = 0;
@@ -74,7 +64,7 @@ public class Pvr_UnitySDKEditor : MonoBehaviour
     }
 
     public void ComputeEyesFromProfile()
-    { 
+    {
         Vector2 rtorScren = new Vector2(0.110f, 0.062f);
         Pvr_UnitySDKManager.SDK.leftEyeView = Matrix4x4.identity;
         Pvr_UnitySDKManager.SDK.leftEyeView[0, 3] = -Pvr_UnitySDKManager.SDK.pvr_UnitySDKConfig.device.devLenses.separation / 2;
@@ -93,14 +83,10 @@ public class Pvr_UnitySDKEditor : MonoBehaviour
         Rect right = new Rect(0.5f, 0.0f, 0.5f, 1.0f);
         Pvr_UnitySDKManager.SDK.leftEyeRect = left;
         Pvr_UnitySDKManager.SDK.rightEyeRect = right;
-        //Pvr_UnitySDKManager.SDK.rightEyeRect = Pvr_UnitySDKManager.SDK.leftEyeRect;
-        //Pvr_UnitySDKManager.SDK.rightEyeRect.x = 1 - Pvr_UnitySDKManager.SDK.rightEyeRect.xMax;
-        //Pvr_UnitySDKManager.SDK.leftEyeRect = RectAdjust(Pvr_UnitySDKManager.SDK.leftEyeRect);
-        //Pvr_UnitySDKManager.SDK.rightEyeRect = RectAdjust(Pvr_UnitySDKManager.SDK.rightEyeRect);
         Pvr_UnitySDKManager.SDK.leftEyeOffset = new Vector3(-Pvr_UnitySDKManager.SDK.pvr_UnitySDKConfig.device.devLenses.separation / 2, 0, 0);
         Pvr_UnitySDKManager.SDK.rightEyeOffset = new Vector3(Pvr_UnitySDKManager.SDK.pvr_UnitySDKConfig.device.devLenses.separation / 2, 0, 0);
 
-    } 
+    }
 
     public void InitEyePara()
     {
@@ -108,7 +94,7 @@ public class Pvr_UnitySDKEditor : MonoBehaviour
         InitForEye(ref Pvr_UnitySDKManager.SDK.Eyematerial, ref Pvr_UnitySDKManager.SDK.Middlematerial);
         FovAdjust();
     }
-    public  bool ResetUnitySDKSensor()
+    public bool ResetUnitySDKSensor()
     {
         mouseX = mouseY = mouseZ = 0;
         return true;
@@ -123,7 +109,7 @@ public class Pvr_UnitySDKEditor : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0)
             && (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)))
-        {             
+        {
             EnableVEmodel();
         }
 
@@ -138,10 +124,10 @@ public class Pvr_UnitySDKEditor : MonoBehaviour
                 Pvr_UnitySDKManager.SDK.newPicovrTriggered = true;
             }
             touchStartTime = 0;
-        }     
+        }
         UpdateSimulatedSensor();
-  
-    }     
+
+    }
 
     private void FovAdjust()
     {
@@ -150,13 +136,13 @@ public class Pvr_UnitySDKEditor : MonoBehaviour
 
     private Rect RectAdjust(Rect eyeRect)
     {
-        Rect rect = new Rect(0,0,0.5f,1.0f);
+        Rect rect = new Rect(0, 0, 0.5f, 1.0f);
         rect.width *= 2 * eyeRect.width;
         rect.x = eyeRect.x + 2 * rect.x * eyeRect.width;
         rect.height *= eyeRect.height;
         rect.y = eyeRect.y + rect.y * eyeRect.height;
         return rect;
-    }    
+    }
 
     private void UpdateSimulatedSensor()
     {
@@ -188,7 +174,7 @@ public class Pvr_UnitySDKEditor : MonoBehaviour
         var rot = Quaternion.Euler(mouseY, mouseX, mouseZ);
         var neck = (rot * neckOffset - neckOffset.y * Vector3.up) * neckModelScale;
         Matrix4x4 Matrix1 = Matrix4x4.TRS(neck, rot, Vector3.one);
-        Pvr_UnitySDKManager.SDK.HeadPose = new Pvr_UnitySDKPose(Matrix1); 
+        Pvr_UnitySDKManager.SDK.HeadPose = new Pvr_UnitySDKPose(Matrix1);
 
     }
 
@@ -200,12 +186,6 @@ public class Pvr_UnitySDKEditor : MonoBehaviour
 
     private void InitForEye(ref Material mat, ref Material mat1)
     {
-        if (!SystemInfo.supportsRenderTextures)
-        {
-            Debug.LogError("SystemInfo.supportsRenderTextures False！");
-            return;
-        }
-
         Shader shader = Shader.Find("Pvr_UnitySDK/Undistortion");
         Shader shader1 = Shader.Find("Pvr_UnitySDK/FillColor");
         if (shader == null || shader1 == null)
@@ -232,13 +212,12 @@ public class Pvr_UnitySDKEditor : MonoBehaviour
         InitEyePara();
         InitEditorSensorPara();
     }
-                                      
-    void Update () {      
+
+    void Update()
+    {
         SimulateInput();
         Pvr_UnitySDKManager.SDK.picovrTriggered = Pvr_UnitySDKManager.SDK.newPicovrTriggered;
-        Pvr_UnitySDKManager.SDK.newPicovrTriggered = false;       
+        Pvr_UnitySDKManager.SDK.newPicovrTriggered = false;
     }
     #endregion
-
-
 }

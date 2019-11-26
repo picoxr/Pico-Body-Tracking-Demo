@@ -1,25 +1,28 @@
-﻿///////////////////////////////////////////////////////////////////////////////
-// Copyright 2015-2017  Pico Technology Co., Ltd. All Rights 
-// File: Pvr_UnitySDKEye
-// Author: AiLi.Shang
-// Date:  2017/02/09
-// Discription: Be fully careful of  Code modification
-///////////////////////////////////////////////////////////////////////////////
-using System;
+﻿using System;
 using UnityEngine;
 using Pvr_UnitySDKAPI;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Camera))]
 public class Pvr_UnitySDKEye : MonoBehaviour
 {
+    public static List<Pvr_UnitySDKEye> Instances = new List<Pvr_UnitySDKEye>();
 
     /************************************    Properties  *************************************/
     #region Properties
-    public Eye eye;
+    public Eye eyeSide;
 
-    //new public Camera eyecamera { get; private set; }
     public Camera eyecamera { get; private set; }
+
+    #region BoundarySystem
+    private int eyeCameraOriginCullingMask;
+    private CameraClearFlags eyeCameraOriginClearFlag;
+    private Color eyeCameraOriginBackgroundColor;
+    private int applicationOriginFrameRate;
+    private bool boundaryFrameRate = false;
+    #endregion
+
 
     private Pvr_UnitySDKEyeManager controller;
 
@@ -39,26 +42,28 @@ public class Pvr_UnitySDKEye : MonoBehaviour
         }
     }
 
-    Matrix4x4 realProj = Matrix4x4.identity; 
+    Matrix4x4 realProj = Matrix4x4.identity;
 
     private const int bufferSize = 3;
 
     private int IDIndex = 0;
 
     private RenderEventType eventType = 0;
+    private RenderEventType boundaryEventType = 0;
 
 
     public bool isFadeUSing = false;
 
+    private float elapsedTime = 0.0f;
     public float fadeTime = 5.0f;
-    private float blacklastTime = 0.5f;
-    public Color fadeColor = new Color(0f, 0f, 0f, 1.0f); 
+    public Color fadeColor = new Color(0f, 0f, 0f, 1.0f);
     private Material fadeMaterial = null;
     private bool isFading = false;
-    private float initialBlackTime = 0.0f;
-    private float totalBlackTime = 0.0f;
 
-
+    private Vector2 FoveationGainValue = Vector2.zero;
+    private float FoveationAreaValue = 0.0f;
+    private float FoveationMinimumValue = 0.0f;
+    private int previousId = 0;
     #endregion
 
     /************************************ Public Interfaces  *********************************/
@@ -78,40 +83,43 @@ public class Pvr_UnitySDKEye : MonoBehaviour
 
     /************************************ Private Interfaces  *********************************/
     #region Private Interfaces
-    private void Setup(Eye eye)
+    private void Setup(Eye eyeSide)
     {
         eyecamera = GetComponent<Camera>();
-        transform.localPosition = Pvr_UnitySDKManager.SDK.EyeOffset(eye);
+        transform.localPosition = Pvr_UnitySDKManager.SDK.EyeOffset(eyeSide);
         eyecamera.aspect = 1.0f;
         eyecamera.rect = new Rect(0, 0, 1, 1);
 #if UNITY_EDITOR
-        eyecamera.rect = Pvr_UnitySDKManager.SDK.EyeRect(eye);
+        eyecamera.rect = Pvr_UnitySDKManager.SDK.EyeRect(eyeSide);
 #endif
 
         //  AW     
-
         if (Pvr_UnitySDKManager.SDK.IsViewerLogicFlow)
         {
-            eyecamera.rect = Pvr_UnitySDKManager.SDK.EyeRect(eye);
+            eyecamera.rect = Pvr_UnitySDKManager.SDK.EyeRect(eyeSide);
             Rect left = new Rect(0.0f, 0.0f, 0.5f, 1.0f);
             Rect right = new Rect(0.5f, 0.0f, 0.5f, 1.0f);
-            if (eye == Eye.LeftEye)
+            if (eyeSide == Eye.LeftEye)
                 eyecamera.rect = left;
             else
                 eyecamera.rect = right;
             eyecamera.fieldOfView = Pvr_UnitySDKManager.SDK.EyeFov;
         }
         //  AW
-        eventType = (eye == Pvr_UnitySDKAPI.Eye.LeftEye) ?
+        eventType = (eyeSide == Pvr_UnitySDKAPI.Eye.LeftEye) ?
                         RenderEventType.LeftEyeEndFrame :
                         RenderEventType.RightEyeEndFrame;
+
+        boundaryEventType = (eyeSide == Pvr_UnitySDKAPI.Eye.LeftEye) ?
+                        RenderEventType.BoundaryRenderLeft :
+                        RenderEventType.BoundaryRenderRight;
     }
 
     private void SetupUpdate()
     {
         eyecamera.fieldOfView = Pvr_UnitySDKManager.SDK.EyeFov;
-        IDIndex = Pvr_UnitySDKManager.SDK.currEyeTextureIdx + (int)eye * bufferSize;    
-        eyecamera.enabled = true;   
+        IDIndex = Pvr_UnitySDKManager.SDK.currEyeTextureIdx + (int)eyeSide * bufferSize;
+        eyecamera.enabled = true;
     }
 
     #region  DrawVignetteLine
@@ -153,10 +161,10 @@ public class Pvr_UnitySDKEye : MonoBehaviour
             GL.PopMatrix();
         }
     }
-    
-    IEnumerator  ScreenFade()
+
+    IEnumerator ScreenFade()
     {
-        float elapsedTime = 0.0f;
+        elapsedTime = 0.0f;
         fadeMaterial.color = fadeColor;
         Color color = fadeColor;
         isFading = true;
@@ -167,11 +175,10 @@ public class Pvr_UnitySDKEye : MonoBehaviour
             color.a = 1.0f - Mathf.Clamp01(elapsedTime / fadeTime);
             fadeMaterial.color = color;
         }
-        isFading = false;   
+        isFading = false;
     }
     void vignette()
     {
-        //GL.Begin(GL.LINES);//can not to set line width
         GL.Begin(GL.QUADS);
         GL.Color(Color.black);
         //top
@@ -198,81 +205,157 @@ public class Pvr_UnitySDKEye : MonoBehaviour
     }
 
     #endregion
-      
+
     #endregion
 
     /*************************************  Unity API ****************************************/
     #region Unity API
     void Awake()
     {
+        Instances.Add(this);
+
         eyecamera = this.GetComponent<Camera>();
-        if (Pvr_UnitySDKManager.SDK.HeadDofNum == HeadDofNum.SixDof)
+        if (!Pvr_UnitySDKManager.SDK.HmdOnlyrot)
         {
-            initialBlackTime = 0.0f;
             fadeMaterial = new Material(Shader.Find("Pvr_UnitySDK/Fade"));
         }
     }
 
     void Start()
     {
-        Setup(eye);
-        //realProj = eyecamera.cameraToWorldMatrix;
-        eyecamera.enabled = true;    
+        Setup(eyeSide);
+        if (eyecamera != null)
+        {
+            eyecamera.enabled = !Pvr_UnitySDKManager.SDK.Monoscopic;
+
+            #region BoundarySystem
+            // record
+            eyeCameraOriginCullingMask = eyecamera.cullingMask;
+            eyeCameraOriginClearFlag = eyecamera.clearFlags;
+            eyeCameraOriginBackgroundColor = eyecamera.backgroundColor;
+            applicationOriginFrameRate = Application.targetFrameRate;
+            boundaryFrameRate = Pvr_UnitySDKAPI.BoundarySystem.UPvr_GetFrameRateLimit();
+            #endregion
+        }
+
     }
 
-    void OnApplicationPause(bool pause)
-    {
-        if (!pause)
-        {
-            if (Pvr_UnitySDKManager.SDK.HeadDofNum == HeadDofNum.SixDof)
-            {
-                initialBlackTime = 0.0f;
-            }
-        }
-    }
     void Update()
     {
-#if !UNITY_EDITOR && UNITY_ANDROID
-        if (Pvr_UnitySDKManager.SDK.HeadDofNum == HeadDofNum.SixDof)
+        if (Pvr_UnitySDKManager.SDK.trackingmode == 2 || Pvr_UnitySDKManager.SDK.trackingmode == 3)
         {
-            if (Pvr_UnitySDKManager.SDK.DefaultRange)
+#if !UNITY_EDITOR && UNITY_ANDROID
+            if (!Pvr_UnitySDKManager.SDK.HmdOnlyrot)
             {
-                if (Mathf.Sqrt(Mathf.Pow(Pvr_UnitySDKManager.SDK.HeadPose.Position.x,2.0f) + Mathf.Pow(Pvr_UnitySDKManager.SDK.HeadPose.Position.z, 2.0f)) >= 0.8f)
+                if (Pvr_UnitySDKManager.SDK.DefaultRange)
                 {
-                    isFading = true;
-                    fadeMaterial.color = new Color(0f, 0f, 0f,
-                        Mathf.Clamp((Mathf.Max(Mathf.Abs(Pvr_UnitySDKManager.SDK.HeadPose.Position.x),
-                                         Mathf.Abs(Pvr_UnitySDKManager.SDK.HeadPose.Position.z)) - 0.8f) /
-                                    0.16f, 0f, 0.3f));
+                    if (Mathf.Sqrt(Mathf.Pow(Pvr_UnitySDKManager.SDK.HeadPose.Position.x, 2.0f) + Mathf.Pow(Pvr_UnitySDKManager.SDK.HeadPose.Position.z, 2.0f)) >= 0.8f)
+                    {
+                        isFading = true;
+                        fadeMaterial.color = new Color(0f, 0f, 0f,
+                            Mathf.Clamp((Mathf.Max(Mathf.Abs(Pvr_UnitySDKManager.SDK.HeadPose.Position.x),
+                                             Mathf.Abs(Pvr_UnitySDKManager.SDK.HeadPose.Position.z)) - 0.8f) /
+                                        0.16f, 0f, 0.3f));
+                    }
+                    else
+                    {
+                        if (isFadeUSing)
+                        {
+                            if (elapsedTime >= fadeTime)
+                            {
+                                fadeMaterial.color = new Color(0f, 0f, 0f, 0f);
+                                isFading = false;
+                            }
+                        }
+                        else
+                        {
+                            fadeMaterial.color = new Color(0f, 0f, 0f, 0f);
+                            isFading = false;
+                        }
+                    }
                 }
                 else
                 {
-                    fadeMaterial.color = new Color(0f, 0f, 0f, 0f);
-                    isFading = false;
+                    if (Mathf.Sqrt(Mathf.Pow(Pvr_UnitySDKManager.SDK.HeadPose.Position.x, 2.0f) + Mathf.Pow(Pvr_UnitySDKManager.SDK.HeadPose.Position.z, 2.0f)) >= Pvr_UnitySDKManager.SDK.CustomRange)
+                    {
+                        isFading = true;
+                        fadeMaterial.color = new Color(0f, 0f, 0f,
+                            Mathf.Clamp((Mathf.Max(Mathf.Abs(Pvr_UnitySDKManager.SDK.HeadPose.Position.x),
+                                             Mathf.Abs(Pvr_UnitySDKManager.SDK.HeadPose.Position.z)) - Pvr_UnitySDKManager.SDK.CustomRange) /
+                                        (Pvr_UnitySDKManager.SDK.CustomRange / 5f), 0f, 0.3f));
+                    }
+                    else
+                    {
+                        if (isFadeUSing)
+                        {
+                            if (elapsedTime >= fadeTime)
+                            {
+                                fadeMaterial.color = new Color(0f, 0f, 0f, 0f);
+                                isFading = false;
+                            }
+                        }
+                        else
+                        {
+                            fadeMaterial.color = new Color(0f, 0f, 0f, 0f);
+                            isFading = false;
+                        }
+                    }
                 }
+            }
+#endif
+        }
+
+        // boundary
+        if (eyecamera != null && eyecamera.enabled == true)
+        {
+            int boundaryState = Pvr_UnitySDKAPI.BoundarySystem.UPvr_GetSeeThroughState();
+            if (boundaryState == 2)
+            {
+                // close camera render(close camera render)
+                if (eyecamera.cullingMask != 0) 
+                {
+                    eyecamera.cullingMask = 0;
+                }
+
+                if (eyecamera.clearFlags != CameraClearFlags.SolidColor)
+                {
+                    eyecamera.clearFlags = CameraClearFlags.SolidColor;
+                    eyecamera.backgroundColor = Color.black;
+                }
+               
+                if(boundaryFrameRate)
+                {
+                    if (Application.targetFrameRate != 30)
+                    {
+                        Application.targetFrameRate = 30;
+                    }
+                }
+
             }
             else
             {
-                if (Mathf.Sqrt(Mathf.Pow(Pvr_UnitySDKManager.SDK.HeadPose.Position.x, 2.0f) + Mathf.Pow(Pvr_UnitySDKManager.SDK.HeadPose.Position.z, 2.0f)) >= Pvr_UnitySDKManager.SDK.CustomRange)
+                // open camera render(recover)
+                if (eyecamera.cullingMask != this.eyeCameraOriginCullingMask)
                 {
-                    isFading = true;
-                    fadeMaterial.color = new Color(0f, 0f, 0f,
-                        Mathf.Clamp((Mathf.Max(Mathf.Abs(Pvr_UnitySDKManager.SDK.HeadPose.Position.x),
-                                         Mathf.Abs(Pvr_UnitySDKManager.SDK.HeadPose.Position.z)) - Pvr_UnitySDKManager.SDK.CustomRange) /
-                                    (Pvr_UnitySDKManager.SDK.CustomRange / 5f), 0f, 0.3f));
+                    eyecamera.cullingMask = this.eyeCameraOriginCullingMask;
                 }
-                else
+
+                if (eyecamera.clearFlags != this.eyeCameraOriginClearFlag)
                 {
-                    fadeMaterial.color = new Color(0f, 0f, 0f, 0f);
-                    isFading = false;
+                    eyecamera.clearFlags = this.eyeCameraOriginClearFlag;
+                    eyecamera.backgroundColor = this.eyeCameraOriginBackgroundColor;
+                }
+
+                if (Application.targetFrameRate != this.applicationOriginFrameRate)
+                {
+                    Application.targetFrameRate = this.applicationOriginFrameRate;
                 }
             }
         }
-#endif
     }
     void OnEnable()
     {
-        isFadeUSing = Pvr_UnitySDKManager.SDK.ScreenFade;  
+        isFadeUSing = Pvr_UnitySDKManager.SDK.ScreenFade;
         if (isFadeUSing)
         {
             fadeMaterial = new Material(Shader.Find("Pvr_UnitySDK/Fade"));
@@ -287,33 +370,66 @@ public class Pvr_UnitySDKEye : MonoBehaviour
             }
             StartCoroutine(ScreenFade());
         }
+#if UNITY_2018_1_OR_NEWER
+        if (UnityEngine.Rendering.GraphicsSettings.renderPipelineAsset != null)
+            UnityEngine.Experimental.Rendering.RenderPipeline.beginCameraRendering += MyPreRender;
+#endif
     }
-   /*
-    void OnPreCull()
+
+    private void OnDisable()
     {
-        if (!Pvr_UnitySDKManager.SDK.VRModeEnabled)
-        {
-            return;
-        }
-        //}
-        //SetupUpdate();
-        //if (Pvr_UnitySDKManager.SDK.eyeTextures[IDIndex] != null)
-        //{
-        //    Pvr_UnitySDKManager.SDK.eyeTextures[IDIndex].DiscardContents();
-        //    eyecamera.targetTexture = Pvr_UnitySDKManager.SDK.eyeTextures[IDIndex];
-        //}
+#if UNITY_2018_1_OR_NEWER
+        if (UnityEngine.Rendering.GraphicsSettings.renderPipelineAsset != null)
+            UnityEngine.Experimental.Rendering.RenderPipeline.beginCameraRendering -= MyPreRender;
+#endif
     }
-    */
-	public static bool setLevel = false;
+
+    private void OnDestroy()
+    {
+        Instances.Remove(this);
+    }
+
+    public void MyPreRender(Camera camera)
+    {
+        OnPreRender();
+    }
+
+    public static bool setLevel = false;
+
+    void OnPreRender()
+    {
+#if !UNITY_EDITOR && UNITY_ANDROID
+        Vector3 eyePoint = Vector3.zero;
+        if (Pvr_UnitySDKManager.SDK.isEnterVRMode)
+        {
+            eyePoint = Pvr_UnitySDKAPI.System.UPvr_getEyeTrackingPos();
+        }
+        GetFFRInfo();
+        int eyeTextureId = Pvr_UnitySDKManager.SDK.eyeTextureIds[IDIndex];
+
+        Pvr_UnitySDKAPI.Render.UPvr_SetFoveationParameters(eyeTextureId, previousId, eyePoint.x, eyePoint.y, FoveationGainValue.x, FoveationGainValue.y, FoveationAreaValue, FoveationMinimumValue);
+        previousId = eyeTextureId;
+        Pvr_UnitySDKPluginEvent.Issue(RenderEventType.BeginEye);
+#endif
+    }
+
     void OnPostRender()
     {
         //DrawVignetteLine();
         screenFade();
+
+        // eyebuffer
         int eyeTextureId = Pvr_UnitySDKManager.SDK.eyeTextureIds[IDIndex];
-       // SaveImage(Pvr_UnitySDKManager.SDK.eyeTextures[IDIndex], eye.ToString()); 
         Pvr_UnitySDKPluginEvent.IssueWithData(eventType, eyeTextureId);
+        // boundary
+        if (!Pvr_UnitySDKManager.SDK.HmdOnlyrot)
+        {
+            Pvr_UnitySDKPluginEvent.IssueWithData(boundaryEventType, Pvr_UnitySDKManager.SDK.RenderviewNumber);
+        }
+
 #if !UNITY_EDITOR && UNITY_ANDROID
-		if (eye == Eye.LeftEye && !setLevel && Pvr_UnitySDKManager.SDK.IsViewerLogicFlow)
+        Pvr_UnitySDKPluginEvent.Issue(RenderEventType.EndEye);
+		if (eyeSide == Eye.LeftEye && !setLevel && Pvr_UnitySDKManager.SDK.IsViewerLogicFlow)
         {   
             AndroidJavaClass AvrAPI = new UnityEngine.AndroidJavaClass("com.unity3d.player.AvrAPI");
             Pvr_UnitySDKAPI.System.UPvr_CallStaticMethod(AvrAPI, "setVrThread"); 
@@ -361,7 +477,23 @@ public class Pvr_UnitySDKEye : MonoBehaviour
                                new Vector4(Pvr_UnitySDKManager.SDK.pvr_UnitySDKConfig.device.devDistortion.k4, Pvr_UnitySDKManager.SDK.pvr_UnitySDKConfig.device.devDistortion.k5, Pvr_UnitySDKManager.SDK.pvr_UnitySDKConfig.device.devDistortion.k6));
 
     }
+
 #endif
     #endregion
 
+    void GetFFRInfo()
+    {
+        FoveationGainValue = Pvr_UnitySDKEyeManager.Instance.FoveationGainValue;
+        FoveationAreaValue = Pvr_UnitySDKEyeManager.Instance.FoveationAreaValue;
+        FoveationMinimumValue = Pvr_UnitySDKEyeManager.Instance.FoveationMinimumValue;
+    }
+
+}
+
+public enum eFoveationLevel
+{
+    None = -1,
+    Low = 0,
+    Med = 1,
+    High = 2
 }

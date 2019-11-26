@@ -9,9 +9,9 @@
 #endif
 
 using UnityEngine;
-using System.Collections;
-#if UNITY_ANDROID
-public class PicoPaymentSDK {
+
+public class PicoPaymentSDK
+{
     private static AndroidJavaObject _jo = new AndroidJavaObject("com.pico.loginpaysdk.UnityInterface");
 
     public static AndroidJavaObject jo
@@ -20,27 +20,27 @@ public class PicoPaymentSDK {
         set { _jo = value; }
     }
 
-    public static void Login(){
+    public static void Login()
+    {
         AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        AndroidJavaObject mJo = jc.GetStatic<AndroidJavaObject>("currentActivity");     //获取当前Activity的对象
+        AndroidJavaObject mJo = jc.GetStatic<AndroidJavaObject>("currentActivity");
         jo.Call("init", mJo);
         jo.Call("authSSO");
 
 
     }
 
-
-    //支付
-    public static void Pay(string payOrderJson) {
+    public static void Pay(string payOrderJson)
+    {
         AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         AndroidJavaObject mJo = jc.GetStatic<AndroidJavaObject>("currentActivity");
         jo.Call("init", mJo);
         jo.Call("pay", payOrderJson);
-        
+
     }
 
-    //查询订单
-    public static void QueryOrder(string orderId)  {
+    public static void QueryOrder(string orderId)
+    {
         AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         AndroidJavaObject mJo = jc.GetStatic<AndroidJavaObject>("currentActivity");
         jo.Call("init", mJo);
@@ -48,17 +48,11 @@ public class PicoPaymentSDK {
 
     }
 
-    //用户信息
-    public static void GetUserAPI() {
+    public static void GetUserAPI()
+    {
         AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         AndroidJavaObject mJo = jc.GetStatic<AndroidJavaObject>("currentActivity");
         jo.Call("init", mJo);
         jo.Call("getUserAPI");
     }
-   
-
-
-
-
 }
-#endif

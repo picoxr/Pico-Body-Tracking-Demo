@@ -7,25 +7,27 @@
 #define WIN_DEVICE
 #endif
 #endif
-using UnityEngine;
+
 using System;
-using System.IO;
-using System.Runtime.InteropServices;
+using UnityEngine;
 
 /// <summary>
 /// Matches the events in the native plugin.
 /// </summary>
 public enum RenderEventType
-{
-    
-    InitRenderThread = 0,
-    Pause = 1,
-    Resume = 2,
-    LeftEyeEndFrame = 3,
-    RightEyeEndFrame = 4,
-    TimeWarp = 5,
-    ResetVrModeParms = 6,
-    ShutdownRenderThread = 7,
+{    
+    InitRenderThread = 1024,
+    Pause,
+    Resume ,
+    LeftEyeEndFrame,
+    RightEyeEndFrame,
+    TimeWarp,
+    ResetVrModeParms,
+    ShutdownRenderThread ,
+    BeginEye,
+    EndEye,
+    BoundaryRenderLeft,
+    BoundaryRenderRight
 }
 
 
@@ -35,45 +37,44 @@ public enum RenderEventType
 public static class Pvr_UnitySDKPluginEvent
 {
     /// <summary>
-	
-	/// <summary>
-	/// Immediately issues the given event.
-	/// </summary>
-	public static void Issue(RenderEventType eventType)
-	{
-		#if IOS_DEVICE
+    /// Immediately issues the given event.
+    /// </summary>
+    public static void Issue(RenderEventType eventType)
+    {
+#if IOS_DEVICE
 		Pvr_UnitySDKAPI.Render.UnityRenderEventIOS((int)eventType,0);
-		#else
-		GL.IssuePluginEvent(EncodeType((int)eventType));
-		#endif
-	}
-	
-	/// </summary>
-	/// <param name="eventType"></param>
-	/// <param name="eventData"></param>
-	public static void IssueWithData(RenderEventType eventType, int eventData)
-	{
-		#if IOS_DEVICE
+#else
+        GL.IssuePluginEvent(EncodeType((int)eventType));
+#endif
+    }
+
+    /// <summary>
+    /// <param name="eventType"></param>
+    /// <param name="eventData"></param>
+    /// </summary>
+    public static void IssueWithData(RenderEventType eventType, int eventData)
+    {
+#if IOS_DEVICE
 		Pvr_UnitySDKAPI.Render.UnityRenderEventIOS((int)eventType,eventData);
-		#else
-		
-		// Encode and send-two-bytes of data
-		GL.IssuePluginEvent(EncodeData((int)eventType, eventData, 0));
-		
-		// Encode and send remaining two-bytes of data
-		GL.IssuePluginEvent(EncodeData((int)eventType, eventData, 1));
-		
-		// Explicit event that uses the data
-		GL.IssuePluginEvent(EncodeType((int)eventType));
-		#endif
-	}
+#else
+
+        // Encode and send-two-bytes of data
+        GL.IssuePluginEvent(EncodeData((int)eventType, eventData, 0));
+
+        // Encode and send remaining two-bytes of data
+        GL.IssuePluginEvent(EncodeData((int)eventType, eventData, 1));
+
+        // Explicit event that uses the data
+        GL.IssuePluginEvent(EncodeType((int)eventType));
+#endif
+    }
 
 
     private const UInt32 IS_DATA_FLAG = 0x80000000;
     private const UInt32 DATA_POS_MASK = 0x40000000;
     private const int DATA_POS_SHIFT = 30;
-    private const UInt32 EVENT_TYPE_MASK = 0x3E000000;
-    private const int EVENT_TYPE_SHIFT = 25;
+    private const UInt32 EVENT_TYPE_MASK = 0x3EFF0000;
+    private const int EVENT_TYPE_SHIFT = 17;
     private const UInt32 PAYLOAD_MASK = 0x0000FFFF;
     private const int PAYLOAD_SHIFT = 16;
 
@@ -109,5 +110,5 @@ public static class Pvr_UnitySDKPluginEvent
         UInt32 payload = (((UInt32)eventData & PAYLOAD_MASK) << (PAYLOAD_SHIFT * (int)pos));
 
         return (int)payload;
-    }          
+    }
 }

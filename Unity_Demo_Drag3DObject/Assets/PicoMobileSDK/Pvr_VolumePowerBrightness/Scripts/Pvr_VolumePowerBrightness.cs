@@ -1,17 +1,9 @@
-﻿///////////////////////////////////////////////////////////////////////////////
-// Copyright 2015-2017  Pico Technology Co., Ltd. All Rights Reserved.
-// File: Pvr_VolumePowerBrightness
-// Author: AiLi.Shang
-// Date:  2017/01/13
-// Discription: The Common using of Android System
-///////////////////////////////////////////////////////////////////////////////
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Pvr_VolumePowerBrightness : MonoBehaviour
 {
-    /************************************    Properties  *************************************/
+    /************************************      Properties       ***********************************/
     #region Properties
     bool VolEnable = false;
     bool BattEnable = false;
@@ -23,21 +15,22 @@ public class Pvr_VolumePowerBrightness : MonoBehaviour
     public string MusicPath;
     #endregion
 
-    /************************************   Public Interfaces **********************************/
+    /************************************   Public Interfaces   **********************************/
     #region Public Interfaces
-
     public void GetMaxVolumeNumber()
     {
         int maxVolume = 0;
         maxVolume = Pvr_UnitySDKAPI.VolumePowerBrightness.UPvr_GetMaxVolumeNumber();
         showResult.text = "最大音量: " + maxVolume.ToString();
     }
+
     public void GetCurrentVolumeNumber()
     {
         int currVolume = 0;
         currVolume = Pvr_UnitySDKAPI.VolumePowerBrightness.UPvr_GetCurrentVolumeNumber();
         showResult.text = "当前音量：" + currVolume.ToString();
     }
+
     public void VolumeUp()
     {
         bool enable = false;
@@ -47,6 +40,7 @@ public class Pvr_VolumePowerBrightness : MonoBehaviour
             Debug.LogError("VolumeUp Error");
         }
     }
+
     public void VolumeDown()
     {
         bool enable = false;
@@ -56,6 +50,7 @@ public class Pvr_VolumePowerBrightness : MonoBehaviour
             Debug.LogError("VolumeDown Error");
         }
     }
+
     public void SetVolumeNum()
     {
         bool enable = false;
@@ -68,6 +63,7 @@ public class Pvr_VolumePowerBrightness : MonoBehaviour
             Debug.LogError("SetVolumeNum Error");
         }
     }
+
     public void SetBrightness()
     {
         bool enable = false;
@@ -81,6 +77,7 @@ public class Pvr_VolumePowerBrightness : MonoBehaviour
             Debug.LogError("SetBrightness Error");
         }
     }
+
     public void GetCurrentBrightness()
     {
         int lightness = 0;
@@ -105,28 +102,30 @@ public class Pvr_VolumePowerBrightness : MonoBehaviour
 
     #endregion
 
-    /************************************  Private Interfaces **********************************/
+    /************************************   Private Interfaces  **********************************/
     #region Private Interfaces
-
-   
     private bool InitBatteryVolClass()
     {
         return Pvr_UnitySDKAPI.VolumePowerBrightness.UPvr_InitBatteryVolClass();
     }
+
     private bool StartBatteryReceiver(string startreceivre)
     {
         BattEnable = Pvr_UnitySDKAPI.VolumePowerBrightness.UPvr_StartBatteryReceiver(startreceivre);
         return BattEnable;
     }
+
     private bool StopBatteryReceiver()
     {
         return Pvr_UnitySDKAPI.VolumePowerBrightness.UPvr_StopBatteryReceiver();
     }
+
     private bool StartAudioReceiver(string startreceivre)
     {
         VolEnable = Pvr_UnitySDKAPI.VolumePowerBrightness.UPvr_StartAudioReceiver(startreceivre);
         return VolEnable;
     }
+
     private bool StopAudioReceiver()
     {
         return Pvr_UnitySDKAPI.VolumePowerBrightness.UPvr_StopAudioReceiver();
@@ -134,11 +133,10 @@ public class Pvr_VolumePowerBrightness : MonoBehaviour
 
     #endregion
 
-    /************************************   MonoBehaviour **********************************/
+    /************************************     MonoBehaviour     **********************************/
     #region Unity API
     void Start()
     {
-        Pvr_UnitySDKAPI.Audio3D.UPvr_StartAudioEffect(MusicPath, true);
     }
 
     void Awake()
@@ -163,8 +161,5 @@ public class Pvr_VolumePowerBrightness : MonoBehaviour
         }
 
     }
-
-  
     #endregion
-
 }

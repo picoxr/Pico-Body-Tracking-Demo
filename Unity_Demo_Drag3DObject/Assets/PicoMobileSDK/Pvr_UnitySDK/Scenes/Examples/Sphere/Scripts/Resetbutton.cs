@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Resetbutton : MonoBehaviour {
-
+public class Resetbutton : MonoBehaviour
+{
     public void DemoResetTracking()
     {
         if (Pvr_UnitySDKManager.SDK != null)
@@ -15,9 +14,6 @@ public class Resetbutton : MonoBehaviour {
             {
                 Pvr_UnitySDKManager.SDK.pvr_UnitySDKEditor.ResetUnitySDKSensor();
             }
-            
         }
-
-    }   
-
+    }
 }

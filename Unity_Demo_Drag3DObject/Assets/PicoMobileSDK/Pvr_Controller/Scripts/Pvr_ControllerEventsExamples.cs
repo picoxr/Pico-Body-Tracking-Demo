@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Pvr_ControllerEventsExamples : MonoBehaviour {
 
-	// Use this for initialization
 	void Start () {
 
 	    if (GetComponent<Pvr_UIPointer>() == null)
