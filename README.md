@@ -1,8 +1,7 @@
 ## Swift Leg Tracking
 
 ## Development Environment
-- Specific ROM version
-ROM 5.6.0
+- ROM 5.6.0
 
 - Swift SDK version
 PICO Unity Integration SDK v2.1.5 
