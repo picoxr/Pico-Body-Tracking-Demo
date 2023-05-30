@@ -1,4 +1,4 @@
-## Swift Leg Tracking
+## Motion Tracker Leg Tracking
 
 ## Development Environment
 - PUI v5.6.0
@@ -14,7 +14,7 @@ Embedded in the v5.6.0 system
 ## Description：
 
 Demo main features:
-1. Pull up the Swift Calibration App
+1. Pull up the Motion Tracker Calibration App
 2. Avatar position synchronization (based on Hips node) and leg joint point attitude data synchronization
 3. Mirroring function, you can see your Avatar's posture and movements in the mirror
 
