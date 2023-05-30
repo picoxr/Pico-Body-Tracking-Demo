@@ -2,7 +2,17 @@
 
 - If you have any questions/comments, please visit [**Pico Developer Answers**](https://devanswers.pico-interactive.com/) and raise your question there.
 
-![image](https://github.com/picoxr/Swift-Leg-Tracking/assets/46362299/2f45b0a1-d8e2-490b-9647-cbc48a226453)
+## Development Environment
+- Specific ROM version
+B3918 v5.6.0 - c000_rf01_bv1.0.1_sv5.6.0_202304131757_phoenix_b3918_user 
+
+- Swift SDK version
+PICO Unity Integration SDK v2.1.5 
+
+- Motion Tracker Calibration App version
+Embedded in the v5.6.0 system
+
+
 
 ## Description：
 
@@ -19,3 +29,5 @@ Experience steps:
   1. Click the Start Calibration button to launch the calibration application
   2. Wearing calibration guided by the " PICO Somatosensory Tracker" app
   3. Back to the app to experience the Avatar drive effect after completing the calibration
+
+![image](https://github.com/picoxr/Swift-Leg-Tracking/assets/46362299/2f45b0a1-d8e2-490b-9647-cbc48a226453)
