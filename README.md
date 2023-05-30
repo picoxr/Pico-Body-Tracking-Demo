@@ -2,6 +2,8 @@
 
 - If you have any questions/comments, please visit [**Pico Developer Answers**](https://devanswers.pico-interactive.com/) and raise your question there.
 
+![image](https://github.com/picoxr/Swift-Leg-Tracking/assets/46362299/2f45b0a1-d8e2-490b-9647-cbc48a226453)
+
 ## Description：
 
 Demo main features:
