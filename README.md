@@ -1,7 +1,7 @@
 ## Swift Leg Tracking
 
 ## Development Environment
-- PUI 5.6.0
+- PUI v5.6.0
 
 - Swift SDK version
 PICO Unity Integration SDK v2.1.5 
