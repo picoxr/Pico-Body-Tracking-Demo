@@ -9,6 +9,8 @@ PICO Unity Integration SDK v2.1.5
 - Motion Tracker Calibration App version
 Embedded in the v5.6.0 system
 
+- Unity version : 2021.3.17f1
+
 ## Description：
 
 Demo main features:
