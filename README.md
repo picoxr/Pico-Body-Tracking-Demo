@@ -1,6 +1,4 @@
-## Swift Leg Tracking
-
-- If you have any questions/comments, please visit [**Pico Developer Answers**](https://devanswers.pico-interactive.com/) and raise your question there.
+**## Swift Leg Tracking**
 
 ## Development Environment
 - Specific ROM version
