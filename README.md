@@ -1,4 +1,4 @@
-**## Swift Leg Tracking**
+## Swift Leg Tracking
 
 ## Development Environment
 - Specific ROM version
