@@ -2,7 +2,7 @@
 
 ## Development Environment
 - Specific ROM version
-B3918 v5.6.0 - c000_rf01_bv1.0.1_sv5.6.0_202304131757_phoenix_b3918_user 
+ROM 5.6.0
 
 - Swift SDK version
 PICO Unity Integration SDK v2.1.5 
