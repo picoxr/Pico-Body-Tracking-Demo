@@ -114,20 +114,20 @@ public class SimpleSample : MonoBehaviour
         BonesList[0].position = position + DemoProcessController.Instance.DiffPosition - footPosition;
         //Debug.Log("model hip: " + BonesList[0].position);
 
-        if (DemoProcessController.effectText.GetComponent<Text>().text == "Click A button to Disable/Enable stomping effects. Current stomping: Enabled.")
-        {
-            if ((int)mBodyTrackerResult.trackingdata[11].Action > 500 && lastRightAction <= 500)
-            {
-                GameObject effectnode = Instantiate(leftexplotionEffect, null);
-                effectnode.transform.position = BonesList[11].position;
-            }
+        //if (DemoProcessController.effectText.GetComponent<Text>().text == "Click A button to Disable/Enable stomping effects. Current stomping: Enabled.")
+        //{
+        //    if ((int)mBodyTrackerResult.trackingdata[11].Action > 500 && lastRightAction <= 500)
+        //    {
+        //        GameObject effectnode = Instantiate(leftexplotionEffect, null);
+        //        effectnode.transform.position = BonesList[11].position;
+        //    }
 
-            if ((int)mBodyTrackerResult.trackingdata[10].Action > 500 && lastLeftAction <= 500)
-            {
-                GameObject effectnode = Instantiate(rightexplotionEffect, null);
-                effectnode.transform.position = BonesList[10].position;
-            }
-        }
+        //    if ((int)mBodyTrackerResult.trackingdata[10].Action > 500 && lastLeftAction <= 500)
+        //    {
+        //        GameObject effectnode = Instantiate(rightexplotionEffect, null);
+        //        effectnode.transform.position = BonesList[10].position;
+        //    }
+        //}
         lastLeftAction = (int)mBodyTrackerResult.trackingdata[10].Action;
         lastRightAction = (int)mBodyTrackerResult.trackingdata[11].Action;
 

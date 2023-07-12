@@ -118,6 +118,8 @@ public class MirrorReflection2 : MonoBehaviour
         // set camera to clear the same way as current camera
         dest.clearFlags = src.clearFlags;
         dest.backgroundColor = src.backgroundColor;
+
+
         if (src.clearFlags == CameraClearFlags.Skybox)
         {
             Skybox sky = src.GetComponent(typeof(Skybox)) as Skybox;

@@ -7,6 +7,7 @@ using Unity.XR.PXR;
 public class LegTrackingModeUIManager : MonoBehaviour
 {
     public GameObject StartMenu;
+    public Toggle FullBodyTrackingToggle;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,12 @@ public class LegTrackingModeUIManager : MonoBehaviour
     {
         StartMenu.SetActive(false);
         PXR_Input.OpenFitnessBandCalibrationAPP();
-        LegTrackingModeSceneManager.Instance.CurrentLegTrackingDemoState = LegTrackingModeSceneManager.LegTrackingDemoState.CALIBRATING;
+        LegTrackingModeSceneManager.Instance.m_CurrentLegTrackingDemoState = LegTrackingModeSceneManager.LegTrackingDemoState.CALIBRATING;
+    }
+
+    public void OnFullBodyTrackingToggleValueChange(bool enable)
+    {
+        Debug.Log("[DragonTest] FullBodyTracking = " + enable);
+        PXR_Input.SetSwiftMode(enable ? 1 : 0);
     }
 }

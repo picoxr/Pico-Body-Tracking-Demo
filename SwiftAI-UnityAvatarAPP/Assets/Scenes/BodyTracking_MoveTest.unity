@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.17753075, g: 0.21570867, b: 0.2668294, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -781,10 +781,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf0376957153fbf458c457a8c2aec1e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DemoUIManagerInstance: {fileID: 0}
   RenderCameraObj: {fileID: 184018544}
   MirrorObj: {fileID: 477175154}
   ControllerLeftObj: {fileID: 1489193999}
   ControllerRightObj: {fileID: 1161884415}
+  SkeletonRoot: {fileID: 0}
+  PPText: {fileID: 0}
+  SkeletonText: {fileID: 0}
+  effectText2: {fileID: 0}
+  SkeletonNodes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  Lines:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  PlayerHeight: 160
+  PlayerGender: 0
+  DemoProcessState: 0
 --- !u!1 &922260232
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,17 +1728,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd9f82377aeb9704193bd866d119aaa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showFps: 0
-  useDefaultFps: 1
-  customFps: 0
   screenFade: 0
   eyeTracking: 0
   trackingMode: 0
   faceTracking: 0
   lipsyncTracking: 0
+  lateLatching: 0
   bodyTracking: 1
   foveationLevel: -1
-  openMRC: 0
+  openMRC: 1
   foregroundLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295

@@ -170,7 +170,7 @@ PrefabInstance:
     - target: {fileID: -6221698846628850153, guid: a481ba7a2503f3040bc260f35f02d3a6,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6186189239388175053, guid: a481ba7a2503f3040bc260f35f02d3a6,
         type: 3}
@@ -235,7 +235,7 @@ PrefabInstance:
     - target: {fileID: -4254916191321091021, guid: a481ba7a2503f3040bc260f35f02d3a6,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4163216437286478787, guid: a481ba7a2503f3040bc260f35f02d3a6,
         type: 3}
@@ -285,7 +285,7 @@ PrefabInstance:
     - target: {fileID: -3377371500058231638, guid: a481ba7a2503f3040bc260f35f02d3a6,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -3276419882691359609, guid: a481ba7a2503f3040bc260f35f02d3a6,
         type: 3}
@@ -410,7 +410,7 @@ PrefabInstance:
     - target: {fileID: -581091296239881752, guid: a481ba7a2503f3040bc260f35f02d3a6,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -462968128509378630, guid: a481ba7a2503f3040bc260f35f02d3a6,
         type: 3}
@@ -545,7 +545,7 @@ PrefabInstance:
     - target: {fileID: 2499522169363561299, guid: a481ba7a2503f3040bc260f35f02d3a6,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2614810332513999661, guid: a481ba7a2503f3040bc260f35f02d3a6,
         type: 3}
@@ -745,7 +745,7 @@ PrefabInstance:
     - target: {fileID: 6627939139351661980, guid: a481ba7a2503f3040bc260f35f02d3a6,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6635456318792072322, guid: a481ba7a2503f3040bc260f35f02d3a6,
         type: 3}
@@ -810,7 +810,7 @@ PrefabInstance:
     - target: {fileID: 7663757182380781387, guid: a481ba7a2503f3040bc260f35f02d3a6,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7765661895759404406, guid: a481ba7a2503f3040bc260f35f02d3a6,
         type: 3}
@@ -1012,8 +1012,8 @@ MonoBehaviour:
   - 0.21983233
   - 0.21629752
   - 0.169
-  leftexplotionEffect: {fileID: 0}
-  rightexplotionEffect: {fileID: 0}
+  LeftTouchGroundAction: 0
+  RightTouchGroundAction: 0
 --- !u!4 &6761339721885400350 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 552804369467235536, guid: a481ba7a2503f3040bc260f35f02d3a6,

@@ -10,10 +10,12 @@ public class LegTrackingAvatarSample : MonoBehaviour
 
     public Dictionary<int, Quaternion> mRotationDic = new Dictionary<int, Quaternion>();
 
-    public float[] SkeletonLens= new float[11];
+    public float[] SkeletonLens= new float[11];     
 
-    public GameObject leftexplotionEffect;
-    public GameObject rightexplotionEffect;
+    [HideInInspector]
+    public int LeftTouchGroundAction;
+    [HideInInspector]
+    public int RightTouchGroundAction;
 
     //public Text InfoText;
     private BodyTrackerResult m_BodyTrackerResult;
@@ -21,16 +23,12 @@ public class LegTrackingAvatarSample : MonoBehaviour
 
     private Vector3 m_JointPosition;
     private Quaternion m_JointRotation;
-    private Vector3 rightFootPosition;
-
-
-    private Vector3 leftAnklePos;
-    private Vector3 rightAnklePos;
-
-    private Vector3 footPosition;
-
-    private int lastLeftAction;
-    private int lastRightAction;
+    //private Vector3 rightFootPosition;
+    //private Vector3 leftAnklePos;
+    //private Vector3 rightAnklePos;
+    //private Vector3 footPosition;
+    //private int lastLeftAction;
+    //private int lastRightAction;
 
 
     // Start is called before the first frame update
@@ -46,8 +44,8 @@ public class LegTrackingAvatarSample : MonoBehaviour
                 mRotationDic.Add(i, BonesList[i].rotation);
             }
         }
-        lastLeftAction = 1000;
-        lastRightAction = 1000;
+        //lastLeftAction = 1000;
+        //lastRightAction = 1000;
     }
 
     // Update is called once per frame
@@ -59,7 +57,7 @@ public class LegTrackingAvatarSample : MonoBehaviour
         m_JointPosition.x = (float)m_BodyTrackerResult.trackingdata[0].localpose.PosX;
         m_JointPosition.y = (float)m_BodyTrackerResult.trackingdata[0].localpose.PosY;
         m_JointPosition.z = (float)m_BodyTrackerResult.trackingdata[0].localpose.PosZ;
-        Debug.Log("[LegTrackingMode] hip position: " + m_JointPosition);
+        //Debug.Log("[LegTrackingMode] hip position: " + m_JointPosition);
         BonesList[0].position = m_JointPosition;
 
         //string frameContent = null;
@@ -82,6 +80,11 @@ public class LegTrackingAvatarSample : MonoBehaviour
                 BonesList[i].rotation = m_JointRotation * mRotationDic[i];
             }
         }
+
+        //update left and right feet actions
+        LeftTouchGroundAction = (int)m_BodyTrackerResult.trackingdata[7].Action;
+        RightTouchGroundAction = (int)m_BodyTrackerResult.trackingdata[8].Action;
+
     }
 
     /// <summary>

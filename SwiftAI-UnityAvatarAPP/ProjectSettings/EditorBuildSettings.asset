@@ -6,10 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/BodyTracking_MoveTest.unity
-    guid: adcf79d50870c4f43acc59ae78c25a88
-  - enabled: 0
-    path: Assets/Scenes/BodyTracking_MoveTest_Dragon.unity
+    path: Assets/Scenes/BodyTracking_FullbodyTrackingMode.unity
     guid: 89d4663e18b20cd4a80cf034f824edeb
   - enabled: 1
     path: Assets/Scenes/BodyTracking_LegTrackingMode.unity
