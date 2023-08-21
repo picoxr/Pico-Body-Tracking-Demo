@@ -1,35 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.XR.PXR;
 
-public class LegTrackingModeUIManager : MonoBehaviour
+namespace BodyTrackingDemo
 {
-    public GameObject StartMenu;
-    public Toggle FullBodyTrackingToggle;
-    // Start is called before the first frame update
-    void Start()
+    public class LegTrackingModeUIManager : MonoBehaviour
     {
-        
-    }
+        public GameObject startMenu;
+        public Button btnContinue;
+        public Toggle fullBodyTrackingToggle;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        private void Awake()
+        {
+            btnContinue.onClick.AddListener(OnContinue);
+        }
 
-    public void OnDemoStart()
-    {
-        StartMenu.SetActive(false);
-        PXR_Input.OpenFitnessBandCalibrationAPP();
-        LegTrackingModeSceneManager.Instance.m_CurrentLegTrackingDemoState = LegTrackingModeSceneManager.LegTrackingDemoState.CALIBRATING;
-    }
+        private void OnContinue()
+        {
+            startMenu.SetActive(false);
+            LegTrackingModeSceneManager.Instance.StartGame();
+        }
 
-    public void OnFullBodyTrackingToggleValueChange(bool enable)
-    {
-        Debug.Log("[DragonTest] FullBodyTracking = " + enable);
-        PXR_Input.SetSwiftMode(enable ? 1 : 0);
+        private void Start()
+        {
+            int bodyTrackMode = PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode;
+            fullBodyTrackingToggle.isOn = bodyTrackMode == 1;
+            PXR_Input.SetSwiftMode(bodyTrackMode);
+        }
+
+        public void OnDemoStart()
+        {
+            startMenu.SetActive(false);
+            PXR_Input.OpenFitnessBandCalibrationAPP();
+            LegTrackingModeSceneManager.Instance.m_CurrentLegTrackingDemoState = LegTrackingModeSceneManager.LegTrackingDemoState.CALIBRATING;
+        }
+
+        public void OnFullBodyTrackingToggleValueChange(bool enable)
+        {
+            Debug.Log("[DragonTest] FullBodyTracking = " + enable);
+            PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode = enable ? 1 : 0;
+            PXR_Input.SetSwiftMode(enable ? 1 : 0);
+        }
     }
 }
