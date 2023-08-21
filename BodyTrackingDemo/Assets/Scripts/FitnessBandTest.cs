@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.XR.PXR;
 using UnityEngine.UI;
-using TMPro;
 
 public class FitnessBandTest : MonoBehaviour
 {
@@ -18,30 +15,31 @@ public class FitnessBandTest : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void GetFitnessBandConnectState()
     {
         Debug.Log("LLRR:1GetFitnessBandConnectState");
-        PXR_Input.GetFitnessBandConnectState(ref pxrFitnessBand);
+        int state = PXR_Input.GetFitnessBandConnectState(ref pxrFitnessBand);
         Debug.Log("LLRR:2GetFitnessBandConnectState");
         Text1.text = pxrFitnessBand.num.ToString() + "   ";
         Debug.Log("LLRR:3GetFitnessBandConnectState");
-        for (int i = 0; i < 2; i++) {
-            Text1.text = Text1.text + pxrFitnessBand.trackerID[i].ToString() + "  ";
+        for (int i = 0; i < 2; i++)
+        {
+            unsafe
+            {
+                Text1.text = $"{Text1.text}{pxrFitnessBand.trackerID[i]}  ";
+            }
         }
         Debug.Log("LLRR:4GetFitnessBandConnectState");
     }
 
     public void GetFitnessBandBattery()
     {
-        int battery = 0;
-        PXR_Input.GetFitnessBandBattery(pxrFitnessBand.trackerID[0], ref battery);
-        Text1.text = battery.ToString();
+        unsafe
+        {
+            int battery = 0;
+            PXR_Input.GetFitnessBandBattery(pxrFitnessBand.trackerID[0], ref battery);
+            Text1.text = battery.ToString();
+        }
     }
 
     public void GetFitnessBandCalibState()
@@ -58,11 +56,11 @@ public class FitnessBandTest : MonoBehaviour
 
     public void LowPower(int id,int battery)
     {
-        Text1.text = id.ToString() + "   " + battery.ToString();
+        Text1.text = $"{id}   {battery}";
     }
 
     public void ConnectionState(int state, int count) {
-        Text1.text = state.ToString() + "  " + count.ToString();
+        Text1.text = $"{state}  {count}";
     }
 
     public void Calibration(int a, int b) {
