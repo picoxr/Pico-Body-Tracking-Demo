@@ -19,6 +19,12 @@ MonoBehaviour:
   lipsyncTracking: 0
   eyeTracking: 0
   eyetrackingCalibration: 0
+  enableETFR: 0
   latelatching: 0
+  latelatchingDebug: 0
   enableSubsampled: 1
-  bodyTraching: 1
+  bodyTracking: 1
+  adaptiveResolution: 0
+  stageMode: 0
+  videoSeeThrough: 0
+  spatialAnchor: 0

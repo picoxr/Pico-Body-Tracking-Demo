@@ -22,6 +22,8 @@ namespace BodyTrackingDemo
         private int m_RightFootStepOnAction;
 
         private bool m_SwiftCalibratedState;
+        private LegTrackingAvatarSample _legTrackingAvatarSample;
+        private float _startFootHeight;
 
         public enum LegTrackingDemoState
         {
@@ -55,8 +57,8 @@ namespace BodyTrackingDemo
 
                 if (m_AvatarObj != null)
                 {
-                    m_LeftFootStepOnAction = m_AvatarObj.GetComponent<LegTrackingAvatarSample>().LeftTouchGroundAction;
-                    m_RightFootStepOnAction = m_AvatarObj.GetComponent<LegTrackingAvatarSample>().RightTouchGroundAction;
+                    m_LeftFootStepOnAction = _legTrackingAvatarSample.LeftTouchGroundAction;
+                    m_RightFootStepOnAction = _legTrackingAvatarSample.RightTouchGroundAction;
                     if (m_LeftFootStepOnAction == 1 || m_RightFootStepOnAction == 1)
                     {
                         DancePadManager.DancePadHoleStepOnDetection(m_AvatarLeftFoot.position, m_AvatarRightFoot.position, m_LeftFootStepOnAction, m_RightFootStepOnAction);
@@ -92,11 +94,16 @@ namespace BodyTrackingDemo
                     DancePadManager.gameObject.SetActive(true);
                     LoadAvatar();
                     //SetControllersActive(false);
+                    
+                    PXR_Input.SetSwiftMode(PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode);
                 }
                 else
                 {
+                    PxrFitnessBandConnectState connectState = new PxrFitnessBandConnectState();
+                    PXR_Input.GetFitnessBandConnectState(ref connectState);
+                    
                     LegTrackingUIManager.startMenu.SetActive(true);
-                    LegTrackingUIManager.btnContinue.gameObject.SetActive(m_SwiftCalibratedState);
+                    LegTrackingUIManager.btnContinue.gameObject.SetActive(connectState.num == 2 && m_SwiftCalibratedState);
                 }
             }
         }
@@ -114,7 +121,6 @@ namespace BodyTrackingDemo
 
         private void LoadAvatar()
         {
-            Debug.Log("[SwiftDemoTest] LoadAvatar");
             if (m_AvatarObj != null)
             {
                 GameObject temp = m_AvatarObj;
@@ -124,18 +130,22 @@ namespace BodyTrackingDemo
 
             // current logic use only one Avatar model for each gender.
             string avatar_name = "ClothRun_175 Variant LegTracking";
-            Debug.Log("[SwiftDemoTest] Models/" + avatar_name);
-            GameObject avatarObj = Resources.Load<GameObject>("Models/" + avatar_name);
+            
+            GameObject avatarObj = Resources.Load<GameObject>("Prefabs/" + avatar_name);
             m_AvatarObj = Instantiate(avatarObj, Vector3.zero, Quaternion.identity);
             float scale = 1; // use 1 for leg tracking mode
             m_AvatarObj.transform.localScale = new Vector3(scale, scale, scale);
-            Debug.Log("[SwiftDemoTest] m_AvatarObj" + m_AvatarObj);
             m_AvatarObj.SetActive(true);
-            m_AvatarLeftFoot = m_AvatarObj.GetComponent<LegTrackingAvatarSample>().BonesList[7];
-            m_AvatarRightFoot = m_AvatarObj.GetComponent<LegTrackingAvatarSample>().BonesList[8];
-
+            
+            _legTrackingAvatarSample = m_AvatarObj.GetComponent<LegTrackingAvatarSample>();
+            m_AvatarLeftFoot = _legTrackingAvatarSample.BonesList[7];
+            m_AvatarRightFoot = _legTrackingAvatarSample.BonesList[8];
+            
+            _startFootHeight = Mathf.Min(m_AvatarLeftFoot.transform.position.y, m_AvatarRightFoot.transform.position.y);
 
             m_CurrentLegTrackingDemoState = LegTrackingDemoState.PLAYING;
+            
+            Debug.Log($"LegTrackingModeSceneManager.LoadAvatar: Model = {avatar_name}, StartFootHeight = {_startFootHeight}");
         }
     }
 }

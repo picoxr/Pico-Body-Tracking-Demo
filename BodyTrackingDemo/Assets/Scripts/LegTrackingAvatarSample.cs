@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using Unity.XR.PXR;
 using UnityEngine;
@@ -30,13 +30,11 @@ public class LegTrackingAvatarSample : MonoBehaviour
     //private int lastLeftAction;
     //private int lastRightAction;
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         m_BodyTrackerResult = new BodyTrackerResult();
         m_BodyTrackerResult.trackingdata = new BodyTrackerTransform[24];
-
+        
         for (int i = 0; i < BonesList.Count; i++)
         {
             if (BonesList[i] != null)
@@ -44,8 +42,8 @@ public class LegTrackingAvatarSample : MonoBehaviour
                 mRotationDic.Add(i, BonesList[i].rotation);
             }
         }
-        //lastLeftAction = 1000;
-        //lastRightAction = 1000;
+
+        Update();
     }
 
     // Update is called once per frame
@@ -58,7 +56,7 @@ public class LegTrackingAvatarSample : MonoBehaviour
         m_JointPosition.y = (float)m_BodyTrackerResult.trackingdata[0].localpose.PosY;
         m_JointPosition.z = (float)m_BodyTrackerResult.trackingdata[0].localpose.PosZ;
         //Debug.Log("[LegTrackingMode] hip position: " + m_JointPosition);
-        BonesList[0].position = m_JointPosition;
+        BonesList[0].localPosition = m_JointPosition;
 
         //string frameContent = null;
         for (int i = 0; i < BonesList.Count; i++)
@@ -133,6 +131,4 @@ public class LegTrackingAvatarSample : MonoBehaviour
         SkeletonLens[9] = (BonesList[18].position - BonesList[20].position).magnitude; //LowerArmLen
         SkeletonLens[10] = 0.169f; //HandLen
     }
-
-
 }
