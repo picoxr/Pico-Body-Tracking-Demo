@@ -94,8 +94,9 @@ public class LittleMoleController : MonoBehaviour
         m_MoleState = MoleState.HIDE;
     }
 
-    public void OnLittleMoleKicked(ref int score)
+    public int OnLittleMoleKicked()
     {
+        int score = 0;
         if (m_MoleState == MoleState.SHOW)
             score = 3;
         else if (m_MoleState == MoleState.WAIT)
@@ -105,6 +106,8 @@ public class LittleMoleController : MonoBehaviour
 
         m_Kickable = false;
         m_MoleState = MoleState.HIDE;
+
+        return score;
     }
 
 }

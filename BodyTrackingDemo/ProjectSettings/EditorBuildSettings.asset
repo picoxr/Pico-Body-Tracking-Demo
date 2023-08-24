@@ -5,9 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/BodyTracking_FullbodyTrackingMode.unity
-    guid: 89d4663e18b20cd4a80cf034f824edeb
   - enabled: 1
     path: Assets/Scenes/BodyTracking_LegTrackingMode.unity
     guid: 58a679d969b00d74aaf927c28cc9d47c

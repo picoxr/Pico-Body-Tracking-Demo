@@ -42,6 +42,8 @@ namespace BodyTrackingDemo
             MirrorObj.SetActive(false);
             DancePadUI.SetActive(false);
             DancePadManager.gameObject.SetActive(false);
+
+            UpdateFitnessBandState();
         }
 
         // Update is called once per frame
@@ -52,17 +54,16 @@ namespace BodyTrackingDemo
                 if (InputDevices.GetDeviceAtXRNode(XRNode.RightHand).TryGetFeatureValue(CommonUsages.primary2DAxisClick, out bool right_pressed) && right_pressed ||
                     InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.primary2DAxisClick, out bool left_pressed) && left_pressed)
                 {
-                    PXR_Input.OpenFitnessBandCalibrationAPP();
+                    // PXR_Input.OpenFitnessBandCalibrationAPP();
+                    LegTrackingUIManager.startMenu.SetActive(true);
+                    LegTrackingUIManager.btnContinue.gameObject.SetActive(true);
                 }
 
-                if (m_AvatarObj != null)
+                m_LeftFootStepOnAction = _legTrackingAvatarSample.LeftTouchGroundAction;
+                m_RightFootStepOnAction = _legTrackingAvatarSample.RightTouchGroundAction;
+                if (m_LeftFootStepOnAction == 1 || m_RightFootStepOnAction == 1)
                 {
-                    m_LeftFootStepOnAction = _legTrackingAvatarSample.LeftTouchGroundAction;
-                    m_RightFootStepOnAction = _legTrackingAvatarSample.RightTouchGroundAction;
-                    if (m_LeftFootStepOnAction == 1 || m_RightFootStepOnAction == 1)
-                    {
-                        DancePadManager.DancePadHoleStepOnDetection(m_AvatarLeftFoot.position, m_AvatarRightFoot.position, m_LeftFootStepOnAction, m_RightFootStepOnAction);
-                    }
+                    DancePadManager.DancePadHoleStepOnDetection(m_AvatarLeftFoot.position, m_AvatarRightFoot.position, m_LeftFootStepOnAction, m_RightFootStepOnAction);
                 }
 #if UNITY_EDITOR
                 //For editor test only
@@ -73,38 +74,19 @@ namespace BodyTrackingDemo
 
         private void OnApplicationFocus(bool focus)
         {
-            Debug.Log("[SwiftDemoTest] Application focus: " + focus);
-
             if (focus)
             {
                 if (m_CurrentLegTrackingDemoState == LegTrackingDemoState.START) return;
 
-                //Update Swift calibration state after resuming
-                int calibrated = -1;
-                PXR_Input.GetFitnessBandCalibState(ref calibrated);
-                m_SwiftCalibratedState = calibrated == 1;
-                Debug.Log("[SwiftDemoTest] Swift calibrated: " + calibrated);
-                if (m_SwiftCalibratedState)
-                {
-                    m_CurrentLegTrackingDemoState = LegTrackingDemoState.CALIBRATED;
+                UpdateFitnessBandState();
+            }
+        }
 
-                    //load avatar
-                    MirrorObj.SetActive(true);
-                    DancePadUI.SetActive(true);
-                    DancePadManager.gameObject.SetActive(true);
-                    LoadAvatar();
-                    //SetControllersActive(false);
-                    
-                    PXR_Input.SetSwiftMode(PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode);
-                }
-                else
-                {
-                    PxrFitnessBandConnectState connectState = new PxrFitnessBandConnectState();
-                    PXR_Input.GetFitnessBandConnectState(ref connectState);
-                    
-                    LegTrackingUIManager.startMenu.SetActive(true);
-                    LegTrackingUIManager.btnContinue.gameObject.SetActive(connectState.num == 2 && m_SwiftCalibratedState);
-                }
+        private void OnApplicationPause(bool pauseStatus)
+        {
+            if (!pauseStatus)
+            {
+                UpdateFitnessBandState();
             }
         }
 
@@ -119,6 +101,7 @@ namespace BodyTrackingDemo
             LoadAvatar();
         }
 
+        [ContextMenu("LoadAvatar")]
         private void LoadAvatar()
         {
             if (m_AvatarObj != null)
@@ -138,14 +121,60 @@ namespace BodyTrackingDemo
             m_AvatarObj.SetActive(true);
             
             _legTrackingAvatarSample = m_AvatarObj.GetComponent<LegTrackingAvatarSample>();
-            m_AvatarLeftFoot = _legTrackingAvatarSample.BonesList[7];
-            m_AvatarRightFoot = _legTrackingAvatarSample.BonesList[8];
+            m_AvatarLeftFoot = _legTrackingAvatarSample.BonesList[10];
+            m_AvatarRightFoot = _legTrackingAvatarSample.BonesList[11];
             
             _startFootHeight = Mathf.Min(m_AvatarLeftFoot.transform.position.y, m_AvatarRightFoot.transform.position.y);
 
+            var tempPos = m_AvatarObj.transform.localPosition;
+            tempPos.y = -_startFootHeight;
+            tempPos.y += _legTrackingAvatarSample.soleHeight;
+            m_AvatarObj.transform.position = tempPos;
+            
             m_CurrentLegTrackingDemoState = LegTrackingDemoState.PLAYING;
             
             Debug.Log($"LegTrackingModeSceneManager.LoadAvatar: Model = {avatar_name}, StartFootHeight = {_startFootHeight}");
+        }
+
+        private void UpdateFitnessBandState()
+        {
+            //Update Swift calibration state after resuming
+            int calibrated = -1;
+            PXR_Input.GetFitnessBandCalibState(ref calibrated);
+            m_SwiftCalibratedState = calibrated == 1;
+            if (m_SwiftCalibratedState)
+            {
+                m_CurrentLegTrackingDemoState = LegTrackingDemoState.CALIBRATED;
+
+                //load avatar
+                MirrorObj.SetActive(true);
+                DancePadUI.SetActive(true);
+                DancePadManager.gameObject.SetActive(true);
+                LoadAvatar();
+                //SetControllersActive(false);
+                    
+                PXR_Input.SetSwiftMode(PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode);
+                LegTrackingUIManager.startMenu.SetActive(false);
+                
+                Debug.Log($"LegTrackingModeSceneManager.UpdateFitnessBandState: calibrated = {calibrated}");
+            }
+            else
+            {
+                if (m_AvatarObj != null && m_AvatarObj.activeSelf)
+                {
+                    m_AvatarObj.SetActive(false);
+                }
+                
+                PxrFitnessBandConnectState connectState = new PxrFitnessBandConnectState();
+                PXR_Input.GetFitnessBandConnectState(ref connectState);
+#if UNITY_EDITOR
+                connectState.num = 2;
+#endif
+                LegTrackingUIManager.startMenu.SetActive(true);
+                LegTrackingUIManager.btnContinue.gameObject.SetActive(connectState.num == 2);
+                    
+                Debug.Log($"LegTrackingModeSceneManager.UpdateFitnessBandState: connectedNum = {connectState.num}");
+            }
         }
     }
 }

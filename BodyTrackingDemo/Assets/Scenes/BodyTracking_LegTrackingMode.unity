@@ -276,7 +276,8 @@ GameObject:
   - component: {fileID: 44600477}
   - component: {fileID: 44600480}
   - component: {fileID: 44600481}
-  m_Layer: 0
+  - component: {fileID: 44600482}
+  m_Layer: 6
   m_Name: RightUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +309,7 @@ MeshCollider:
   m_GameObject: {fileID: 44600474}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -371,11 +372,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 44600474}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 50, z: 1}
-  m_Center: {x: -0.00000011920929, y: 15, z: -0.00000011920929}
+  m_Size: {x: 1, y: 1.2, z: 1}
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!114 &44600481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,6 +389,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af651e11d53f98419cea14735c13605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  direction: 12
+  stepOnEffect: {fileID: 395446522}
+--- !u!54 &44600482
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 44600474}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &50690252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -490,6 +509,11 @@ PrefabInstance:
       propertyPath: m_Shadows.m_Type
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7650144204084763526, guid: fc61e025696888d40a1b8124de54bd74,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7650144204084862232, guid: fc61e025696888d40a1b8124de54bd74,
         type: 3}
       propertyPath: m_IsActive
@@ -520,6 +544,11 @@ PrefabInstance:
       propertyPath: m_Intensity
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7650144204849091466, guid: fc61e025696888d40a1b8124de54bd74,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7650144205349872466, guid: fc61e025696888d40a1b8124de54bd74,
         type: 3}
       propertyPath: m_Shadows.m_Type
@@ -534,6 +563,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7650144205462019625, guid: fc61e025696888d40a1b8124de54bd74,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc61e025696888d40a1b8124de54bd74, type: 3}
@@ -1315,7 +1349,8 @@ GameObject:
   - component: {fileID: 135425269}
   - component: {fileID: 135425272}
   - component: {fileID: 135425273}
-  m_Layer: 0
+  - component: {fileID: 135425274}
+  m_Layer: 6
   m_Name: LeftDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1347,7 +1382,7 @@ MeshCollider:
   m_GameObject: {fileID: 135425266}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -1410,11 +1445,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135425266}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 50, z: 1}
-  m_Center: {x: 0.00000011920929, y: 15, z: 0}
+  m_Size: {x: 1, y: 1.2, z: 1}
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!114 &135425273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1427,6 +1462,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af651e11d53f98419cea14735c13605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  direction: 17
+  stepOnEffect: {fileID: 395446522}
+--- !u!54 &135425274
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135425266}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &169320074
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2064,7 +2117,8 @@ GameObject:
   - component: {fileID: 332775107}
   - component: {fileID: 332775110}
   - component: {fileID: 332775111}
-  m_Layer: 0
+  - component: {fileID: 332775112}
+  m_Layer: 6
   m_Name: RightDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2096,7 +2150,7 @@ MeshCollider:
   m_GameObject: {fileID: 332775104}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -2159,11 +2213,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 332775104}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 50, z: 1}
-  m_Center: {x: -0.00000011920929, y: 15, z: 0}
+  m_Size: {x: 1, y: 1.2, z: 1}
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!114 &332775111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2176,6 +2230,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af651e11d53f98419cea14735c13605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  direction: 24
+  stepOnEffect: {fileID: 395446522}
+--- !u!54 &332775112
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332775104}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &343552271
 GameObject:
   m_ObjectHideFlags: 0
@@ -2719,7 +2791,8 @@ GameObject:
   - component: {fileID: 414949947}
   - component: {fileID: 414949950}
   - component: {fileID: 414949951}
-  m_Layer: 0
+  - component: {fileID: 414949952}
+  m_Layer: 6
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2751,7 +2824,7 @@ MeshCollider:
   m_GameObject: {fileID: 414949945}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -2814,11 +2887,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 414949945}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 50, z: 1}
-  m_Center: {x: 0.00000011920929, y: 15, z: 0}
+  m_Size: {x: 1, y: 1.2, z: 1}
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!114 &414949951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2831,6 +2904,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af651e11d53f98419cea14735c13605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  direction: 1
+  stepOnEffect: {fileID: 395446522}
+--- !u!54 &414949952
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414949945}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &421713687
 GameObject:
   m_ObjectHideFlags: 0
@@ -3307,7 +3398,7 @@ MonoBehaviour:
   m_ClipPlaneOffset: 0
   m_ReflectLayers:
     serializedVersion: 2
-    m_Bits: 16151
+    m_Bits: 16215
 --- !u!1 &526803076
 GameObject:
   m_ObjectHideFlags: 0
@@ -4887,7 +4978,8 @@ GameObject:
   - component: {fileID: 1094017807}
   - component: {fileID: 1094017810}
   - component: {fileID: 1094017811}
-  m_Layer: 0
+  - component: {fileID: 1094017812}
+  m_Layer: 6
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4919,7 +5011,7 @@ MeshCollider:
   m_GameObject: {fileID: 1094017805}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -4982,11 +5074,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1094017805}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 50, z: 1}
-  m_Center: {x: -0.00000011920929, y: 15, z: 0}
+  m_Size: {x: 1, y: 1.2, z: 1}
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!114 &1094017811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4999,6 +5091,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af651e11d53f98419cea14735c13605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  direction: 8
+  stepOnEffect: {fileID: 395446522}
+--- !u!54 &1094017812
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094017805}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1096877596
 GameObject:
   m_ObjectHideFlags: 0
@@ -5741,6 +5851,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: StarParticleEffect
       objectReference: {fileID: 0}
+    - target: {fileID: 7272320121975331480, guid: 17187807f3ea37c4fb8c9814723f5efa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7272320121975331483, guid: 17187807f3ea37c4fb8c9814723f5efa,
         type: 3}
       propertyPath: m_RootOrder
@@ -6282,7 +6397,8 @@ GameObject:
   - component: {fileID: 1243706909}
   - component: {fileID: 1243706912}
   - component: {fileID: 1243706913}
-  m_Layer: 0
+  - component: {fileID: 1243706914}
+  m_Layer: 6
   m_Name: Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6314,7 +6430,7 @@ MeshCollider:
   m_GameObject: {fileID: 1243706907}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -6377,11 +6493,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1243706907}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 50, z: 1}
-  m_Center: {x: 0, y: 15, z: -0.00000011920929}
+  m_Size: {x: 1, y: 1.2, z: 1}
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!114 &1243706913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6394,6 +6510,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af651e11d53f98419cea14735c13605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  direction: 4
+  stepOnEffect: {fileID: 395446522}
+--- !u!54 &1243706914
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243706907}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1250899654
 GameObject:
   m_ObjectHideFlags: 0
@@ -7658,7 +7792,8 @@ GameObject:
   - component: {fileID: 1471471275}
   - component: {fileID: 1471471278}
   - component: {fileID: 1471471279}
-  m_Layer: 0
+  - component: {fileID: 1471471280}
+  m_Layer: 6
   m_Name: LeftUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7690,7 +7825,7 @@ MeshCollider:
   m_GameObject: {fileID: 1471471272}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -7753,11 +7888,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1471471272}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 50, z: 1}
-  m_Center: {x: 0.00000011920929, y: 15, z: -0.00000011920929}
+  m_Size: {x: 1, y: 1.2, z: 1}
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!114 &1471471279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7770,6 +7905,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af651e11d53f98419cea14735c13605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  direction: 5
+  stepOnEffect: {fileID: 395446522}
+--- !u!54 &1471471280
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471471272}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1478942005
 GameObject:
   m_ObjectHideFlags: 0
@@ -9914,7 +10067,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 12087
+    m_Bits: 12151
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -11102,7 +11255,8 @@ GameObject:
   - component: {fileID: 2094226134}
   - component: {fileID: 2094226137}
   - component: {fileID: 2094226138}
-  m_Layer: 0
+  - component: {fileID: 2094226139}
+  m_Layer: 6
   m_Name: Down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11134,7 +11288,7 @@ MeshCollider:
   m_GameObject: {fileID: 2094226132}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -11197,11 +11351,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2094226132}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 50, z: 1}
-  m_Center: {x: 0, y: 15, z: 0}
+  m_Size: {x: 1, y: 1.2, z: 1}
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!114 &2094226138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11214,6 +11368,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af651e11d53f98419cea14735c13605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  direction: 16
+  stepOnEffect: {fileID: 395446522}
+--- !u!54 &2094226139
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094226132}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2094299750
 GameObject:
   m_ObjectHideFlags: 0
@@ -11739,6 +11911,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StepOnEffect: {fileID: 395446522}
   DancePadUI: {fileID: 1356944205}
+  dancePadHoles:
+  - {fileID: 1243706913}
+  - {fileID: 2094226138}
+  - {fileID: 414949951}
+  - {fileID: 1094017811}
+  - {fileID: 1471471279}
+  - {fileID: 44600481}
+  - {fileID: 135425273}
+  - {fileID: 332775111}
 --- !u!1 &2130872740
 GameObject:
   m_ObjectHideFlags: 0
