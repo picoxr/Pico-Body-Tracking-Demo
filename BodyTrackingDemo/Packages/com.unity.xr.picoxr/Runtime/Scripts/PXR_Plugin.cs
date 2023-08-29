@@ -998,6 +998,7 @@ namespace Unity.XR.PXR
         PxrNoneAction = 0x00000000,
         PxrTouchGround = 0x00000001,
         PxrKeepStatic = 0x00000002,
+        PxrTouchGroundToe = 0x00000004,
     }
 
     /// <summary>

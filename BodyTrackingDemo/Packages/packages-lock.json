@@ -150,6 +150,15 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.xr.oculus": {
+      "version": "3.3.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.xr.management": "4.2.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.xr.picoxr": {
       "version": "file:com.unity.xr.picoxr",
       "depth": 0,
