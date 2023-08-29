@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.XR.PXR;
@@ -8,11 +9,24 @@ namespace BodyTrackingDemo
     {
         public GameObject startMenu;
         public Button btnContinue;
-        public Toggle fullBodyTrackingToggle;
+        public TMP_Dropdown dropdownMode;
 
         private void Awake()
         {
             btnContinue.onClick.AddListener(OnContinue);
+            dropdownMode.onValueChanged.AddListener(OnModeChanged);
+        }
+
+        private void Start()
+        {
+            dropdownMode.value = PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode;
+        }
+
+        private void OnModeChanged(int modeIdx)
+        {
+            PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode = modeIdx;
+            PXR_Input.SetSwiftMode(modeIdx);
+            Debug.Log($"LegTrackingModeUIManager.OnModeChanged: modeIdx = {modeIdx}");
         }
 
         private void OnContinue()
@@ -21,25 +35,11 @@ namespace BodyTrackingDemo
             LegTrackingModeSceneManager.Instance.StartGame();
         }
 
-        private void Start()
-        {
-            int bodyTrackMode = PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode;
-            fullBodyTrackingToggle.isOn = bodyTrackMode == 1;
-            PXR_Input.SetSwiftMode(bodyTrackMode);
-        }
-
         public void OnDemoStart()
         {
             startMenu.SetActive(false);
             PXR_Input.OpenFitnessBandCalibrationAPP();
             LegTrackingModeSceneManager.Instance.m_CurrentLegTrackingDemoState = LegTrackingModeSceneManager.LegTrackingDemoState.CALIBRATING;
-        }
-
-        public void OnFullBodyTrackingToggleValueChange(bool enable)
-        {
-            Debug.Log("[DragonTest] FullBodyTracking = " + enable);
-            PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode = enable ? 1 : 0;
-            PXR_Input.SetSwiftMode(enable ? 1 : 0);
         }
     }
 }

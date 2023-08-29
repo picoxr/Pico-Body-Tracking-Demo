@@ -90,10 +90,14 @@ namespace BodyTrackingDemo
     public class PlayerPrefData
     {
         public int bodyTrackMode = 1;
+        public float steppingSensitivity = .8f;
+
+        public int steppingEffect = 0;
+        public int mirrorMode = 0;
 
         public override string ToString()
         {
-            return $"PlayerPrefData: bodyTrackNode = {bodyTrackMode}";
+            return $"PlayerPrefData: bodyTrackNode = {bodyTrackMode}, steppingSensitivity = {steppingSensitivity}, steppingEffect = {steppingEffect}, mirrorMode = {mirrorMode}";
         }
     }
 }

@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class DancePadUIManager : MonoBehaviour
 {
     public Button GameStart;
@@ -10,19 +10,8 @@ public class DancePadUIManager : MonoBehaviour
     public Button GameStop;
 
     [SerializeField]
-    private Text m_TextScore;
+    private TextMeshProUGUI m_TextScore;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void SetScoreText(int score)
     {

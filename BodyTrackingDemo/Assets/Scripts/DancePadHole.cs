@@ -67,17 +67,18 @@ public class DancePadHole : MonoBehaviour
         {
             return;
         }
-
+        
         foreach (var item in _curBodyTrackerJoints)
         {
-            if ((item.bodyTrackerRole == BodyTrackerRole.LEFT_FOOT && DancePadsManager.LeftLegAction == 1) ||
-                (item.bodyTrackerRole == BodyTrackerRole.RIGHT_FOOT && DancePadsManager.RightLegAction == 1))
+            if ((item.bodyTrackerRole == BodyTrackerRole.LEFT_FOOT && DancePadsManager.LeftLegAction >= (int)BodyActionList.PxrTouchGround) ||
+                (item.bodyTrackerRole == BodyTrackerRole.RIGHT_FOOT && DancePadsManager.RightLegAction >= (int)BodyActionList.PxrTouchGround))
             {
-                if (item.TrackingData.Action * 0.001f > .8f)
+                if (item.TrackingData.Action * 0.001f >= PlayerPrefManager.Instance.PlayerPrefData.steppingSensitivity)
                 {
                     _triggerState = 1;
                     _lastScore = 0;
-                    SetHoleColor(true);
+
+                    SetHoleColor(item.bodyTrackerRole == BodyTrackerRole.LEFT_FOOT ? DancePadsManager.LeftLegAction : DancePadsManager.RightLegAction);
                     if (LittleMole.Kickable)
                     {
                         PlayStepOnEffect();
@@ -86,7 +87,7 @@ public class DancePadHole : MonoBehaviour
 
                     onTrigger?.Invoke(this);
                     
-                    Debug.Log($"DancePadHole.OnTriggerStay: other = {other.name}, FootAction = {item.TrackingData.Action}");
+                    Debug.Log($"DancePadHole.OnTriggerStay: other = {other.name}, LeftLegAction = {DancePadsManager.LeftLegAction}, RightLegAction = {DancePadsManager.RightLegAction}, FootAction = {item.TrackingData.Action}");
                     break;
                 }
             }
@@ -97,7 +98,7 @@ public class DancePadHole : MonoBehaviour
     {
         _triggerState = 0;
         _curBodyTrackerJoints.Remove(other.GetComponent<BodyTrackerJoint>());
-        SetHoleColor(false);
+        SetHoleColor(0);
         
         Debug.Log($"DancePadHole.OnTriggerExit: other = {other.name}");
     }
@@ -116,12 +117,20 @@ public class DancePadHole : MonoBehaviour
     }
 
 
-    public void SetHoleColor(bool active)
+    public void SetHoleColor(int action)
     {
-        if (active)
-            m_Material.SetColor("_Color", new Color(0.726f, 0.3f, 0));
-        else
+        if (action == 0)
+        {
             m_Material.SetColor("_Color", new Color(0,0.425f, 0.165f));
+        }
+        else if ((action & (int) BodyActionList.PxrTouchGroundToe) != 0)
+        {
+            m_Material.SetColor("_Color", Color.yellow);
+        }
+        else if ((action & (int) BodyActionList.PxrTouchGround) != 0)
+        {
+            m_Material.SetColor("_Color", new Color(0.726f, 0.3f, 0));
+        }
     }
     
     private void PlayStepOnEffect()

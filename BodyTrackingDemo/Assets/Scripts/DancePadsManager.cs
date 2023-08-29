@@ -1,4 +1,5 @@
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class DancePadsManager : MonoBehaviour
 {
@@ -23,6 +24,17 @@ public class DancePadsManager : MonoBehaviour
     {
         InitDancePad();
         //OnStartDancePadGame();
+    }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (!hasFocus)
+        {
+            if (m_isDancePadGamePlaying)
+            {
+                OnPauseDancePadGame();
+            }
+        }
     }
 
     /// <summary>
@@ -141,7 +153,7 @@ public class DancePadsManager : MonoBehaviour
         m_isDancePadGamePlaying = true;
         m_TotalScore = 0;
         CancelInvoke();
-        InvokeRepeating("ActiveDancePadHoleRandomly", 1.0f, 1.0f);
+        InvokeRepeating("ActiveDancePadHoleRandomly", 2.0f, 1.0f);
         DancePadUI.GameStart.interactable = false;
         DancePadUI.GamePause.interactable = true;
         DancePadUI.GameContinue.interactable = false;
@@ -162,7 +174,7 @@ public class DancePadsManager : MonoBehaviour
     {
         m_isDancePadGamePlaying = true;
         CancelInvoke();
-        InvokeRepeating("ActiveDancePadHoleRandomly", 1.0f, 1.0f);
+        InvokeRepeating("ActiveDancePadHoleRandomly", 2.0f, 1.0f);
         DancePadUI.GameStart.interactable = false;
         DancePadUI.GamePause.interactable = true;
         DancePadUI.GameContinue.interactable = false;
