@@ -95,9 +95,11 @@ namespace BodyTrackingDemo
         public int steppingEffect = 0;
         public int mirrorMode = 0;
 
+        public bool autoRecording;
+
         public override string ToString()
         {
-            return $"PlayerPrefData: bodyTrackNode = {bodyTrackMode}, steppingSensitivity = {steppingSensitivity}, steppingEffect = {steppingEffect}, mirrorMode = {mirrorMode}";
+            return $"PlayerPrefData: bodyTrackNode = {bodyTrackMode}, steppingSensitivity = {steppingSensitivity}, steppingEffect = {steppingEffect}, mirrorMode = {mirrorMode}, autoRecording = {autoRecording}";
         }
     }
 }
