@@ -12,6 +12,7 @@ namespace BodyTrackingDemo
         public GameObject DancePadUI;
         public GameObject MotionTrackerUI;
         public GameObject DisplaySettingUI;
+        public GameObject RecorderUI;
         public GameObject MirrorObj;
         public GameObject UICanvas;
         public GameObject Enviroment;
@@ -55,6 +56,7 @@ namespace BodyTrackingDemo
             DancePadUI.SetActive(false);
             MotionTrackerUI.SetActive(false);
             DisplaySettingUI.SetActive(false);
+            RecorderUI.SetActive(false);
             DancePadManager.gameObject.SetActive(false);
 
             UpdateFitnessBandState();
@@ -116,6 +118,7 @@ namespace BodyTrackingDemo
             DancePadUI.SetActive(true);
             MotionTrackerUI.SetActive(true);
             DisplaySettingUI.SetActive(true);
+            RecorderUI.SetActive(true);
             DancePadManager.gameObject.SetActive(true);
             LoadAvatar();
         }
@@ -192,6 +195,7 @@ namespace BodyTrackingDemo
                 DancePadUI.SetActive(true);
                 MotionTrackerUI.SetActive(true);
                 DisplaySettingUI.SetActive(true);
+                RecorderUI.SetActive(true);
                 
                 DancePadManager.gameObject.SetActive(true);
                 LegTrackingUIManager.startMenu.SetActive(false);
