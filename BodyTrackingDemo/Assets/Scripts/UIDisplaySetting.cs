@@ -30,7 +30,7 @@ namespace BodyTrackingDemo
 
         private void OnSteppingEffectChanged(int value)
         {
-            PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode = value;
+            PlayerPrefManager.Instance.PlayerPrefData.steppingEffect = value;
             Debug.Log($"LegTrackingModeUIManager.OnSteppingEffectChanged: value = {value}");
         }
         

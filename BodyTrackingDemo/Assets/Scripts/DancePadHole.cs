@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using BodyTrackingDemo;
 using Unity.XR.PXR;
 using UnityEngine;
@@ -17,6 +16,9 @@ public class DancePadHole : MonoBehaviour
     
     [SerializeField] private DirectionType direction;
     [SerializeField] private GameObject stepOnEffect;
+    [SerializeField] private GameObject stepOnToeEffect;
+    [SerializeField] private GameObject stepOnHeelEffect;
+    [SerializeField] private GameObject stepOnHeelToeEffect;
 
     public Action<DancePadHole> onTrigger;
     
@@ -32,28 +34,16 @@ public class DancePadHole : MonoBehaviour
     private LittleMoleController m_LittleMole;
     private int _lastScore;
     private int _triggerState;
-    private readonly List<BodyTrackerJoint> _curBodyTrackerJoints = new(2);
 
     void Start()
     {
         _isActive = false;
         if (m_LittleMole == null)
         {
-            m_LittleMole = this.GetComponentInChildren<LittleMoleController>();
+            m_LittleMole = GetComponentInChildren<LittleMoleController>();
         }
         m_LittleMole.OnStateIdle = SetHoleInactive;
-        m_Material = this.GetComponent<MeshRenderer>().material;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        var curBodyTrackerJoints = other.GetComponent<BodyTrackerJoint>();
-        if (curBodyTrackerJoints != null)
-        {
-            _curBodyTrackerJoints.Add(curBodyTrackerJoints);    
-        }
-
-        Debug.Log($"DancePadHole.OnTriggerEnter: other = {other.name}, JointCount = {_curBodyTrackerJoints.Count}");
+        m_Material = GetComponent<MeshRenderer>().material;
     }
 
     private void OnTriggerStay(Collider other)
@@ -62,34 +52,42 @@ public class DancePadHole : MonoBehaviour
         {
             return;
         }
-        
-        if (_curBodyTrackerJoints.Count == 0)
+
+        var curBodyTrackerJoints = other.GetComponent<BodyTrackerJoint>();
+        if (curBodyTrackerJoints == null)
         {
             return;
         }
         
-        foreach (var item in _curBodyTrackerJoints)
+        if (curBodyTrackerJoints.TrackingData.Action * 0.001f >= PlayerPrefManager.Instance.PlayerPrefData.steppingSensitivity)
         {
-            if ((item.bodyTrackerRole == BodyTrackerRole.LEFT_FOOT && DancePadsManager.LeftLegAction >= (int)BodyActionList.PxrTouchGround) ||
-                (item.bodyTrackerRole == BodyTrackerRole.RIGHT_FOOT && DancePadsManager.RightLegAction >= (int)BodyActionList.PxrTouchGround))
+            int actionValue = 0;
+            switch (curBodyTrackerJoints.bodyTrackerRole)
             {
-                if (item.TrackingData.Action * 0.001f >= PlayerPrefManager.Instance.PlayerPrefData.steppingSensitivity)
-                {
-                    _triggerState = 1;
-                    _lastScore = 0;
-
-                    SetHoleColor(item.bodyTrackerRole == BodyTrackerRole.LEFT_FOOT ? DancePadsManager.LeftLegAction : DancePadsManager.RightLegAction);
-                    if (LittleMole.Kickable)
-                    {
-                        PlayStepOnEffect();
-                        _lastScore = LittleMole.OnLittleMoleKicked();
-                    }
-
-                    onTrigger?.Invoke(this);
-                    
-                    Debug.Log($"DancePadHole.OnTriggerStay: other = {other.name}, LeftLegAction = {DancePadsManager.LeftLegAction}, RightLegAction = {DancePadsManager.RightLegAction}, FootAction = {item.TrackingData.Action}");
+                case BodyTrackerRole.LEFT_FOOT:
+                    actionValue = DancePadsManager.LeftLegAction;
                     break;
+                case BodyTrackerRole.RIGHT_FOOT:
+                    actionValue = DancePadsManager.RightLegAction;
+                    break;
+            }
+
+            if (actionValue >= (int)BodyActionList.PxrTouchGround)
+            {
+                _triggerState = 1;
+                _lastScore = 0;
+
+                SetHoleColor(actionValue);
+                PlayStepOnEffect(actionValue, PlayerPrefManager.Instance.PlayerPrefData.steppingEffect);
+                if (LittleMole.Kickable)
+                {
+                    PlayStepOnEffect();
+                    _lastScore = LittleMole.OnLittleMoleKicked();
                 }
+
+                onTrigger?.Invoke(this);
+                    
+                Debug.Log($"DancePadHole.OnTriggerStay: other = {other.name}, LeftLegAction = {DancePadsManager.LeftLegAction}, RightLegAction = {DancePadsManager.RightLegAction}, FootAction = {curBodyTrackerJoints.TrackingData.Action}");
             }
         }
     }
@@ -97,7 +95,6 @@ public class DancePadHole : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         _triggerState = 0;
-        _curBodyTrackerJoints.Remove(other.GetComponent<BodyTrackerJoint>());
         SetHoleColor(0);
         
         Debug.Log($"DancePadHole.OnTriggerExit: other = {other.name}");
@@ -123,21 +120,88 @@ public class DancePadHole : MonoBehaviour
         {
             m_Material.SetColor("_Color", new Color(0,0.425f, 0.165f));
         }
+        else if ((action & (int) BodyActionList.PxrTouchGroundToe) != 0 && (action & (int) BodyActionList.PxrTouchGround) != 0)
+        {
+            m_Material.SetColor("_Color", (Color.red + Color.blue) * .5f);
+        }
         else if ((action & (int) BodyActionList.PxrTouchGroundToe) != 0)
         {
-            m_Material.SetColor("_Color", Color.yellow);
+            m_Material.SetColor("_Color", Color.blue);
         }
         else if ((action & (int) BodyActionList.PxrTouchGround) != 0)
         {
-            m_Material.SetColor("_Color", new Color(0.726f, 0.3f, 0));
+            m_Material.SetColor("_Color", Color.red);
         }
     }
-    
+
     private void PlayStepOnEffect()
     {
         GameObject obj = Instantiate(stepOnEffect);
         obj.SetActive(true);
         obj.transform.position = transform.position + new Vector3(0, 0.1f, 0);
         obj.GetComponent<ParticleSystem>().Play();
+    }
+    
+    private void PlayStepOnEffect(int action, int effectType)
+    {
+        if (effectType == 0)
+        {
+            return;
+        }
+        
+        if (action == 0)
+        {
+            return;
+        }
+
+        if ((action & (int) BodyActionList.PxrTouchGroundToe) != 0 && (action & (int) BodyActionList.PxrTouchGround) != 0)
+        {
+            GameObject obj = Instantiate(stepOnHeelToeEffect);
+            obj.SetActive(true);
+            obj.transform.position = transform.position + new Vector3(0, 0.1f, 0);
+            obj.GetComponent<ParticleSystem>().Play();
+        }
+        else if ((action & (int) BodyActionList.PxrTouchGroundToe) != 0)
+        {
+            if (effectType == 1 || effectType == 3)
+            {
+                GameObject obj = Instantiate(stepOnToeEffect);
+                obj.SetActive(true);
+                obj.transform.position = transform.position + new Vector3(0, 0.1f, 0);
+                obj.GetComponent<ParticleSystem>().Play();
+            }
+        }
+        else if ((action & (int) BodyActionList.PxrTouchGround) != 0)
+        {
+            if (effectType == 1 || effectType == 2)
+            {
+                GameObject obj = Instantiate(stepOnHeelEffect);
+                obj.SetActive(true);
+                obj.transform.position = transform.position + new Vector3(0, 0.1f, 0);
+                obj.GetComponent<ParticleSystem>().Play();
+            }
+        }
+
+        // if (effectType == 1 || effectType == 3)
+        // {
+        //     if ((action & (int) BodyActionList.PxrTouchGroundToe) != 0)
+        //     {
+        //         GameObject obj = Instantiate(stepOnToeEffect);
+        //         obj.SetActive(true);
+        //         obj.transform.position = transform.position + new Vector3(0, 0.1f, 0);
+        //         obj.GetComponent<ParticleSystem>().Play();
+        //     }
+        // }
+        //
+        // if (effectType == 1 || effectType == 2)
+        // {
+        //     if ((action & (int) BodyActionList.PxrTouchGround) != 0)
+        //     {
+        //         GameObject obj = Instantiate(stepOnHeelEffect);
+        //         obj.SetActive(true);
+        //         obj.transform.position = transform.position + new Vector3(0, 0.1f, 0);
+        //         obj.GetComponent<ParticleSystem>().Play();
+        //     }
+        // }
     }
 }

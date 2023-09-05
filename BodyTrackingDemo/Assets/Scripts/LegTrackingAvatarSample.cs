@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Unity.XR.PXR;
 using UnityEngine;
@@ -159,6 +158,42 @@ namespace BodyTrackingDemo
             SkeletonLens[8] = (BonesList[16].position - BonesList[18].position).magnitude; //UpperArmLen
             SkeletonLens[9] = (BonesList[18].position - BonesList[20].position).magnitude; //LowerArmLen
             SkeletonLens[10] = 0.169f; //HandLen
+        
+            Debug.Log($"LegTrackingAvatarSample.FindBonesLength: NeckLen = {SkeletonLens[1]}, TorsoLen = {SkeletonLens[2]}, HipLen = {SkeletonLens[3]}, UpperLegLen = {SkeletonLens[4]}, LowerLegLen = {SkeletonLens[5]}, FootLen = {SkeletonLens[6]}, ShoulderLen = {SkeletonLens[7]}, UpperArmLen = {SkeletonLens[8]}, LowerArmLen = {SkeletonLens[9]}");
+        }
+
+        public void UpdateBonesLength(float scale = 1)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).localScale = Vector3.one * scale;
+            }
+
+            SkeletonLens[0] *= scale;
+            SkeletonLens[1] *= scale;
+            FindBonesLength();
+            // SetBonesLength();
+            Update();
+        }
+        
+        public void SetBonesLength()
+        {
+            BodyTrackingBoneLength boneLength = new BodyTrackingBoneLength();
+            boneLength.headLen = 100 * SkeletonLens[0];
+            boneLength.neckLen = 100 * SkeletonLens[1]; //6.1f;
+            boneLength.torsoLen = 100 * SkeletonLens[2]; //37.1f;
+            boneLength.hipLen = 100 * SkeletonLens[3]; //9.1f;
+            boneLength.upperLegLen = 100 * SkeletonLens[4]; //34.1f;
+            boneLength.lowerLegLen = 100 * SkeletonLens[5]; //40.1f;
+            boneLength.footLen = 100 * SkeletonLens[6]; //14.1f;
+            boneLength.shoulderLen = 100 * SkeletonLens[7]; //27.1f;
+            boneLength.upperArmLen = 100 * SkeletonLens[8]; //20.1f;
+            boneLength.lowerArmLen = 100 * SkeletonLens[9]; //22.1f;
+            boneLength.handLen = 100 * SkeletonLens[10];
+
+            int result = PXR_Input.SetBodyTrackingBoneLength(boneLength);
+        
+            Debug.Log($"LegTrackingAvatarSample.SetBonesLength: boneLength = {boneLength}, result = {result}");
         }
     }
 }

@@ -91,8 +91,9 @@ namespace BodyTrackingDemo
     {
         public int bodyTrackMode = 1;
         public float steppingSensitivity = .8f;
+        public float height = 175;
 
-        public int steppingEffect = 0;
+        public int steppingEffect = 1;
         public int mirrorMode = 0;
 
         public bool autoRecording;

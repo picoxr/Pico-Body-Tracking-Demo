@@ -1,18 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
+using Pico.Platform;
 using Unity.XR.PXR;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.XR;
 
 public class SimpleSample : MonoBehaviour
 {
-    [HideInInspector]
-    public List<Transform> BonesList = new List<Transform>(new Transform[(int)BodyTrackerRole.ROLE_NUM]);
+    [HideInInspector] public List<Transform> BonesList = new List<Transform>(new Transform[(int) BodyTrackerRole.ROLE_NUM]);
 
     public Dictionary<int, Quaternion> mRotationDic = new Dictionary<int, Quaternion>();
 
-    public float[] SkeletonLens= new float[11];
+    public float[] SkeletonLens = new float[11];
 
     public GameObject leftexplotionEffect;
     public GameObject rightexplotionEffect;
@@ -51,8 +48,25 @@ public class SimpleSample : MonoBehaviour
                 mRotationDic.Add(i, BonesList[i].rotation);
             }
         }
+
         lastLeftAction = 1000;
         lastRightAction = 1000;
+        
+        SportService.GetUserInfo().OnComplete((rsp) =>
+        {
+            if (!rsp.IsError)
+            {
+                var scale = rsp.Data.Stature * 1.04f / 175;
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    transform.GetChild(i).localScale = Vector3.one * scale;
+                }
+
+                FindBonesLength();
+            }
+            
+            SetBonesLength();
+        });
     }
 
     // Update is called once per frame
@@ -61,7 +75,9 @@ public class SimpleSample : MonoBehaviour
         mDisplayTime = PXR_System.GetPredictedDisplayTime();
         PXR_Input.GetBodyTrackingPose(mDisplayTime, ref mBodyTrackerResult);
         // InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).TryGetFeatureValue(CommonUsages.devicePosition, out Vector3 rightPotion);
+
         #region screen log
+
         // Debug.Log("Left contoller Position:" + rightPotion);
         // position.x = (float)mBodyTrackerResult.trackingdata[22].localpose.PosX;
         // position.y = (float)mBodyTrackerResult.trackingdata[22].localpose.PosY;
@@ -87,14 +103,14 @@ public class SimpleSample : MonoBehaviour
 
         #endregion
 
-        position.x = (float)mBodyTrackerResult.trackingdata[0].localpose.PosX;
-        position.y = (float)mBodyTrackerResult.trackingdata[0].localpose.PosY;
-        position.z = (float)mBodyTrackerResult.trackingdata[0].localpose.PosZ;
-        Debug.Log("[BodyTrackingMode] hip position: " + position);
+        position.x = (float) mBodyTrackerResult.trackingdata[0].localpose.PosX;
+        position.y = (float) mBodyTrackerResult.trackingdata[0].localpose.PosY;
+        position.z = (float) mBodyTrackerResult.trackingdata[0].localpose.PosZ;
+        // Debug.Log("[BodyTrackingMode] hip position: " + position);
 
-        rightFootPosition.x = (float)mBodyTrackerResult.trackingdata[11].localpose.PosX;
-        rightFootPosition.y = (float)mBodyTrackerResult.trackingdata[11].localpose.PosY;
-        rightFootPosition.z = (float)mBodyTrackerResult.trackingdata[11].localpose.PosZ;
+        rightFootPosition.x = (float) mBodyTrackerResult.trackingdata[11].localpose.PosX;
+        rightFootPosition.y = (float) mBodyTrackerResult.trackingdata[11].localpose.PosY;
+        rightFootPosition.z = (float) mBodyTrackerResult.trackingdata[11].localpose.PosZ;
         //Debug.Log("right foot position: " + rightFootPosition);
 
 
@@ -106,12 +122,13 @@ public class SimpleSample : MonoBehaviour
         //    //Debug.LogFormat("[SwiftDemoTest] Hips.positionY = {0}, Toes.positionY = {1}", BonesList[0].position.y, rightFootPosition.y);
         //    //Debug.Log("[SwiftDemoTest]diff position: " + DemoProcessController.Instance.DiffPosition);
         //}
-        if(DemoProcessController.loadavatar)
-        {
-            footPosition = new Vector3(0, rightFootPosition.y, 0);
-            DemoProcessController.loadavatar = false;
-        }
-        BonesList[0].position = position + DemoProcessController.Instance.DiffPosition - footPosition;
+        // if (DemoProcessController.loadavatar)
+        // {
+        //     footPosition = new Vector3(0, rightFootPosition.y, 0);
+        //     DemoProcessController.loadavatar = false;
+        // }
+
+        BonesList[0].position = position /*+ DemoProcessController.Instance.DiffPosition - footPosition*/;
         //Debug.Log("model hip: " + BonesList[0].position);
 
         //if (DemoProcessController.effectText.GetComponent<Text>().text == "Click A button to Disable/Enable stomping effects. Current stomping: Enabled.")
@@ -128,22 +145,22 @@ public class SimpleSample : MonoBehaviour
         //        effectnode.transform.position = BonesList[10].position;
         //    }
         //}
-        lastLeftAction = (int)mBodyTrackerResult.trackingdata[10].Action;
-        lastRightAction = (int)mBodyTrackerResult.trackingdata[11].Action;
+        lastLeftAction = (int) mBodyTrackerResult.trackingdata[10].Action;
+        lastRightAction = (int) mBodyTrackerResult.trackingdata[11].Action;
 
-        string frameContent = null;
+        // string frameContent = null;
         for (int i = 0; i < BonesList.Count; i++)
         {
             if (BonesList[i] != null)
             {
-                position.x = (float)mBodyTrackerResult.trackingdata[i].localpose.PosX;
-                position.y = (float)mBodyTrackerResult.trackingdata[i].localpose.PosY;
-                position.z = (float)mBodyTrackerResult.trackingdata[i].localpose.PosZ;
+                position.x = (float) mBodyTrackerResult.trackingdata[i].localpose.PosX;
+                position.y = (float) mBodyTrackerResult.trackingdata[i].localpose.PosY;
+                position.z = (float) mBodyTrackerResult.trackingdata[i].localpose.PosZ;
 
-                rotation.x = (float)mBodyTrackerResult.trackingdata[i].localpose.RotQx;
-                rotation.y = (float)mBodyTrackerResult.trackingdata[i].localpose.RotQy;
-                rotation.z = (float)mBodyTrackerResult.trackingdata[i].localpose.RotQz;
-                rotation.w = (float)mBodyTrackerResult.trackingdata[i].localpose.RotQw;
+                rotation.x = (float) mBodyTrackerResult.trackingdata[i].localpose.RotQx;
+                rotation.y = (float) mBodyTrackerResult.trackingdata[i].localpose.RotQy;
+                rotation.z = (float) mBodyTrackerResult.trackingdata[i].localpose.RotQz;
+                rotation.w = (float) mBodyTrackerResult.trackingdata[i].localpose.RotQw;
 
 
                 //BonesList[i].position = position;
@@ -153,20 +170,21 @@ public class SimpleSample : MonoBehaviour
                 if (i < 22)
                     DemoProcessController.Instance.SkeletonNodes[i].position = BonesList[i].position;
             }
-            frameContent += string.Format("{0}|{1},{2},{3}|{4},{5},{6},{7}\n",
-                i,
-                mBodyTrackerResult.trackingdata[i].localpose.PosX,
-                mBodyTrackerResult.trackingdata[i].localpose.PosY,
-                mBodyTrackerResult.trackingdata[i].localpose.PosZ,
-                mBodyTrackerResult.trackingdata[i].localpose.RotQx,
-                mBodyTrackerResult.trackingdata[i].localpose.RotQy,
-                mBodyTrackerResult.trackingdata[i].localpose.RotQz,
-                mBodyTrackerResult.trackingdata[i].localpose.RotQw);
+
+            // frameContent += string.Format("{0}|{1},{2},{3}|{4},{5},{6},{7}\n",
+            //     i,
+            //     mBodyTrackerResult.trackingdata[i].localpose.PosX,
+            //     mBodyTrackerResult.trackingdata[i].localpose.PosY,
+            //     mBodyTrackerResult.trackingdata[i].localpose.PosZ,
+            //     mBodyTrackerResult.trackingdata[i].localpose.RotQx,
+            //     mBodyTrackerResult.trackingdata[i].localpose.RotQy,
+            //     mBodyTrackerResult.trackingdata[i].localpose.RotQz,
+            //     mBodyTrackerResult.trackingdata[i].localpose.RotQw);
         }
-#if !UNITY_EDITOR
-        frameContent += (mBodyTrackerResult.trackingdata[3].velo[0] + "\n#\n");
-        System.IO.File.AppendAllText(logPath, frameContent);
-#endif
+// #if !UNITY_EDITOR
+//         frameContent += (mBodyTrackerResult.trackingdata[3].velo[0] + "\n#\n");
+//         System.IO.File.AppendAllText(logPath, frameContent);
+// #endif
 
     }
 
@@ -196,14 +214,16 @@ public class SimpleSample : MonoBehaviour
         BonesList[17] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_R/Arm_R").transform;
         BonesList[18] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_L/Arm_L/Arm_L_twist/ForeArm_L").transform;
         BonesList[19] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_R/Arm_R/Arm_R_twist/ForeArm_R").transform;
-        BonesList[20] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_L/Arm_L/Arm_L_twist/ForeArm_L/ForeArm_L_twist01/ForeArm_L_twist02/Hand_L").transform;
-        BonesList[21] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_R/Arm_R/Arm_R_twist/ForeArm_R/ForeArm_R_twist01/ForeArm_R_twist02/Hand_R").transform;
+        BonesList[20] = GameObject
+            .Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_L/Arm_L/Arm_L_twist/ForeArm_L/ForeArm_L_twist01/ForeArm_L_twist02/Hand_L").transform;
+        BonesList[21] = GameObject
+            .Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_R/Arm_R/Arm_R_twist/ForeArm_R/ForeArm_R_twist01/ForeArm_R_twist02/Hand_R").transform;
     }
 
     [ContextMenu("AutoFindAvatarBonesLenth")]
-    public void FindBonesLength()
+    public void FindBonesLength(float scale = 1)
     {
-        SkeletonLens[0] = 0.2f; //HeadLen
+        SkeletonLens[0] = 0.2f * scale; //HeadLen
         SkeletonLens[1] = (BonesList[12].position - BonesList[15].position).magnitude; //NeckLen
         SkeletonLens[2] = (BonesList[12].position - (BonesList[0].position + BonesList[3].position) * 0.5f).magnitude; //TorsoLen
         SkeletonLens[3] = ((BonesList[0].position + BonesList[3].position) * 0.5f - (BonesList[1].position + BonesList[2].position) * 0.5f).magnitude; //HipLen
@@ -213,8 +233,28 @@ public class SimpleSample : MonoBehaviour
         SkeletonLens[7] = (BonesList[16].position - BonesList[17].position).magnitude; //ShoulderLen
         SkeletonLens[8] = (BonesList[16].position - BonesList[18].position).magnitude; //UpperArmLen
         SkeletonLens[9] = (BonesList[18].position - BonesList[20].position).magnitude; //LowerArmLen
-        SkeletonLens[10] = 0.169f; //HandLen
+        SkeletonLens[10] = 0.169f * scale; //HandLen
+        
+        Debug.Log($"SimpleSample.SetBonesLength: scale = {scale}, NeckLen = {SkeletonLens[1]}, TorsoLen = {SkeletonLens[2]}");
     }
 
+    private void SetBonesLength()
+    {
+        BodyTrackingBoneLength boneLength = new BodyTrackingBoneLength();
+        boneLength.headLen = 100 * SkeletonLens[0];
+        boneLength.neckLen = 100 * SkeletonLens[1]; //6.1f;
+        boneLength.torsoLen = 100 * SkeletonLens[2]; //37.1f;
+        boneLength.hipLen = 100 * SkeletonLens[3]; //9.1f;
+        boneLength.upperLegLen = 100 * SkeletonLens[4]; //34.1f;
+        boneLength.lowerLegLen = 100 * SkeletonLens[5]; //40.1f;
+        boneLength.footLen = 100 * SkeletonLens[6]; //14.1f;
+        boneLength.shoulderLen = 100 * SkeletonLens[7]; //27.1f;
+        boneLength.upperArmLen = 100 * SkeletonLens[8]; //20.1f;
+        boneLength.lowerArmLen = 100 * SkeletonLens[9]; //22.1f;
+        boneLength.handLen = 100 * SkeletonLens[10];
 
+        int result = PXR_Input.SetBodyTrackingBoneLength(boneLength);
+        
+        Debug.Log($"SimpleSample.SetBonesLength: boneLength = {boneLength}, result = {result}");
+    }
 }
