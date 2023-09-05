@@ -15,6 +15,9 @@ public class DancePadsManager : MonoBehaviour
     public int LeftLegAction { get; private set; }
     public int RightLegAction{ get; private set; }
 
+    public int LeftLegLastAction { get; private set; }
+    public int RightLegLastAction{ get; private set; }
+    
     //LittleMole game related
     private bool m_isDancePadGamePlaying;  //Judge whether the dance pad game is playing
     private int m_TotalScore = 0;
@@ -84,10 +87,14 @@ public class DancePadsManager : MonoBehaviour
     /// <param name="rightFoot">Avatar right foot position</param>
     /// <param name="leftStepOn">Left foot touch gournd return value, 1 means step on the ground, 0 means not</param>
     /// <param name="rightStepOn">Right foot touch gournd return value, 1 means step on the ground, 0 means not</param>
-    public void DancePadHoleStepOnDetection(Vector3 leftFoot, Vector3 rightFoot, int leftStepOn = 1, int rightStepOn = 1)
+    /// <param name="lastLeftStepOn"></param>
+    /// <param name="lastRightStepOn"></param>
+    public void DancePadHoleStepOnDetection(Vector3 leftFoot, Vector3 rightFoot, int leftStepOn = 1, int rightStepOn = 1 , int lastLeftStepOn = 1, int lastRightStepOn = 1)
     {
         LeftLegAction = leftStepOn;
         RightLegAction = rightStepOn;
+        LeftLegLastAction = lastLeftStepOn;
+        RightLegLastAction = lastRightStepOn;
         // for (int i = 0; i < m_DancePadHoleCount; i++)
         // {
         //     //detect left foot step on action
