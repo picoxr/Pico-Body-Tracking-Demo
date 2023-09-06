@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Pico.Platform;
 using Pico.Platform.Models;
@@ -19,14 +20,13 @@ namespace BodyTrackingDemo
         public GameObject DisplaySettingUI;
         public GameObject RecorderUI;
         public GameObject MirrorObj;
-        public GameObject UICanvas;
-        public GameObject Enviroment;
         public GameObject XROrigin;
         public GameObject Avatar;
+        
+        [SerializeField] private GameObject stepOnToeEffect;
+        [SerializeField] private GameObject stepOnHeelEffect;
 
         [HideInInspector] public LegTrackingDemoState m_CurrentLegTrackingDemoState;
-
-
 
         private GameObject m_AvatarObj;
         private Transform m_AvatarLeftFoot;
@@ -39,9 +39,6 @@ namespace BodyTrackingDemo
         private bool m_SwiftCalibratedState;
         private LegTrackingAvatarSample _legTrackingAvatarSample;
         private float _startFootHeight;
-        // private float _startEnvironmentY;
-        // private float _startDancePadY;
-        // private float _startCanvasY;
         private float _startXROriginY;
         
         public enum LegTrackingDemoState
@@ -58,12 +55,8 @@ namespace BodyTrackingDemo
         {
             Instance = this;
 
-            // _startCanvasY = UICanvas.transform.position.y;
-            // _startEnvironmentY = Enviroment.transform.position.y;
-            // _startDancePadY = DancePadManager.transform.position.y;
             _startXROriginY = XROrigin.transform.localPosition.y;
 
-            // m_CurrentLegTrackingDemoState = LegTrackingDemoState.START;
             MirrorObj.SetActive(false);
             DancePadUI.SetActive(false);
             MotionTrackerUI.SetActive(false);
@@ -111,17 +104,45 @@ namespace BodyTrackingDemo
 
                 m_LeftFootStepOnAction = _legTrackingAvatarSample.LeftTouchGroundAction;
                 m_RightFootStepOnAction = _legTrackingAvatarSample.RightTouchGroundAction;
-                // if (m_LeftFootStepOnAction == 1 || m_RightFootStepOnAction == 1)
+                DancePadManager.DancePadHoleStepOnDetection(m_AvatarLeftFoot.position, m_AvatarRightFoot.position, m_LeftFootStepOnAction, m_RightFootStepOnAction, m_LeftFootStepOnLastAction, m_RightFootStepOnLastAction);
+
+                if (_legTrackingAvatarSample.LeftToeTouchGroundAction * 0.001f >= PlayerPrefManager.Instance.PlayerPrefData.steppingSensitivity)
                 {
-                    DancePadManager.DancePadHoleStepOnDetection(m_AvatarLeftFoot.position, m_AvatarRightFoot.position, m_LeftFootStepOnAction, m_RightFootStepOnAction, m_LeftFootStepOnLastAction, m_RightFootStepOnLastAction);
+                    if ((m_LeftFootStepOnAction & (int)BodyActionList.PxrTouchGround) != 0 && (m_LeftFootStepOnLastAction & (int)BodyActionList.PxrTouchGround) ==0)
+                    {
+                        PlayStepOnEffect(m_LeftFootStepOnAction, PlayerPrefManager.Instance.PlayerPrefData.steppingEffect, _legTrackingAvatarSample.LeftFootBone.position);
+                        m_LeftFootStepOnLastAction |= (int)BodyActionList.PxrTouchGround;
+                    }
+                    
+                    if ((m_LeftFootStepOnAction & (int)BodyActionList.PxrTouchGroundToe) != 0 && (m_LeftFootStepOnLastAction & (int)BodyActionList.PxrTouchGroundToe) ==0)
+                    {
+                        PlayStepOnEffect(m_LeftFootStepOnAction, PlayerPrefManager.Instance.PlayerPrefData.steppingEffect, _legTrackingAvatarSample.LeftFootToeBone.position);
+                        m_LeftFootStepOnLastAction |= (int)BodyActionList.PxrTouchGroundToe;
+                    }
                 }
-                m_LeftFootStepOnLastAction = _legTrackingAvatarSample.LeftTouchGroundAction;
-                m_RightFootStepOnLastAction = _legTrackingAvatarSample.RightTouchGroundAction;
-                
-#if UNITY_EDITOR
-                //For editor test only
-                DancePadManager.DancePadHoleStepOnDetection(GameObject.Find("GameObject").transform.position, GameObject.Find("GameObjectRight").transform.position);
-#endif
+                else
+                {
+                    m_LeftFootStepOnLastAction &= m_LeftFootStepOnAction;
+                }
+
+                if (_legTrackingAvatarSample.RightToeTouchGroundAction * 0.001f >= PlayerPrefManager.Instance.PlayerPrefData.steppingSensitivity)
+                {
+                    if ((m_RightFootStepOnAction & (int)BodyActionList.PxrTouchGround) != 0 && (m_RightFootStepOnLastAction & (int)BodyActionList.PxrTouchGround) ==0)
+                    {
+                        PlayStepOnEffect(m_RightFootStepOnAction, PlayerPrefManager.Instance.PlayerPrefData.steppingEffect, _legTrackingAvatarSample.RightFootBone.position);
+                        m_RightFootStepOnLastAction |= (int)BodyActionList.PxrTouchGround;
+                    }
+
+                    if ((m_RightFootStepOnAction & (int)BodyActionList.PxrTouchGroundToe) != 0 && (m_RightFootStepOnLastAction & (int)BodyActionList.PxrTouchGroundToe) ==0)
+                    {
+                        PlayStepOnEffect(m_RightFootStepOnAction, PlayerPrefManager.Instance.PlayerPrefData.steppingEffect, _legTrackingAvatarSample.RightFootToeBone.position);
+                        m_RightFootStepOnLastAction |= (int)BodyActionList.PxrTouchGroundToe;
+                    }
+                }
+                else
+                {
+                    m_RightFootStepOnLastAction &= m_RightFootStepOnAction;
+                }
             }
         }
 
@@ -146,7 +167,7 @@ namespace BodyTrackingDemo
             }
         }
 
-        public void StartGame()
+        private void StartGame(float height)
         {
             m_CurrentLegTrackingDemoState = LegTrackingDemoState.CALIBRATED;
 
@@ -157,7 +178,7 @@ namespace BodyTrackingDemo
             DisplaySettingUI.SetActive(true);
             RecorderUI.SetActive(true);
             DancePadManager.gameObject.SetActive(true);
-            LoadAvatar();
+            LoadAvatar(height);
         }
 
         public void AlignGround()
@@ -169,20 +190,10 @@ namespace BodyTrackingDemo
             }
             
             _startFootHeight = Mathf.Min(m_AvatarLeftFoot.transform.position.y, m_AvatarRightFoot.transform.position.y);
-            
-            // var canvasPos = UICanvas.transform.position;
-            // var environmentPos = Enviroment.transform.position;
-            // var dancePadPos = DancePadManager.transform.position;
+
             var xrOriginPos = XROrigin.transform.localPosition;
 
-            // canvasPos.y = _startCanvasY + _startFootHeight - _legTrackingAvatarSample.soleHeight;
-            // environmentPos.y = _startEnvironmentY + _startFootHeight - _legTrackingAvatarSample.soleHeight;
-            // dancePadPos.y = _startDancePadY + _startFootHeight - _legTrackingAvatarSample.soleHeight;
             xrOriginPos.y = _startXROriginY + -(_startFootHeight - _legTrackingAvatarSample.soleHeight); 
-
-            // UICanvas.transform.position = canvasPos;
-            // Enviroment.transform.position = environmentPos;
-            // DancePadManager.transform.position = dancePadPos;
 
             XROrigin.transform.localPosition = xrOriginPos;
             _startXROriginY = xrOriginPos.y;
@@ -191,44 +202,44 @@ namespace BodyTrackingDemo
         }
         
         [ContextMenu("LoadAvatar")]
-        private void LoadAvatar()
+        public void StartGame()
         {
-#if UNITY_EDITOR
-            LoadAvatar(PlayerPrefManager.Instance.PlayerPrefData.height);
-            //return;
-#endif
-            SportService.GetUserInfo().OnComplete((rsp) =>
+            try
             {
-                if (!rsp.IsError)
+                
+                var task = SportService.GetUserInfo();
+                if (task != null)
                 {
-                    PlayerPrefManager.Instance.PlayerPrefData.height = rsp.Data.Stature;
-                    Debug.LogWarning($"SportService.GetUserInfo: Success, Height = {rsp.Data.Stature}");
+                    task.OnComplete((rsp) =>
+                    {
+                        if (!rsp.IsError)
+                        {
+                            PlayerPrefManager.Instance.PlayerPrefData.height = rsp.Data.Stature;
+                            Debug.LogWarning($"SportService.GetUserInfo: Success, Height = {rsp.Data.Stature}");
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"SportService.GetUserInfo: Failed, msg = {rsp.Error}");
+                        }
+                
+                        StartGame(PlayerPrefManager.Instance.PlayerPrefData.height);
+                    });    
                 }
                 else
                 {
-                    Debug.LogWarning($"SportService.GetUserInfo: Failed, msg = {rsp.Error}");
+                    StartGame(PlayerPrefManager.Instance.PlayerPrefData.height);
                 }
-                
-                LoadAvatar(PlayerPrefManager.Instance.PlayerPrefData.height);
-            });
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning(e);
+                StartGame(PlayerPrefManager.Instance.PlayerPrefData.height);
+            }
         }
 
         private void LoadAvatar(float height)
         {
-            // if (m_AvatarObj != null)
-            // {
-            //     GameObject temp = m_AvatarObj;
-            //     m_AvatarObj = null;
-            //     GameObject.Destroy(temp);
-            // }
-
             m_AvatarObj = Avatar;
-            // current logic use only one Avatar model for each gender.
-            // string avatar_name = "ClothRun_175 Variant LegTracking";
-            //
-            // GameObject avatarObj = Resources.Load<GameObject>("Prefabs/" + avatar_name);
-            // m_AvatarObj = Instantiate(avatarObj, XROrigin.transform);
-            
             m_AvatarObj.transform.localScale = Vector3.one;
             m_AvatarObj.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             m_AvatarObj.SetActive(true);
@@ -267,19 +278,8 @@ namespace BodyTrackingDemo
             m_SwiftCalibratedState = calibrated == 1;
             if (m_SwiftCalibratedState)
             {
-                m_CurrentLegTrackingDemoState = LegTrackingDemoState.CALIBRATED;
-
-                //load avatar
-                MirrorObj.SetActive(true);
-                DancePadUI.SetActive(true);
-                MotionTrackerUI.SetActive(true);
-                DisplaySettingUI.SetActive(true);
-                RecorderUI.SetActive(true);
-                
-                DancePadManager.gameObject.SetActive(true);
                 LegTrackingUIManager.startMenu.SetActive(false);
-                
-                LoadAvatar();
+                StartGame();
                 Debug.Log($"LegTrackingModeSceneManager.UpdateFitnessBandState: calibrated = {calibrated}");
             }
             else
@@ -298,6 +298,43 @@ namespace BodyTrackingDemo
                 LegTrackingUIManager.btnContinue.gameObject.SetActive(connectState.num == 2);
                     
                 Debug.Log($"LegTrackingModeSceneManager.UpdateFitnessBandState: connectedNum = {connectState.num}");
+            }
+        }
+        
+        private void PlayStepOnEffect(int action, int effectType, Vector3 pos)
+        {
+            if (effectType == 0)
+            {
+                return;
+            }
+            
+            if (action == 0)
+            {
+                return;
+            }
+
+            if (effectType == 1 || effectType == 3)
+            {
+                if ((action & (int) BodyActionList.PxrTouchGroundToe) != 0)
+                {
+                    GameObject obj = Instantiate(stepOnToeEffect);
+                    obj.SetActive(true);
+                    obj.transform.position = pos + new Vector3(0, -0.02f, 0);
+                    obj.GetComponent<ParticleSystem>().Play();
+                    Debug.Log($"LegTrackingModeSceneManager.PlayStepOnEffect: action = {action}, effectType = {effectType}, pos = {pos}");
+                }
+            }
+            
+            if (effectType == 1 || effectType == 2)
+            {
+                if ((action & (int) BodyActionList.PxrTouchGround) != 0)
+                {
+                    GameObject obj = Instantiate(stepOnHeelEffect);
+                    obj.SetActive(true);
+                    obj.transform.position = pos + new Vector3(0, -.08f, 0);
+                    obj.GetComponent<ParticleSystem>().Play();
+                    Debug.Log($"LegTrackingModeSceneManager.PlayStepOnEffect: action = {action}, effectType = {effectType}, pos = {pos}");
+                }
             }
         }
     }

@@ -712,12 +712,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 12
   stepOnEffect: {fileID: 395446522}
-  stepOnToeEffect: {fileID: 7272320121975331480, guid: 0793c0b74a6e78a42885cfc18dd69cce,
-    type: 3}
-  stepOnHeelEffect: {fileID: 7272320121975331480, guid: 5c89f9456c8526e4da41eb627083be5c,
-    type: 3}
-  stepOnHeelToeEffect: {fileID: 7272320121975331480, guid: 86b9e882e7ddd7543855962c067e684b,
-    type: 3}
 --- !u!54 &44600482
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1967,12 +1961,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 17
   stepOnEffect: {fileID: 395446522}
-  stepOnToeEffect: {fileID: 7272320121975331480, guid: 0793c0b74a6e78a42885cfc18dd69cce,
-    type: 3}
-  stepOnHeelEffect: {fileID: 7272320121975331480, guid: 5c89f9456c8526e4da41eb627083be5c,
-    type: 3}
-  stepOnHeelToeEffect: {fileID: 7272320121975331480, guid: 86b9e882e7ddd7543855962c067e684b,
-    type: 3}
 --- !u!54 &135425274
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3833,12 +3821,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 24
   stepOnEffect: {fileID: 395446522}
-  stepOnToeEffect: {fileID: 7272320121975331480, guid: 0793c0b74a6e78a42885cfc18dd69cce,
-    type: 3}
-  stepOnHeelEffect: {fileID: 7272320121975331480, guid: 5c89f9456c8526e4da41eb627083be5c,
-    type: 3}
-  stepOnHeelToeEffect: {fileID: 7272320121975331480, guid: 86b9e882e7ddd7543855962c067e684b,
-    type: 3}
 --- !u!54 &332775112
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4660,12 +4642,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 1
   stepOnEffect: {fileID: 395446522}
-  stepOnToeEffect: {fileID: 7272320121975331480, guid: 0793c0b74a6e78a42885cfc18dd69cce,
-    type: 3}
-  stepOnHeelEffect: {fileID: 7272320121975331480, guid: 5c89f9456c8526e4da41eb627083be5c,
-    type: 3}
-  stepOnHeelToeEffect: {fileID: 7272320121975331480, guid: 86b9e882e7ddd7543855962c067e684b,
-    type: 3}
 --- !u!54 &414949952
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7051,10 +7027,12 @@ MonoBehaviour:
   DisplaySettingUI: {fileID: 1390477811}
   RecorderUI: {fileID: 254011704}
   MirrorObj: {fileID: 477175154}
-  UICanvas: {fileID: 1794335996}
-  Enviroment: {fileID: 1929055534}
   XROrigin: {fileID: 580984053}
   Avatar: {fileID: 647875694}
+  stepOnToeEffect: {fileID: 7272320121975331480, guid: 0793c0b74a6e78a42885cfc18dd69cce,
+    type: 3}
+  stepOnHeelEffect: {fileID: 7272320121975331480, guid: c897477e08f752142bcbc277a98a9f6c,
+    type: 3}
   m_CurrentLegTrackingDemoState: 0
 --- !u!1 &766010985
 GameObject:
@@ -9896,12 +9874,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 8
   stepOnEffect: {fileID: 395446522}
-  stepOnToeEffect: {fileID: 7272320121975331480, guid: 0793c0b74a6e78a42885cfc18dd69cce,
-    type: 3}
-  stepOnHeelEffect: {fileID: 7272320121975331480, guid: 5c89f9456c8526e4da41eb627083be5c,
-    type: 3}
-  stepOnHeelToeEffect: {fileID: 7272320121975331480, guid: 86b9e882e7ddd7543855962c067e684b,
-    type: 3}
 --- !u!54 &1094017812
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11865,12 +11837,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 4
   stepOnEffect: {fileID: 395446522}
-  stepOnToeEffect: {fileID: 7272320121975331480, guid: 0793c0b74a6e78a42885cfc18dd69cce,
-    type: 3}
-  stepOnHeelEffect: {fileID: 7272320121975331480, guid: 5c89f9456c8526e4da41eb627083be5c,
-    type: 3}
-  stepOnHeelToeEffect: {fileID: 7272320121975331480, guid: 86b9e882e7ddd7543855962c067e684b,
-    type: 3}
 --- !u!54 &1243706914
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14310,12 +14276,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 5
   stepOnEffect: {fileID: 395446522}
-  stepOnToeEffect: {fileID: 7272320121975331480, guid: 0793c0b74a6e78a42885cfc18dd69cce,
-    type: 3}
-  stepOnHeelEffect: {fileID: 7272320121975331480, guid: 5c89f9456c8526e4da41eb627083be5c,
-    type: 3}
-  stepOnHeelToeEffect: {fileID: 7272320121975331480, guid: 86b9e882e7ddd7543855962c067e684b,
-    type: 3}
 --- !u!54 &1471471280
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -19937,6 +19897,7 @@ GameObject:
   - component: {fileID: 1917461620}
   - component: {fileID: 1917461619}
   - component: {fileID: 1917461621}
+  - component: {fileID: 1917461622}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -20120,6 +20081,20 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   m_HasMigratedActions: 1
+--- !u!114 &1917461622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917461616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee8dd1042c84fa4fa2411e8c4ebcc01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gradientTime: 2.5
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &1919877247
 GameObject:
   m_ObjectHideFlags: 0
@@ -20255,12 +20230,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1919877247}
   m_CullTransparentMesh: 1
---- !u!1 &1929055534 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7650144203950930352, guid: fc61e025696888d40a1b8124de54bd74,
-    type: 3}
-  m_PrefabInstance: {fileID: 50690252}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1929975081
 GameObject:
   m_ObjectHideFlags: 0
@@ -22285,12 +22254,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 16
   stepOnEffect: {fileID: 395446522}
-  stepOnToeEffect: {fileID: 7272320121975331480, guid: 0793c0b74a6e78a42885cfc18dd69cce,
-    type: 3}
-  stepOnHeelEffect: {fileID: 7272320121975331480, guid: 5c89f9456c8526e4da41eb627083be5c,
-    type: 3}
-  stepOnHeelToeEffect: {fileID: 7272320121975331480, guid: 86b9e882e7ddd7543855962c067e684b,
-    type: 3}
 --- !u!54 &2094226139
 Rigidbody:
   m_ObjectHideFlags: 0

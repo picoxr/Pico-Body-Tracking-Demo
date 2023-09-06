@@ -16,8 +16,15 @@ namespace BodyTrackingDemo
         public float[] SkeletonLens = new float[11];
 
         [HideInInspector] public int LeftTouchGroundAction;
-
         [HideInInspector] public int RightTouchGroundAction;
+        [HideInInspector] public int LeftToeTouchGroundAction;
+        [HideInInspector] public int RightToeTouchGroundAction;
+        
+        public Transform LeftFootBone => BonesList[7];
+        public Transform RightFootBone => BonesList[8];
+        
+        public Transform LeftFootToeBone => BonesList[10];
+        public Transform RightFootToeBone => BonesList[11];
 
         //public Text InfoText;
         private BodyTrackerResult m_BodyTrackerResult;
@@ -101,11 +108,13 @@ namespace BodyTrackingDemo
             //update left and right feet actions
             LeftTouchGroundAction = (int) m_BodyTrackerResult.trackingdata[7].Action;
             RightTouchGroundAction = (int) m_BodyTrackerResult.trackingdata[8].Action;
+            LeftToeTouchGroundAction = (int) m_BodyTrackerResult.trackingdata[10].Action;
+            RightToeTouchGroundAction = (int) m_BodyTrackerResult.trackingdata[11].Action;
 
-            if (m_BodyTrackerResult.trackingdata[7].Action == 1 ||
-                m_BodyTrackerResult.trackingdata[8].Action == 1 ||
-                m_BodyTrackerResult.trackingdata[10].Action == 1 ||
-                m_BodyTrackerResult.trackingdata[11].Action == 1)
+            if (m_BodyTrackerResult.trackingdata[7].Action >= 1 ||
+                m_BodyTrackerResult.trackingdata[8].Action >= 1 ||
+                m_BodyTrackerResult.trackingdata[10].Action >= 1 ||
+                m_BodyTrackerResult.trackingdata[11].Action >= 1)
             {
                 Debug.Log($"LegTrackingAvatarSample.Update: Action7 = {m_BodyTrackerResult.trackingdata[7].Action}, Action8 = {m_BodyTrackerResult.trackingdata[8].Action}, Action10 = {m_BodyTrackerResult.trackingdata[10].Action}, Action11 = {m_BodyTrackerResult.trackingdata[11].Action},");
             }
