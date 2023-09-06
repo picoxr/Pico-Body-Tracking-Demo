@@ -16,9 +16,6 @@ public class DancePadHole : MonoBehaviour
     
     [SerializeField] private DirectionType direction;
     [SerializeField] private GameObject stepOnEffect;
-    [SerializeField] private GameObject stepOnToeEffect;
-    [SerializeField] private GameObject stepOnHeelEffect;
-    [SerializeField] private GameObject stepOnHeelToeEffect;
 
     public Action<DancePadHole> onTrigger;
     
@@ -78,7 +75,6 @@ public class DancePadHole : MonoBehaviour
                 _lastScore = 0;
 
                 SetHoleColor(actionValue);
-                PlayStepOnEffect(actionValue, PlayerPrefManager.Instance.PlayerPrefData.steppingEffect);
                 if (LittleMole.Kickable)
                 {
                     PlayStepOnEffect();
@@ -140,68 +136,5 @@ public class DancePadHole : MonoBehaviour
         obj.SetActive(true);
         obj.transform.position = transform.position + new Vector3(0, 0.1f, 0);
         obj.GetComponent<ParticleSystem>().Play();
-    }
-    
-    private void PlayStepOnEffect(int action, int effectType)
-    {
-        if (effectType == 0)
-        {
-            return;
-        }
-        
-        if (action == 0)
-        {
-            return;
-        }
-
-        if ((action & (int) BodyActionList.PxrTouchGroundToe) != 0 && (action & (int) BodyActionList.PxrTouchGround) != 0)
-        {
-            GameObject obj = Instantiate(stepOnHeelToeEffect);
-            obj.SetActive(true);
-            obj.transform.position = transform.position + new Vector3(0, 0.1f, 0);
-            obj.GetComponent<ParticleSystem>().Play();
-        }
-        else if ((action & (int) BodyActionList.PxrTouchGroundToe) != 0)
-        {
-            if (effectType == 1 || effectType == 3)
-            {
-                GameObject obj = Instantiate(stepOnToeEffect);
-                obj.SetActive(true);
-                obj.transform.position = transform.position + new Vector3(0, 0.1f, 0);
-                obj.GetComponent<ParticleSystem>().Play();
-            }
-        }
-        else if ((action & (int) BodyActionList.PxrTouchGround) != 0)
-        {
-            if (effectType == 1 || effectType == 2)
-            {
-                GameObject obj = Instantiate(stepOnHeelEffect);
-                obj.SetActive(true);
-                obj.transform.position = transform.position + new Vector3(0, 0.1f, 0);
-                obj.GetComponent<ParticleSystem>().Play();
-            }
-        }
-
-        // if (effectType == 1 || effectType == 3)
-        // {
-        //     if ((action & (int) BodyActionList.PxrTouchGroundToe) != 0)
-        //     {
-        //         GameObject obj = Instantiate(stepOnToeEffect);
-        //         obj.SetActive(true);
-        //         obj.transform.position = transform.position + new Vector3(0, 0.1f, 0);
-        //         obj.GetComponent<ParticleSystem>().Play();
-        //     }
-        // }
-        //
-        // if (effectType == 1 || effectType == 2)
-        // {
-        //     if ((action & (int) BodyActionList.PxrTouchGround) != 0)
-        //     {
-        //         GameObject obj = Instantiate(stepOnHeelEffect);
-        //         obj.SetActive(true);
-        //         obj.transform.position = transform.position + new Vector3(0, 0.1f, 0);
-        //         obj.GetComponent<ParticleSystem>().Play();
-        //     }
-        // }
     }
 }
