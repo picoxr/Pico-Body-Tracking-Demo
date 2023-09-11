@@ -232,7 +232,10 @@ namespace BodyTrackingDemo
             DancePadUI.SetActive(true);
             MotionTrackerUI.SetActive(true);
             DisplaySettingUI.SetActive(true);
+#if RECORDER
             RecorderUI.SetActive(true);
+#endif
+            
             DancePadManager.gameObject.SetActive(true);
 
             m_CurrentLegTrackingDemoState = LegTrackingDemoState.PLAYING;
