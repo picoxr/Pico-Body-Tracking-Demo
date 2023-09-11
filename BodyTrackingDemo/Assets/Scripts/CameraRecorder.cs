@@ -1,8 +1,11 @@
 using System.Collections;
+using UnityEngine;
+
+#if RECORDER
 using NatSuite.Recorders;
 using NatSuite.Recorders.Clocks;
 using NatSuite.Recorders.Inputs;
-using UnityEngine;
+#endif
 
 namespace BodyTrackingDemo
 {
@@ -14,10 +17,12 @@ namespace BodyTrackingDemo
         public bool recordMicrophone;
         public Camera targetCamera;
 
+        private AudioSource _microphoneSource;
+#if RECORDER
         private AudioInput _audioInput;
         private CameraInput _cameraInput;
-        private AudioSource _microphoneSource;
         private MP4Recorder _recorder;
+#endif
 
         public bool IsRecording { get; private set; }
 
@@ -52,13 +57,14 @@ namespace BodyTrackingDemo
             var frameRate = 60;
             var sampleRate = recordMicrophone ? AudioSettings.outputSampleRate : 0;
             var channelCount = recordMicrophone ? (int) AudioSettings.speakerMode : 0;
-
+#if RECORDER
             var clock = new RealtimeClock();
             _recorder = new MP4Recorder(videoWidth, videoHeight, frameRate, sampleRate, channelCount, audioBitRate: 96_000);
             _cameraInput = new CameraInput(_recorder, clock, targetCamera);
             _audioInput = recordMicrophone ? new AudioInput(_recorder, clock, _microphoneSource, true) : null;
             // Unmute microphone
             _microphoneSource.mute = _audioInput == null;
+#endif
 
             IsRecording = true;
             
@@ -74,11 +80,13 @@ namespace BodyTrackingDemo
                 // Mute microphone
                 _microphoneSource.mute = true;
                 // Stop recording
+#if RECORDER
                 _audioInput?.Dispose();
                 _cameraInput.Dispose();
                 var path = await _recorder.FinishWriting();
                 // Playback recording
                 Debug.Log($"Saved recording to: {path}");
+#endif
 // #if !UNITY_STANDALONE
 //                 Handheld.PlayFullScreenMovie($"file://{path}");
 // #endif
