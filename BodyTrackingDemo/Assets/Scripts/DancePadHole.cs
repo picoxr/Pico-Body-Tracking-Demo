@@ -16,6 +16,8 @@ public class DancePadHole : MonoBehaviour
     
     [SerializeField] private DirectionType direction;
     [SerializeField] private GameObject stepOnEffect;
+    [SerializeField] private AudioSource scoreSFX;
+    [SerializeField] private AudioSource punchPadSFX;
 
     public Action<DancePadHole> onTrigger;
     
@@ -81,6 +83,10 @@ public class DancePadHole : MonoBehaviour
                     _lastScore = LittleMole.OnLittleMoleKicked();
                 }
 
+                // var sfx = Instantiate(punchPadSFX, transform.position, Quaternion.identity);
+                // sfx.gameObject.SetActive(true);
+                // sfx.Play();
+                
                 onTrigger?.Invoke(this);
                     
                 Debug.Log($"DancePadHole.OnTriggerStay: other = {other.name}, LeftLegAction = {DancePadsManager.LeftLegAction}, RightLegAction = {DancePadsManager.RightLegAction}, FootAction = {curBodyTrackerJoints.TrackingData.Action}");
@@ -132,9 +138,14 @@ public class DancePadHole : MonoBehaviour
 
     private void PlayStepOnEffect()
     {
-        GameObject obj = Instantiate(stepOnEffect);
+        var targetPos = transform.position + new Vector3(0, 0.1f, 0);
+        
+        GameObject obj = Instantiate(stepOnEffect, targetPos, stepOnEffect.transform.rotation);
         obj.SetActive(true);
-        obj.transform.position = transform.position + new Vector3(0, 0.1f, 0);
         obj.GetComponent<ParticleSystem>().Play();
+        
+        var sfx = Instantiate(scoreSFX, targetPos, Quaternion.identity);
+        sfx.gameObject.SetActive(true);
+        sfx.Play();
     }
 }

@@ -19,7 +19,7 @@ public class DancePadsManager : MonoBehaviour
     public int RightLegLastAction{ get; private set; }
     
     //LittleMole game related
-    private bool m_isDancePadGamePlaying;  //Judge whether the dance pad game is playing
+    public bool IsDancePadGamePlaying { get; private set; }
     private int m_TotalScore = 0;
 
     // Start is called before the first frame update
@@ -33,7 +33,7 @@ public class DancePadsManager : MonoBehaviour
     {
         if (!hasFocus)
         {
-            if (m_isDancePadGamePlaying)
+            if (IsDancePadGamePlaying)
             {
                 OnPauseDancePadGame();
             }
@@ -157,7 +157,7 @@ public class DancePadsManager : MonoBehaviour
 
     public void OnStartDancePadGame()
     {
-        m_isDancePadGamePlaying = true;
+        IsDancePadGamePlaying = true;
         m_TotalScore = 0;
         CancelInvoke();
         InvokeRepeating("ActiveDancePadHoleRandomly", 2.0f, 1.0f);
@@ -169,7 +169,7 @@ public class DancePadsManager : MonoBehaviour
 
     public void OnPauseDancePadGame()
     {
-        m_isDancePadGamePlaying = false;
+        IsDancePadGamePlaying = false;
         CancelInvoke();
         DancePadUI.GameStart.interactable = false;
         DancePadUI.GamePause.interactable = false;
@@ -179,7 +179,7 @@ public class DancePadsManager : MonoBehaviour
 
     public void OnContinueDancePadGame()
     {
-        m_isDancePadGamePlaying = true;
+        IsDancePadGamePlaying = true;
         CancelInvoke();
         InvokeRepeating("ActiveDancePadHoleRandomly", 2.0f, 1.0f);
         DancePadUI.GameStart.interactable = false;
@@ -190,7 +190,7 @@ public class DancePadsManager : MonoBehaviour
 
     public void OnStopDancePadGame()
     {
-        m_isDancePadGamePlaying = false;
+        IsDancePadGamePlaying = false;
         CancelInvoke();
         DancePadUI.GameStart.interactable = true;
         DancePadUI.GamePause.interactable = false;
