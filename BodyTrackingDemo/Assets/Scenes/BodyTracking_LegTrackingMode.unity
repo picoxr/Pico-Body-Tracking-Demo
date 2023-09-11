@@ -712,6 +712,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 12
   stepOnEffect: {fileID: 395446522}
+  scoreSFX: {fileID: 2282658225516661125, guid: 0a4ccc1f119bdd64b9e2538172c1ffd3,
+    type: 3}
+  punchPadSFX: {fileID: 4992549446992643556, guid: 0ba1e9aed7abc7a479b3b4734cd55fa9,
+    type: 3}
 --- !u!54 &44600482
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1726,14 +1730,16 @@ MonoBehaviour:
   m_HideControllerOnSelect: 0
   m_AllowHoveredActivate: 0
   m_TargetPriorityMode: 0
-  m_PlayAudioClipOnSelectEntered: 0
-  m_AudioClipForOnSelectEntered: {fileID: 0}
+  m_PlayAudioClipOnSelectEntered: 1
+  m_AudioClipForOnSelectEntered: {fileID: 8300000, guid: 0c74c09dd3402f643a6ad595d148e55e,
+    type: 3}
   m_PlayAudioClipOnSelectExited: 0
   m_AudioClipForOnSelectExited: {fileID: 0}
   m_PlayAudioClipOnSelectCanceled: 0
   m_AudioClipForOnSelectCanceled: {fileID: 0}
-  m_PlayAudioClipOnHoverEntered: 0
-  m_AudioClipForOnHoverEntered: {fileID: 0}
+  m_PlayAudioClipOnHoverEntered: 1
+  m_AudioClipForOnHoverEntered: {fileID: 8300000, guid: 32f0490d464b2844f973c5b74fba5e9e,
+    type: 3}
   m_PlayAudioClipOnHoverExited: 0
   m_AudioClipForOnHoverExited: {fileID: 0}
   m_PlayAudioClipOnHoverCanceled: 0
@@ -1961,6 +1967,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 17
   stepOnEffect: {fileID: 395446522}
+  scoreSFX: {fileID: 2282658225516661125, guid: 0a4ccc1f119bdd64b9e2538172c1ffd3,
+    type: 3}
+  punchPadSFX: {fileID: 4992549446992643556, guid: 0ba1e9aed7abc7a479b3b4734cd55fa9,
+    type: 3}
 --- !u!54 &135425274
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3821,6 +3831,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 24
   stepOnEffect: {fileID: 395446522}
+  scoreSFX: {fileID: 2282658225516661125, guid: 0a4ccc1f119bdd64b9e2538172c1ffd3,
+    type: 3}
+  punchPadSFX: {fileID: 4992549446992643556, guid: 0ba1e9aed7abc7a479b3b4734cd55fa9,
+    type: 3}
 --- !u!54 &332775112
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4642,6 +4656,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 1
   stepOnEffect: {fileID: 395446522}
+  scoreSFX: {fileID: 2282658225516661125, guid: 0a4ccc1f119bdd64b9e2538172c1ffd3,
+    type: 3}
+  punchPadSFX: {fileID: 4992549446992643556, guid: 0ba1e9aed7abc7a479b3b4734cd55fa9,
+    type: 3}
 --- !u!54 &414949952
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7033,6 +7051,10 @@ MonoBehaviour:
     type: 3}
   stepOnHeelEffect: {fileID: 7272320121975331480, guid: c897477e08f752142bcbc277a98a9f6c,
     type: 3}
+  stepOnToeSFX: {fileID: 8129577539817861558, guid: dd1a876599a954b44b21e104bdf45732,
+    type: 3}
+  stepOnHeelSFX: {fileID: 7208098059431067317, guid: 35f2b13374a73c04e9cda4b5e98c8759,
+    type: 3}
   m_CurrentLegTrackingDemoState: 0
 --- !u!1 &766010985
 GameObject:
@@ -8151,6 +8173,134 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 928100115}
   m_CullTransparentMesh: 1
+--- !u!1 &937817245
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 937817247}
+  - component: {fileID: 937817246}
+  m_Layer: 0
+  m_Name: Dancing Alone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &937817246
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937817245}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 3efab5d62acbd4d429c0430806bb260d, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1.5
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &937817247
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937817245}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.07, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &940022819
 GameObject:
   m_ObjectHideFlags: 0
@@ -9874,6 +10024,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 8
   stepOnEffect: {fileID: 395446522}
+  scoreSFX: {fileID: 2282658225516661125, guid: 0a4ccc1f119bdd64b9e2538172c1ffd3,
+    type: 3}
+  punchPadSFX: {fileID: 4992549446992643556, guid: 0ba1e9aed7abc7a479b3b4734cd55fa9,
+    type: 3}
 --- !u!54 &1094017812
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11837,6 +11991,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 4
   stepOnEffect: {fileID: 395446522}
+  scoreSFX: {fileID: 2282658225516661125, guid: 0a4ccc1f119bdd64b9e2538172c1ffd3,
+    type: 3}
+  punchPadSFX: {fileID: 4992549446992643556, guid: 0ba1e9aed7abc7a479b3b4734cd55fa9,
+    type: 3}
 --- !u!54 &1243706914
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13437,7 +13595,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 745.1, y: 0}
+  m_SizeDelta: {x: 745.1, y: 27}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1386335657
 MonoBehaviour:
@@ -14276,6 +14434,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 5
   stepOnEffect: {fileID: 395446522}
+  scoreSFX: {fileID: 2282658225516661125, guid: 0a4ccc1f119bdd64b9e2538172c1ffd3,
+    type: 3}
+  punchPadSFX: {fileID: 4992549446992643556, guid: 0ba1e9aed7abc7a479b3b4734cd55fa9,
+    type: 3}
 --- !u!54 &1471471280
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -14636,14 +14798,16 @@ MonoBehaviour:
   m_HideControllerOnSelect: 0
   m_AllowHoveredActivate: 0
   m_TargetPriorityMode: 0
-  m_PlayAudioClipOnSelectEntered: 0
-  m_AudioClipForOnSelectEntered: {fileID: 0}
+  m_PlayAudioClipOnSelectEntered: 1
+  m_AudioClipForOnSelectEntered: {fileID: 8300000, guid: 0c74c09dd3402f643a6ad595d148e55e,
+    type: 3}
   m_PlayAudioClipOnSelectExited: 0
   m_AudioClipForOnSelectExited: {fileID: 0}
   m_PlayAudioClipOnSelectCanceled: 0
   m_AudioClipForOnSelectCanceled: {fileID: 0}
-  m_PlayAudioClipOnHoverEntered: 0
-  m_AudioClipForOnHoverEntered: {fileID: 0}
+  m_PlayAudioClipOnHoverEntered: 1
+  m_AudioClipForOnHoverEntered: {fileID: 8300000, guid: 32f0490d464b2844f973c5b74fba5e9e,
+    type: 3}
   m_PlayAudioClipOnHoverExited: 0
   m_AudioClipForOnHoverExited: {fileID: 0}
   m_PlayAudioClipOnHoverCanceled: 0
@@ -16390,7 +16554,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1618964833
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19897,7 +20061,6 @@ GameObject:
   - component: {fileID: 1917461620}
   - component: {fileID: 1917461619}
   - component: {fileID: 1917461621}
-  - component: {fileID: 1917461622}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -20081,20 +20244,6 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   m_HasMigratedActions: 1
---- !u!114 &1917461622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1917461616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ee8dd1042c84fa4fa2411e8c4ebcc01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gradientTime: 2.5
-  fadeColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &1919877247
 GameObject:
   m_ObjectHideFlags: 0
@@ -22254,6 +22403,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: 16
   stepOnEffect: {fileID: 395446522}
+  scoreSFX: {fileID: 2282658225516661125, guid: 0a4ccc1f119bdd64b9e2538172c1ffd3,
+    type: 3}
+  punchPadSFX: {fileID: 4992549446992643556, guid: 0ba1e9aed7abc7a479b3b4734cd55fa9,
+    type: 3}
 --- !u!54 &2094226139
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -111,10 +111,7 @@ namespace BodyTrackingDemo
             LeftToeTouchGroundAction = (int) m_BodyTrackerResult.trackingdata[10].Action;
             RightToeTouchGroundAction = (int) m_BodyTrackerResult.trackingdata[11].Action;
 
-            if (m_BodyTrackerResult.trackingdata[7].Action >= 1 ||
-                m_BodyTrackerResult.trackingdata[8].Action >= 1 ||
-                m_BodyTrackerResult.trackingdata[10].Action >= 1 ||
-                m_BodyTrackerResult.trackingdata[11].Action >= 1)
+            if (m_BodyTrackerResult.trackingdata[7].Action == 4 || m_BodyTrackerResult.trackingdata[8].Action == 4)
             {
                 Debug.Log($"LegTrackingAvatarSample.Update: Action7 = {m_BodyTrackerResult.trackingdata[7].Action}, Action8 = {m_BodyTrackerResult.trackingdata[8].Action}, Action10 = {m_BodyTrackerResult.trackingdata[10].Action}, Action11 = {m_BodyTrackerResult.trackingdata[11].Action},");
             }
@@ -178,11 +175,11 @@ namespace BodyTrackingDemo
                 transform.GetChild(i).localScale = Vector3.one * scale;
             }
 
-            SkeletonLens[0] *= scale;
-            SkeletonLens[1] *= scale;
+            SkeletonLens[0] = 0.2f * scale;
+            SkeletonLens[1] = 0.169f * scale;
             FindBonesLength();
-            // SetBonesLength();
-            Update();
+            SetBonesLength();
+            // Update();
         }
         
         public void SetBonesLength()
