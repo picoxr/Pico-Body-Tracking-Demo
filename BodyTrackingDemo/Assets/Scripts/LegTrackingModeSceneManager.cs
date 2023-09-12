@@ -32,11 +32,14 @@ namespace BodyTrackingDemo
         public GameObject XROrigin;
         public GameObject Avatar;
 
+        [SerializeField] private GameObject stepOnLeftToeEffect;
+        [SerializeField] private GameObject stepOnLeftHeelEffect;
         [SerializeField] private GameObject stepOnToeEffect;
         [SerializeField] private GameObject stepOnHeelEffect;
 
         [SerializeField] private AudioSource stepOnToeSFX;
         [SerializeField] private AudioSource stepOnHeelSFX;
+
 
         [HideInInspector] public LegTrackingDemoState m_CurrentLegTrackingDemoState;
         private LegTrackingAvatarSample _legTrackingAvatarSample;
@@ -52,6 +55,7 @@ namespace BodyTrackingDemo
         private int m_RightFootStepOnLastAction;
 
         private bool m_SwiftCalibratedState;
+        private float _avatarScale;
 
         private void Awake()
         {
@@ -88,7 +92,7 @@ namespace BodyTrackingDemo
         // Update is called once per frame
         private void LateUpdate()
         {
-            if (m_AvatarObj != null)
+            if (m_CurrentLegTrackingDemoState == LegTrackingDemoState.PLAYING)
             {
                 m_LeftFootStepOnAction = _legTrackingAvatarSample.LeftTouchGroundAction;
                 m_RightFootStepOnAction = _legTrackingAvatarSample.RightTouchGroundAction;
@@ -96,22 +100,21 @@ namespace BodyTrackingDemo
 
                 if ((m_LeftFootStepOnAction & (int) BodyActionList.PxrTouchGround) != 0 && (m_LeftFootStepOnLastAction & (int) BodyActionList.PxrTouchGround) == 0)
                 {
-                    PlayStepOnEffect(BodyActionList.PxrTouchGround, PlayerPrefManager.Instance.PlayerPrefData.steppingEffect, _legTrackingAvatarSample.LeftFootBone.position);
+                    PlayStepOnEffect(BodyActionList.PxrTouchGround, _legTrackingAvatarSample.LeftFootBone, stepOnLeftHeelEffect);
                 }
                 if ((m_LeftFootStepOnAction & (int) BodyActionList.PxrTouchGroundToe) != 0 && (m_LeftFootStepOnLastAction & (int) BodyActionList.PxrTouchGroundToe) == 0)
                 {
-                    PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, PlayerPrefManager.Instance.PlayerPrefData.steppingEffect, _legTrackingAvatarSample.LeftFootToeBone.position);
+                    PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _legTrackingAvatarSample.LeftFootToeBone, stepOnLeftToeEffect);
                 }
                 m_LeftFootStepOnLastAction = m_LeftFootStepOnAction;
 
-                
                 if ((m_RightFootStepOnAction & (int) BodyActionList.PxrTouchGround) != 0 && (m_RightFootStepOnLastAction & (int) BodyActionList.PxrTouchGround) == 0)
                 {
-                    PlayStepOnEffect(BodyActionList.PxrTouchGround, PlayerPrefManager.Instance.PlayerPrefData.steppingEffect, _legTrackingAvatarSample.RightFootBone.position);
+                    PlayStepOnEffect(BodyActionList.PxrTouchGround, _legTrackingAvatarSample.RightFootBone, stepOnHeelEffect);
                 }
                 if ((m_RightFootStepOnAction & (int) BodyActionList.PxrTouchGroundToe) != 0 && (m_RightFootStepOnLastAction & (int) BodyActionList.PxrTouchGroundToe) == 0)
                 {
-                    PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, PlayerPrefManager.Instance.PlayerPrefData.steppingEffect, _legTrackingAvatarSample.RightFootToeBone.position);
+                    PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _legTrackingAvatarSample.RightFootToeBone, stepOnToeEffect);
                 }
                 m_RightFootStepOnLastAction = m_RightFootStepOnAction;
             }
@@ -220,8 +223,8 @@ namespace BodyTrackingDemo
             m_AvatarRightFoot = _legTrackingAvatarSample.BonesList[11];
 
 
-            var scale = height * 1.04f / 175;
-            _legTrackingAvatarSample.UpdateBonesLength(scale);
+            _avatarScale = height * 1.04f / 175;
+            _legTrackingAvatarSample.UpdateBonesLength(_avatarScale);
 
             Avatar.SetActive(false);
             yield return new WaitForEndOfFrame();
@@ -281,8 +284,9 @@ namespace BodyTrackingDemo
             }
         }
         
-        private void PlayStepOnEffect(BodyActionList action, int effectType, Vector3 pos)
+        private void PlayStepOnEffect(BodyActionList action, Transform joint, GameObject effect)
         {
+            int effectType = PlayerPrefManager.Instance.PlayerPrefData.steppingEffect;
             if (effectType == 0) return;
 
             if (action == 0) return;
@@ -292,6 +296,9 @@ namespace BodyTrackingDemo
                 return;
             }
 
+            Vector3 pos = joint.position;
+            Quaternion rotation = joint.rotation;
+            
             switch (action)
             {
                 case BodyActionList.PxrTouchGroundToe:
@@ -299,9 +306,14 @@ namespace BodyTrackingDemo
                     var targetPos = pos + new Vector3(0, -0.02f, 0);
                     if (effectType == 1 || effectType == 3)
                     {
-                        var obj = Instantiate(stepOnToeEffect, targetPos, stepOnToeEffect.transform.rotation);
-                        obj.SetActive(true);
-                        obj.GetComponent<ParticleSystem>().Play();
+                        var vfx = Instantiate(effect, targetPos, rotation);
+                        vfx.transform.localScale = Vector3.one * _avatarScale;
+                        vfx.SetActive(true);
+                        // var particles = obj.GetComponentsInChildren<ParticleSystem>();
+                        // foreach (var particle in particles)
+                        // {
+                        //     particle.Play();
+                        // }
                     }
 
                     var sfx = Instantiate(stepOnToeSFX, targetPos, Quaternion.identity);
@@ -315,9 +327,14 @@ namespace BodyTrackingDemo
                     var targetPos = pos + new Vector3(0, -.08f, 0);
                     if (effectType == 1 || effectType == 2)
                     {
-                        var obj = Instantiate(stepOnHeelEffect, targetPos, stepOnHeelEffect.transform.rotation);
-                        obj.SetActive(true);
-                        obj.GetComponent<ParticleSystem>().Play();
+                        var vfx = Instantiate(effect, targetPos, rotation);
+                        vfx.transform.localScale = Vector3.one * _avatarScale;
+                        vfx.SetActive(true);
+                        // var particles = obj.GetComponentsInChildren<ParticleSystem>();
+                        // foreach (var particle in particles)
+                        // {
+                        //     particle.Play();
+                        // }
                     }
 
                     var sfx = Instantiate(stepOnHeelSFX, targetPos, Quaternion.identity);

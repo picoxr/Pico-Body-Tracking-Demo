@@ -7047,9 +7047,13 @@ MonoBehaviour:
   MirrorObj: {fileID: 477175154}
   XROrigin: {fileID: 580984053}
   Avatar: {fileID: 647875694}
-  stepOnToeEffect: {fileID: 7272320121975331480, guid: 0793c0b74a6e78a42885cfc18dd69cce,
+  stepOnLeftToeEffect: {fileID: 7373867904229781163, guid: be0576f2454c92f4e94bd693a7639ec8,
     type: 3}
-  stepOnHeelEffect: {fileID: 7272320121975331480, guid: c897477e08f752142bcbc277a98a9f6c,
+  stepOnLeftHeelEffect: {fileID: 673374133879822362, guid: e0aed68f5d0e1ef4888662f63386926d,
+    type: 3}
+  stepOnToeEffect: {fileID: 5821109670691314492, guid: 4461710ee02714447845620476f13b62,
+    type: 3}
+  stepOnHeelEffect: {fileID: 804975932772744914, guid: 66ff3c371eae63d449b0dfdecb6d4951,
     type: 3}
   stepOnToeSFX: {fileID: 8129577539817861558, guid: dd1a876599a954b44b21e104bdf45732,
     type: 3}
@@ -16167,7 +16171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1580516908
 Transform:
   m_ObjectHideFlags: 0

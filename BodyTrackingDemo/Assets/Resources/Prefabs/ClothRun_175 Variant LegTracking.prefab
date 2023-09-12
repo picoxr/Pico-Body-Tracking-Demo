@@ -1082,6 +1082,8 @@ MonoBehaviour:
   - 0.169
   LeftTouchGroundAction: 0
   RightTouchGroundAction: 0
+  LeftToeTouchGroundAction: 0
+  RightToeTouchGroundAction: 0
 --- !u!4 &6761339721885400350 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 552804369467235536, guid: a481ba7a2503f3040bc260f35f02d3a6,
