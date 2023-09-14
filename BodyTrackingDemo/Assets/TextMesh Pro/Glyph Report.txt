@@ -1,0 +1,12 @@
+Font: MiSans  Style: Normal
+Point Size: 32   SP/PD Ratio: 6.3%
+
+Characters included: 131/131
+Missing characters: 0
+Excluded characters: 0
+
+Characters missing from font file:
+----------------------------------------
+
+Characters excluded from packing:
+----------------------------------------

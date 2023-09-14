@@ -15,7 +15,7 @@ public class DancePadUIManager : MonoBehaviour
 
     public void SetScoreText(int score)
     {
-        m_TextScore.text = "Score: " + score;
+        m_TextScore.text = "" + score;
         //Debug.Log("[DragonTest] Total Score = " + score);
     }
 }
