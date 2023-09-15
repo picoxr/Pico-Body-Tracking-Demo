@@ -1,0 +1,178 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: StringTable Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: StringTable
+  m_TableCollectionNameGuidString: 1a283b417858a274f988939f8f4747d2
+  m_Entries:
+  - m_Id: 94854851154718720
+    m_Key: Earth Shatter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301632
+    m_Key: Press [Space] For more info
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301633
+    m_Key: Magic Effect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301634
+    m_Key: This 'earth shatter' effect is a n example of multiple particle systems
+      worknig together to make a magic effect that could be used in a game.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301635
+    m_Key: Display Setting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301636
+    m_Key: Stop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301637
+    m_Key: Sensitivity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301638
+    m_Key: Fixed Position
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301639
+    m_Key: Calibrate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301640
+    m_Key: Leg Tracking Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301641
+    m_Key: Calibrate Now
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301642
+    m_Key: Option A
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301643
+    m_Key: Height
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301644
+    m_Key: PICO Motion Tracker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301645
+    m_Key: Recording
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301646
+    m_Key: Auto Recording
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301647
+    m_Key: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301648
+    m_Key: 'Score:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301649
+    m_Key: Continue Without Calibration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301650
+    m_Key: Stepping effects
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301651
+    m_Key: None
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301652
+    m_Key: Position
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301653
+    m_Key: 2D Recorder
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301654
+    m_Key: Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301655
+    m_Key: Stepping Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301656
+    m_Key: Align Ground
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301657
+    m_Key: Mirror
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94903465147150336
+    m_Key: Full Body Tracking Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94903775819247616
+    m_Key: Follow the View
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94904017272745984
+    m_Key: Heel and Toe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94904093290311680
+    m_Key: Heel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94904144343379968
+    m_Key: Toe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94930303256932352
+    m_Key: Fixed Position(Front)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94930318729719808
+    m_Key: Fixed Position(Back)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94930349452996608
+    m_Key: Following Position(Front)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94930371817025536
+    m_Key: Following Position(Back)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94948490618908672
+    m_Key: Auto
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 3650490252783517702
+  references:
+    version: 2
+    RefIds:
+    - rid: 3650490252783517702
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables,
+        asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1672047917530

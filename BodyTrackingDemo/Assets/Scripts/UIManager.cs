@@ -11,12 +11,12 @@ namespace BodyTrackingDemo
         private void Awake()
         {
             Instance = this;
-            _lazyFollow = GetComponent<SnapFollow>();
+            // _lazyFollow = GetComponent<SnapFollow>();
         }
 
         public void Start()
         {
-            _lazyFollow.enabled = PlayerPrefManager.Instance.PlayerPrefData.mirrorMode == 1;
+            // _lazyFollow.enabled = PlayerPrefManager.Instance.PlayerPrefData.cameraStandMode == 1;
         }
 
         private void OnDestroy()

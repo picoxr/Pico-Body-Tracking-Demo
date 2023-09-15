@@ -25,7 +25,7 @@ namespace BodyTrackingDemo
         private void Start()
         {
             dropdownSteppingEffect.value = PlayerPrefManager.Instance.PlayerPrefData.steppingEffect;
-            dropdownMirror.value = PlayerPrefManager.Instance.PlayerPrefData.mirrorMode;
+            dropdownMirror.value = PlayerPrefManager.Instance.PlayerPrefData.cameraStandMode;
         }
 
         private void OnSteppingEffectChanged(int value)
@@ -36,11 +36,8 @@ namespace BodyTrackingDemo
         
         private void OnMirrorChanged(int value)
         {
-            PlayerPrefManager.Instance.PlayerPrefData.mirrorMode = value;
-            if (UIManager.Instance != null)
-            {
-                UIManager.Instance.SetLazyFollowEnable(value == 1);
-            }
+            PlayerPrefManager.Instance.PlayerPrefData.cameraStandMode = value;
+            CameraManager.Instance.SetCameraStandType((CameraStandMode)value);
             Debug.Log($"LegTrackingModeUIManager.OnMirrorChanged: value = {value}");
         }
     }

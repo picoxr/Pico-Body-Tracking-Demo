@@ -22,13 +22,10 @@ namespace BodyTrackingDemo
 
         private static List<XRInputSubsystem> s_InputSubsystems = new();
 
-        public LegTrackingModeUIManager LegTrackingUIManager;
+        public LegTrackingModeUIManager startCanvas;
         public DancePadsManager DancePadManager;
-        public GameObject DancePadUI;
-        public GameObject MotionTrackerUI;
-        public GameObject DisplaySettingUI;
         public GameObject RecorderUI;
-        public GameObject MirrorObj;
+        public GameObject gameCanvas;
         public GameObject XROrigin;
         public GameObject Avatar;
 
@@ -62,14 +59,11 @@ namespace BodyTrackingDemo
             Instance = this;
 
             _startXROriginY = XROrigin.transform.localPosition.y;
-
-            MirrorObj.SetActive(false);
-            DancePadUI.SetActive(false);
-            MotionTrackerUI.SetActive(false);
-            DisplaySettingUI.SetActive(false);
+            
             RecorderUI.SetActive(false);
             DancePadManager.gameObject.SetActive(false);
             Avatar.SetActive(false);
+            gameCanvas.SetActive(false);
             
             CoreService.Initialize();
         }
@@ -231,10 +225,7 @@ namespace BodyTrackingDemo
             AlignGround();
 
             Avatar.SetActive(true);
-            MirrorObj.SetActive(true);
-            DancePadUI.SetActive(true);
-            MotionTrackerUI.SetActive(true);
-            DisplaySettingUI.SetActive(true);
+            gameCanvas.SetActive(true);
 #if RECORDER
             RecorderUI.SetActive(true);
 #endif
@@ -256,7 +247,7 @@ namespace BodyTrackingDemo
             m_SwiftCalibratedState = calibrated == 1;
             if (m_SwiftCalibratedState)
             {
-                LegTrackingUIManager.startMenu.SetActive(false);
+                startCanvas.startMenu.SetActive(false);
                 StartGame();
                 Debug.Log($"LegTrackingModeSceneManager.UpdateFitnessBandState: calibrated = {calibrated}");
             }
@@ -269,8 +260,8 @@ namespace BodyTrackingDemo
 #if UNITY_EDITOR
                 connectState.num = 2;
 #endif
-                LegTrackingUIManager.startMenu.SetActive(true);
-                LegTrackingUIManager.btnContinue.gameObject.SetActive(connectState.num == 2);
+                startCanvas.startMenu.SetActive(true);
+                startCanvas.btnContinue.gameObject.SetActive(connectState.num == 2);
 
                 Debug.Log($"LegTrackingModeSceneManager.UpdateFitnessBandState: connectedNum = {connectState.num}");
             }
