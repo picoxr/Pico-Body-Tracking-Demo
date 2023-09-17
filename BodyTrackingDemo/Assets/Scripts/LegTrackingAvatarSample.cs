@@ -179,7 +179,7 @@ namespace BodyTrackingDemo
             SkeletonLens[1] = 0.169f * scale;
             FindBonesLength();
             SetBonesLength();
-            // Update();
+            Update();
         }
         
         public void SetBonesLength()
