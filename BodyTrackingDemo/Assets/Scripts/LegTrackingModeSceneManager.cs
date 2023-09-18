@@ -217,7 +217,9 @@ namespace BodyTrackingDemo
             m_AvatarRightFoot = _legTrackingAvatarSample.BonesList[11];
 
 
-            _avatarScale = height * 1.04f / 175;
+            _avatarScale = height / 175;
+            
+            // XROrigin.transform.localScale = Vector3.one * _avatarScale;
             _legTrackingAvatarSample.UpdateBonesLength(_avatarScale);
 
             Avatar.SetActive(false);
