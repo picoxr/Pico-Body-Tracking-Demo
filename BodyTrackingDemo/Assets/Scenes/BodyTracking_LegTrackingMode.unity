@@ -703,7 +703,7 @@ Transform:
   m_Children:
   - {fileID: 1039636742}
   m_Father: {fileID: 2128352172}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &44600477
 MeshCollider:
@@ -1484,7 +1484,7 @@ GameObject:
   - component: {fileID: 135343068}
   - component: {fileID: 135343067}
   - component: {fileID: 135343066}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: RightHand Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1958,7 +1958,7 @@ Transform:
   m_Children:
   - {fileID: 1355254932}
   m_Father: {fileID: 2128352172}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &135425269
 MeshCollider:
@@ -2889,37 +2889,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
---- !u!1 &194410426
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 194410427}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &194410427
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 194410426}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.1199999, y: 2.6848578, z: 0.019999998}
-  m_LocalScale: {x: 6.666666, y: 6.666666, z: 6.666666}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2128352172}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &199263593
 GameObject:
   m_ObjectHideFlags: 0
@@ -4244,7 +4213,7 @@ Transform:
   m_Children:
   - {fileID: 398087531}
   m_Father: {fileID: 2128352172}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &332775107
 MeshCollider:
@@ -5110,7 +5079,7 @@ Transform:
   m_Children:
   - {fileID: 1725442128}
   m_Father: {fileID: 2128352172}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &414949947
 MeshCollider:
@@ -10788,37 +10757,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1039636741}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1059611297
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1059611298}
-  m_Layer: 0
-  m_Name: GameObjectRight
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1059611298
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1059611297}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.1199999, y: 2.6848578, z: 0.019999998}
-  m_LocalScale: {x: 6.666666, y: 6.666666, z: 6.666666}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2128352172}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1078650541
 GameObject:
   m_ObjectHideFlags: 0
@@ -10943,7 +10881,7 @@ Transform:
   m_Children:
   - {fileID: 169320075}
   m_Father: {fileID: 2128352172}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1094017807
 MeshCollider:
@@ -12007,7 +11945,7 @@ PrefabInstance:
     - target: {fileID: 7272320121975331483, guid: 17187807f3ea37c4fb8c9814723f5efa,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7272320121975331483, guid: 17187807f3ea37c4fb8c9814723f5efa,
         type: 3}
@@ -13038,7 +12976,7 @@ Transform:
   m_Children:
   - {fileID: 2112949526}
   m_Father: {fileID: 2128352172}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1243706909
 MeshCollider:
@@ -15482,7 +15420,7 @@ Transform:
   m_Children:
   - {fileID: 1338217246}
   m_Father: {fileID: 2128352172}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1471471275
 MeshCollider:
@@ -15609,7 +15547,7 @@ GameObject:
   - component: {fileID: 1478942009}
   - component: {fileID: 1478942008}
   - component: {fileID: 1478942007}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LeftHand Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23499,7 +23437,7 @@ Transform:
   m_Children:
   - {fileID: 1743170081}
   m_Father: {fileID: 2128352172}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &2094226134
 MeshCollider:
@@ -24319,10 +24257,8 @@ Transform:
   m_LocalScale: {x: 0.13, y: 0.13, z: 0.13}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 194410427}
-  - {fileID: 1059611298}
-  - {fileID: 1167285382}
   - {fileID: 1243706908}
+  - {fileID: 1167285382}
   - {fileID: 2094226133}
   - {fileID: 414949946}
   - {fileID: 1094017806}

@@ -63,6 +63,7 @@ namespace BodyTrackingDemo
 
                     dancePadHoles[i].DancePadsManager = this;
                     dancePadHoles[i].onTrigger += OnPadTrigger;
+                    dancePadHoles[i].gameObject.SetActive(false);
                 }
             }
 
@@ -168,6 +169,11 @@ namespace BodyTrackingDemo
             DancePadUI.GameContinue.interactable = false;
             DancePadUI.GameStop.interactable = true;
 
+            foreach (var item in dancePadHoles)
+            {
+                item.gameObject.SetActive(true);
+            }
+            
             Events.OnDanceGameStart();
         }
 
@@ -179,6 +185,11 @@ namespace BodyTrackingDemo
             DancePadUI.GamePause.interactable = false;
             DancePadUI.GameContinue.interactable = true;
             DancePadUI.GameStop.interactable = true;
+            
+            foreach (var item in dancePadHoles)
+            {
+                item.gameObject.SetActive(false);
+            }
         }
 
         public void OnContinueDancePadGame()
