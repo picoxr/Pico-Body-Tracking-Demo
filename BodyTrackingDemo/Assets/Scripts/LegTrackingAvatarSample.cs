@@ -112,11 +112,6 @@ namespace BodyTrackingDemo
             RightTouchGroundAction = (int) m_BodyTrackerResult.trackingdata[8].Action;
             LeftToeTouchGroundAction = (int) m_BodyTrackerResult.trackingdata[10].Action;
             RightToeTouchGroundAction = (int) m_BodyTrackerResult.trackingdata[11].Action;
-
-            if (m_BodyTrackerResult.trackingdata[7].Action == 4 || m_BodyTrackerResult.trackingdata[8].Action == 4)
-            {
-                Debug.Log($"LegTrackingAvatarSample.Update: Action7 = {m_BodyTrackerResult.trackingdata[7].Action}, Action8 = {m_BodyTrackerResult.trackingdata[8].Action}, Action10 = {m_BodyTrackerResult.trackingdata[10].Action}, Action11 = {m_BodyTrackerResult.trackingdata[11].Action},");
-            }
         }
 
         /// <summary>

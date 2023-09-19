@@ -56,14 +56,9 @@ namespace BodyTrackingDemo
 
         #region PublicMethod
 
-        public void Init(string userID)
-        {
-            _userID = userID;
-            Load(userID);
-        }
-
         public void Load(string userID)
         {
+            _userID = userID;
             var content = PlayerPrefs.GetString($"{fileName}_{userID}");
             if (string.IsNullOrEmpty(content))
             {
@@ -81,7 +76,7 @@ namespace BodyTrackingDemo
             string content = JsonUtility.ToJson(PlayerPrefData);
             PlayerPrefs.SetString($"{fileName}_{_userID}", content);
             PlayerPrefs.Save();
-            Debug.Log($"PlayerPrefManager.Save: content = {content}");
+            Debug.Log($"PlayerPrefManager.Save: userID = {_userID}, content = {content}");
         }
 
         #endregion

@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +21,7 @@ namespace BodyTrackingDemo
             sliderHeight.onValueChanged.AddListener(OnHeightChanged);
         }
 
-        private void Start()
+        private void OnEnable()
         {
             dropdownMode.value = PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode;
             sliderHeight.value = PlayerPrefManager.Instance.PlayerPrefData.height;

@@ -164,6 +164,14 @@ MonoBehaviour:
     m_Key: Auto
     m_Metadata:
       m_Items: []
+  - m_Id: 96397821985206272
+    m_Key: Heel and Toe (Same)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 96397841614548992
+    m_Key: Heel and Toe  (Different)
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
