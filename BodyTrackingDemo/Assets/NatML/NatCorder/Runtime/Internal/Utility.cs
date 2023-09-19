@@ -16,7 +16,12 @@ namespace NatSuite.Recorders.Internal {
         public static string GetPath (string extension) {
             if (directory == null) {
                 var editor = Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.WindowsEditor;
+#if UNITY_ANDROID
+                directory = "/storage/emulated/0/Movies";
+#else
                 directory = editor ? Directory.GetCurrentDirectory() : Application.persistentDataPath;
+#endif
+
             }
             var timestamp = DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_fff");
             var name = $"recording_{timestamp}{extension}";
