@@ -58,8 +58,8 @@ MonoBehaviour:
       data:
         m_DefaultTableReference:
           m_TableCollectionName: StringTable
-        m_UseFallback: 0
-        m_MissingTranslationState: 1
+        m_UseFallback: 1
+        m_MissingTranslationState: 2
         m_NoTranslationFoundMessage: 
         m_SmartFormat:
           rid: 7
