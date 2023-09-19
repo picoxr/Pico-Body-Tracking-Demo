@@ -8,6 +8,8 @@ namespace BodyTrackingDemo
         [SerializeField] private GameObject StepOnEffect;
         [SerializeField] private DancePadUIManager DancePadUI;
         [SerializeField] private DancePadHole[] dancePadHoles;
+        [SerializeField] private float startDelay = 2;
+        [SerializeField] private float startRepeatRate = 1.8f;
 
         private int m_DancePadHoleCount = 0;
 
@@ -163,7 +165,7 @@ namespace BodyTrackingDemo
             IsDancePadGamePlaying = true;
             m_TotalScore = 0;
             CancelInvoke();
-            InvokeRepeating("ActiveDancePadHoleRandomly", 2.0f, 1.0f);
+            InvokeRepeating(nameof(ActiveDancePadHoleRandomly), startDelay, startRepeatRate);
             DancePadUI.GameStart.interactable = false;
             DancePadUI.GamePause.interactable = true;
             DancePadUI.GameContinue.interactable = false;
@@ -185,18 +187,13 @@ namespace BodyTrackingDemo
             DancePadUI.GamePause.interactable = false;
             DancePadUI.GameContinue.interactable = true;
             DancePadUI.GameStop.interactable = true;
-            
-            foreach (var item in dancePadHoles)
-            {
-                item.gameObject.SetActive(false);
-            }
         }
 
         public void OnContinueDancePadGame()
         {
             IsDancePadGamePlaying = true;
             CancelInvoke();
-            InvokeRepeating("ActiveDancePadHoleRandomly", 2.0f, 1.0f);
+            InvokeRepeating(nameof(ActiveDancePadHoleRandomly), startDelay, startRepeatRate);
             DancePadUI.GameStart.interactable = false;
             DancePadUI.GamePause.interactable = true;
             DancePadUI.GameContinue.interactable = false;
@@ -212,6 +209,11 @@ namespace BodyTrackingDemo
             DancePadUI.GameContinue.interactable = false;
             DancePadUI.GameStop.interactable = false;
             Events.OnDanceGameStop();
+            
+            foreach (var item in dancePadHoles)
+            {
+                item.gameObject.SetActive(false);
+            }
         }
 
         private void ActiveDancePadHoleRandomly()
@@ -225,7 +227,6 @@ namespace BodyTrackingDemo
             }
 
             dancePadHoles[active_index].SetHoleActive();
-
         }
     }
 }

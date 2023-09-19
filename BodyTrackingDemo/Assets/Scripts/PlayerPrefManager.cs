@@ -52,6 +52,11 @@ namespace BodyTrackingDemo
             }
         }
 
+        private void OnApplicationQuit()
+        {
+            Save();
+        }
+
         #endregion
 
         #region PublicMethod

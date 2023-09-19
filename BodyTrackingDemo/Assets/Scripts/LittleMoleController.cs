@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LittleMoleController : MonoBehaviour
 {
     //public const float SHOW_TIME = 0.3f;
     //public const float HIDE_TIME = 0.2f;
-    public const float WAIT_TIME = 1.0f;
+    public const float WAIT_TIME = 1.5f;
     public const float WAIT_POINT_HEIGHT = -7f;
     public const float SHOW_SPEED = 60f;
     public const float HIDE_SPEED = 90f;
