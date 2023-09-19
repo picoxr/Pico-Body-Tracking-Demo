@@ -82,6 +82,8 @@ namespace BodyTrackingDemo
             {
                 t.TryRecenter();
             }
+
+            UpdateFitnessBandState();
         }
 
         private void OnApplicationPause(bool pauseStatus)
@@ -184,13 +186,8 @@ namespace BodyTrackingDemo
 
         private void OnApplicationFocus(bool focus)
         {
-#if UNITY_EDITOR
-            // return;
-#endif
             if (focus)
             {
-                if (m_CurrentLegTrackingDemoState == LegTrackingDemoState.START) return;
-
                 UpdateFitnessBandState();
             }
         }
@@ -327,13 +324,18 @@ namespace BodyTrackingDemo
 
                 var connectState = new PxrFitnessBandConnectState();
                 PXR_Input.GetFitnessBandConnectState(ref connectState);
+                
+                BodyTrackerResult bodyTrackerResult = new BodyTrackerResult();
+                var trackingState = PXR_Input.GetBodyTrackingPose(0, ref bodyTrackerResult);
 #if UNITY_EDITOR
                 connectState.num = 2;
+                trackingState = 0;
 #endif
-                startCanvas.startMenu.SetActive(true);
-                startCanvas.btnContinue.gameObject.SetActive(connectState.num == 2);
 
-                Debug.Log($"LegTrackingModeSceneManager.UpdateFitnessBandState: connectedNum = {connectState.num}");
+                startCanvas.startMenu.SetActive(true);
+                startCanvas.btnContinue.gameObject.SetActive(connectState.num == 2 && trackingState == 0);
+
+                Debug.Log($"LegTrackingModeSceneManager.UpdateFitnessBandState: connectedNum = {connectState.num}, trackingState = {trackingState}");
             }
         }
 

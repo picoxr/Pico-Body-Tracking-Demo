@@ -66,30 +66,20 @@ namespace BodyTrackingDemo
 
             Update();
         }
-
+        
         // Update is called once per frame
         void Update()
         {
             mDisplayTime = PXR_System.GetPredictedDisplayTime();
-            PXR_Input.GetBodyTrackingPose(mDisplayTime, ref m_BodyTrackerResult);
-
-            if (m_BodyTrackerResult.trackingdata == null || m_BodyTrackerResult.trackingdata.Length == 0)
-            {
-                return;
-            }
-
-            if (m_BodyTrackerResult.trackingdata[0].localpose.PosY == m_BodyTrackerResult.trackingdata[1].localpose.PosY &&
-                m_BodyTrackerResult.trackingdata[0].localpose.PosX == m_BodyTrackerResult.trackingdata[1].localpose.PosX &&
-                m_BodyTrackerResult.trackingdata[0].localpose.PosZ == m_BodyTrackerResult.trackingdata[1].localpose.PosZ)
+            var state = PXR_Input.GetBodyTrackingPose(mDisplayTime, ref m_BodyTrackerResult);
+            if (state != 0)
             {
                 return;
             }
 
             m_hipJointPosition = GetPosition(m_BodyTrackerResult.trackingdata[0]);
-            //Debug.Log("[LegTrackingMode] hip position: " + m_hipJointPosition);
             BonesList[0].localPosition = m_hipJointPosition;
-
-            //string frameContent = null;
+            
             for (int i = 0; i < BonesList.Count; i++)
             {
                 if (BonesList[i] != null)
