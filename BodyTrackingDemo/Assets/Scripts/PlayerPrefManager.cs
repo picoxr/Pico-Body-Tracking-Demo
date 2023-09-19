@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace BodyTrackingDemo
 {
@@ -51,18 +52,18 @@ namespace BodyTrackingDemo
             }
         }
 
+        private void OnApplicationQuit()
+        {
+            Save();
+        }
+
         #endregion
 
         #region PublicMethod
 
-        public void Init(string userID)
-        {
-            _userID = userID;
-            Load(userID);
-        }
-
         public void Load(string userID)
         {
+            _userID = userID;
             var content = PlayerPrefs.GetString($"{fileName}_{userID}");
             if (string.IsNullOrEmpty(content))
             {
@@ -80,7 +81,7 @@ namespace BodyTrackingDemo
             string content = JsonUtility.ToJson(PlayerPrefData);
             PlayerPrefs.SetString($"{fileName}_{_userID}", content);
             PlayerPrefs.Save();
-            Debug.Log($"PlayerPrefManager.Save: content = {content}");
+            Debug.Log($"PlayerPrefManager.Save: userID = {_userID}, content = {content}");
         }
 
         #endregion
@@ -94,13 +95,13 @@ namespace BodyTrackingDemo
         public float height = 175;
 
         public int steppingEffect = 1;
-        public int mirrorMode = 0;
+        public int cameraStandMode = 0;
 
         public bool autoRecording;
 
         public override string ToString()
         {
-            return $"PlayerPrefData: bodyTrackNode = {bodyTrackMode}, steppingSensitivity = {steppingSensitivity}, steppingEffect = {steppingEffect}, mirrorMode = {mirrorMode}, autoRecording = {autoRecording}";
+            return $"PlayerPrefData: bodyTrackNode = {bodyTrackMode}, steppingSensitivity = {steppingSensitivity}, height = {height}, steppingEffect = {steppingEffect}, cameraStandMode = {cameraStandMode}, autoRecording = {autoRecording}";
         }
     }
 }

@@ -9,7 +9,7 @@ namespace BodyTrackingDemo
 
         public List<Transform> BonesList = new List<Transform>(new Transform[(int) BodyTrackerRole.ROLE_NUM]);
 
-        public Dictionary<int, Quaternion> mRotationDic = new Dictionary<int, Quaternion>();
+        public Dictionary<int, Quaternion> _startRotationDic = new Dictionary<int, Quaternion>();
 
         public float soleHeight = 0.022f;
         
@@ -30,8 +30,7 @@ namespace BodyTrackingDemo
         private BodyTrackerResult m_BodyTrackerResult;
         private double mDisplayTime;
 
-        private Vector3 m_JointPosition;
-
+        private Vector3 m_hipJointPosition;
         private Quaternion m_JointRotation;
         //private Vector3 rightFootPosition;
         //private Vector3 leftAnklePos;
@@ -52,7 +51,7 @@ namespace BodyTrackingDemo
             {
                 if (BonesList[i] != null)
                 {
-                    mRotationDic.Add(i, BonesList[i].rotation);
+                    _startRotationDic.Add(i, BonesList[i].rotation);
 
                     var bodyTrackerJoint = BonesList[i].GetComponent<BodyTrackerJoint>();
                     if (bodyTrackerJoint == null)
@@ -71,36 +70,39 @@ namespace BodyTrackingDemo
         // Update is called once per frame
         void Update()
         {
-#if UNITY_EDITOR
-            return;
-#endif
             mDisplayTime = PXR_System.GetPredictedDisplayTime();
             PXR_Input.GetBodyTrackingPose(mDisplayTime, ref m_BodyTrackerResult);
 
-            m_JointPosition.x = (float) m_BodyTrackerResult.trackingdata[0].localpose.PosX;
-            m_JointPosition.y = (float) m_BodyTrackerResult.trackingdata[0].localpose.PosY;
-            m_JointPosition.z = (float) m_BodyTrackerResult.trackingdata[0].localpose.PosZ;
-            //Debug.Log("[LegTrackingMode] hip position: " + m_JointPosition);
-            BonesList[0].localPosition = m_JointPosition;
+            if (m_BodyTrackerResult.trackingdata == null || m_BodyTrackerResult.trackingdata.Length == 0)
+            {
+                return;
+            }
+
+            if (m_BodyTrackerResult.trackingdata[0].localpose.PosY == m_BodyTrackerResult.trackingdata[1].localpose.PosY &&
+                m_BodyTrackerResult.trackingdata[0].localpose.PosX == m_BodyTrackerResult.trackingdata[1].localpose.PosX &&
+                m_BodyTrackerResult.trackingdata[0].localpose.PosZ == m_BodyTrackerResult.trackingdata[1].localpose.PosZ)
+            {
+                return;
+            }
+
+            m_hipJointPosition = GetPosition(m_BodyTrackerResult.trackingdata[0]);
+            //Debug.Log("[LegTrackingMode] hip position: " + m_hipJointPosition);
+            BonesList[0].localPosition = m_hipJointPosition;
 
             //string frameContent = null;
             for (int i = 0; i < BonesList.Count; i++)
             {
                 if (BonesList[i] != null)
                 {
-                    //position.x = (float)m_BodyTrackerResult.trackingdata[i].localpose.PosX;
-                    //position.y = (float)m_BodyTrackerResult.trackingdata[i].localpose.PosY;
-                    //position.z = (float)m_BodyTrackerResult.trackingdata[i].localpose.PosZ;
-
                     m_JointRotation.x = (float) m_BodyTrackerResult.trackingdata[i].localpose.RotQx;
                     m_JointRotation.y = (float) m_BodyTrackerResult.trackingdata[i].localpose.RotQy;
                     m_JointRotation.z = (float) m_BodyTrackerResult.trackingdata[i].localpose.RotQz;
                     m_JointRotation.w = (float) m_BodyTrackerResult.trackingdata[i].localpose.RotQw;
 
-                    //BonesList[i].position = position;
-                    //BonesList[i].rotation = rotation;
+                    //BonesList[i].position = GetPosition(m_BodyTrackerResult.trackingdata[i]);
+                    // BonesList[i].rotation = rotation;
 
-                    BonesList[i].rotation = m_JointRotation * mRotationDic[i];
+                    BonesList[i].rotation = m_JointRotation * _startRotationDic[i];
                     _joints[i].TrackingData = m_BodyTrackerResult.trackingdata[i];
                 }
             }
@@ -110,11 +112,6 @@ namespace BodyTrackingDemo
             RightTouchGroundAction = (int) m_BodyTrackerResult.trackingdata[8].Action;
             LeftToeTouchGroundAction = (int) m_BodyTrackerResult.trackingdata[10].Action;
             RightToeTouchGroundAction = (int) m_BodyTrackerResult.trackingdata[11].Action;
-
-            if (m_BodyTrackerResult.trackingdata[7].Action == 4 || m_BodyTrackerResult.trackingdata[8].Action == 4)
-            {
-                Debug.Log($"LegTrackingAvatarSample.Update: Action7 = {m_BodyTrackerResult.trackingdata[7].Action}, Action8 = {m_BodyTrackerResult.trackingdata[8].Action}, Action10 = {m_BodyTrackerResult.trackingdata[10].Action}, Action11 = {m_BodyTrackerResult.trackingdata[11].Action},");
-            }
         }
 
         /// <summary>
@@ -170,16 +167,13 @@ namespace BodyTrackingDemo
 
         public void UpdateBonesLength(float scale = 1)
         {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                transform.GetChild(i).localScale = Vector3.one * scale;
-            }
-
+            BonesList[0].localScale = Vector3.one * scale;
+            
             SkeletonLens[0] = 0.2f * scale;
             SkeletonLens[1] = 0.169f * scale;
             FindBonesLength();
             SetBonesLength();
-            // Update();
+            Update();
         }
         
         public void SetBonesLength()
@@ -200,6 +194,11 @@ namespace BodyTrackingDemo
             int result = PXR_Input.SetBodyTrackingBoneLength(boneLength);
         
             Debug.Log($"LegTrackingAvatarSample.SetBonesLength: boneLength = {boneLength}, result = {result}");
+        }
+
+        public static Vector3 GetPosition(BodyTrackerTransform bodyTrackerTransform)
+        {
+            return new((float)bodyTrackerTransform.localpose.PosX, (float)bodyTrackerTransform.localpose.PosY, (float)bodyTrackerTransform.localpose.PosZ);
         }
     }
 }
