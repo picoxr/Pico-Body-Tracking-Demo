@@ -63,7 +63,7 @@ namespace BodyTrackingDemo
                 case CameraStandMode.Auto:
                     backCamera.SetActive(_isDanceGamePlaying);
                     backCamera.GetComponent<SnapFollow>().enabled = false;
-                    frontCamera.GetComponent<SnapFollow>().enabled = true;
+                    frontCamera.GetComponent<SnapFollow>().enabled = false;
                     screen.uvRect = _isDanceGamePlaying ? new Rect(0, 0, 1, 1) : new Rect(0, 0, -1, 1); 
                     break;
                 case CameraStandMode.FixedFront:
