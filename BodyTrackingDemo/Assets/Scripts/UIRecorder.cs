@@ -10,6 +10,8 @@ namespace BodyTrackingDemo
         public Button btnRecording;
         public TextMeshProUGUI textStatus;
         public CameraRecorder cameraRecorder;
+        public GameObject browser;
+        public GameObject browserMirror;
 
         private void Start()
         {
@@ -22,6 +24,8 @@ namespace BodyTrackingDemo
                 cameraRecorder.StartRecording();
             }
 
+            browserMirror.SetActive(false);
+            
             UpdateStatusText();
         }
 
@@ -35,10 +39,18 @@ namespace BodyTrackingDemo
             if (cameraRecorder.IsRecording)
             {
                 cameraRecorder.StopRecording();
+                if (browser.activeSelf)
+                {
+                    browserMirror.SetActive(false);
+                }
             }
             else
             {
                 cameraRecorder.StartRecording();
+                if (browser.activeSelf)
+                {
+                    browserMirror.SetActive(true);
+                }
             }
 
             UpdateStatusText();
