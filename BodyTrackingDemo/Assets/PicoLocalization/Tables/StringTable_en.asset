@@ -191,6 +191,10 @@ MonoBehaviour:
     m_Localized: Resume
     m_Metadata:
       m_Items: []
+  - m_Id: 97898418945175552
+    m_Localized: hold the grab key to display the ray
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

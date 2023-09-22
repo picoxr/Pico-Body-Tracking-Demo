@@ -192,6 +192,10 @@ MonoBehaviour:
     m_Key: Resume
     m_Metadata:
       m_Items: []
+  - m_Id: 97898418945175552
+    m_Key: hold the grab key to display the ray
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
