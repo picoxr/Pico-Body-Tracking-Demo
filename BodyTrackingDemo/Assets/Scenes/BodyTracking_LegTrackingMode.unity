@@ -483,7 +483,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32303534}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 017c5e3933235514c9520e1dace2a4b2, type: 3}
   m_Name: 
@@ -2726,7 +2726,7 @@ Camera:
   m_Depth: -2
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 30711
+    m_Bits: 30679
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 21b9b9b15972ced40840efd5935e7b1c, type: 2}
   m_TargetDisplay: 0
@@ -6616,6 +6616,7 @@ MonoBehaviour:
   inputFieldURL: {fileID: 1289630838}
   defaultSearchWeb: https://www.baidu.com/
   homePage: https://search.bilibili.com/video?keyword=dance&tids=129
+  webViewPrefab: {fileID: 0}
 --- !u!1 &526717652
 GameObject:
   m_ObjectHideFlags: 0
@@ -7133,6 +7134,7 @@ GameObject:
   - component: {fileID: 580984056}
   - component: {fileID: 580984055}
   - component: {fileID: 580984054}
+  - component: {fileID: 580984057}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -7160,7 +7162,7 @@ MonoBehaviour:
   lateLatching: 0
   latelatchingDebug: 0
   bodyTracking: 1
-  foveationLevel: 1
+  foveationLevel: 2
   adaptiveResolution: 0
   eyeFoveationLevel: -1
   foveatedRenderingMode: 0
@@ -7213,6 +7215,24 @@ Transform:
   m_Father: {fileID: 2035183632}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &580984057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580984053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d71c027223d4e738e2b03241817d651, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftHandRay: {fileID: 1478942005}
+  rightHandRay: {fileID: 135343064}
+  leftGrip: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
+  rightGrip: {fileID: 187161793506945269, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
 --- !u!1 &584510063
 GameObject:
   m_ObjectHideFlags: 0
@@ -13474,6 +13494,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 580984056}
     m_Modifications:
+    - target: {fileID: 1307951672225780748, guid: a93e2398765e3694abab473646470700,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1820251939063812313, guid: a93e2398765e3694abab473646470700,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2810806730662911457, guid: a93e2398765e3694abab473646470700,
         type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -13494,9 +13524,39 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3772017924525447754, guid: a93e2398765e3694abab473646470700,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3804987780030304614, guid: a93e2398765e3694abab473646470700,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4335993659433630023, guid: a93e2398765e3694abab473646470700,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4638497058709878255, guid: a93e2398765e3694abab473646470700,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4728866171870501173, guid: a93e2398765e3694abab473646470700,
         type: 3}
       propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4852261153961422369, guid: a93e2398765e3694abab473646470700,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264500182326736377, guid: a93e2398765e3694abab473646470700,
+        type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5540380961315724695, guid: a93e2398765e3694abab473646470700,
@@ -13519,12 +13579,27 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6133231670860474506, guid: a93e2398765e3694abab473646470700,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133231670860474506, guid: a93e2398765e3694abab473646470700,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6250864150887160991, guid: a93e2398765e3694abab473646470700,
         type: 3}
       propertyPath: m_Name
       value: ClothRun_175 Variant LegTracking
       objectReference: {fileID: 0}
     - target: {fileID: 6250864150887160991, guid: a93e2398765e3694abab473646470700,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6373253833476888091, guid: a93e2398765e3694abab473646470700,
         type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -13583,6 +13658,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6875593878109054166, guid: a93e2398765e3694abab473646470700,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8455791141933055609, guid: a93e2398765e3694abab473646470700,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8623610394435438399, guid: a93e2398765e3694abab473646470700,
         type: 3}
