@@ -175,6 +175,22 @@ MonoBehaviour:
     m_Localized: Heel and Toe  (Different)
     m_Metadata:
       m_Items: []
+  - m_Id: 97479743746387968
+    m_Localized: Audio Setting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97479953331564544
+    m_Localized: Background Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97480137952243712
+    m_Localized: Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97480215802720256
+    m_Localized: Resume
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

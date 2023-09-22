@@ -61,7 +61,7 @@ namespace BodyTrackingDemo
             var clock = new RealtimeClock();
             _recorder = new MP4Recorder(videoWidth, videoHeight, frameRate, sampleRate, channelCount, audioBitRate: 96_000);
             _cameraInput = new CameraInput(_recorder, clock, targetCamera);
-            _audioInput = recordMicrophone ? new AudioInput(_recorder, clock, _microphoneSource, true) : null;
+            _audioInput = recordMicrophone ? new AudioInput(_recorder, clock, _microphoneSource) : null;
             // Unmute microphone
             _microphoneSource.mute = _audioInput == null;
 #endif
