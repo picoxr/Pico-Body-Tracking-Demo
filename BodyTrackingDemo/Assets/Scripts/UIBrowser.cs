@@ -13,6 +13,9 @@ namespace BodyTrackingDemo
     public class UIBrowser : MonoBehaviour
     {
         public Material Material { get; private set; }
+        public Texture Texture  { get; private set; }
+        public Vector2Int Size { get; private set; }
+        public bool Initialized { get; private set; }
         
         [SerializeField] private Transform webViewRoot;
         [SerializeField] private GameObject navigationBarRoot;
@@ -24,8 +27,8 @@ namespace BodyTrackingDemo
         [SerializeField] private string defaultSearchWeb = "https://www.baidu.com/";
         [SerializeField] private string homePage = "https://search.bilibili.com/video?keyword=dance";
 #if BROWSER
-        [SerializeField] private CanvasWebViewPrefab webViewPrefab;
-
+        
+        private CanvasWebViewPrefab _webViewPrefab;
         private float _pointerEnterCounter;
         private float _navigationBarHideTimer;
         private bool _hasFocus = true;
@@ -43,35 +46,39 @@ namespace BodyTrackingDemo
             // https://developer.vuplex.com/webview/Web#SetUserAgent
             Web.SetUserAgent(false);
             Web.SetStorageEnabled(true);
+            // Web.SetCameraAndMicrophoneEnabled(true);
         }
 
         async void Start() {
             
             // Create a CanvasWebViewPrefab
             // https://developer.vuplex.com/webview/CanvasWebViewPrefab
-            webViewPrefab = CanvasWebViewPrefab.Instantiate();
-            webViewPrefab.InitialUrl = homePage;
-            webViewPrefab.Resolution = .5f;
-            webViewPrefab.NativeOnScreenKeyboardEnabled = true;
-            webViewPrefab.transform.SetParent(webViewRoot, false);
-            webViewPrefab.transform.localScale = Vector3.one;
-            webViewPrefab.gameObject.SetLayerRecursively(webViewRoot.gameObject.layer);
+            _webViewPrefab = CanvasWebViewPrefab.Instantiate();
+            _webViewPrefab.InitialUrl = homePage;
+            _webViewPrefab.Resolution = .65f;
+            _webViewPrefab.NativeOnScreenKeyboardEnabled = true;
+            _webViewPrefab.transform.SetParent(webViewRoot, false);
+            _webViewPrefab.transform.localScale = Vector3.one;
+            _webViewPrefab.gameObject.SetLayerRecursively(webViewRoot.gameObject.layer);
 
-            var pointerInputDetector = webViewPrefab.GetComponentInChildren<CanvasPointerInputDetector>();
+            var pointerInputDetector = _webViewPrefab.GetComponentInChildren<CanvasPointerInputDetector>();
             pointerInputDetector.PointerEntered += OnPointerEntered;
             pointerInputDetector.PointerExited += OnPointerExited;
 
             // Wait for the prefab to initialize because its WebView property is null until then.
             // https://developer.vuplex.com/webview/WebViewPrefab#WaitUntilInitialized
-            await webViewPrefab.WaitUntilInitialized();
-
-            Material = webViewPrefab.Material;
+            await _webViewPrefab.WaitUntilInitialized();
+            
+            Material = _webViewPrefab.Material;
+            Size = _webViewPrefab.WebView.Size;
+            Texture = _webViewPrefab.WebView.Texture;
+            Initialized = true;
 
             // After the prefab has initialized, you can use the IWebView APIs via its WebView property.
             // https://developer.vuplex.com/webview/IWebView
-            webViewPrefab.WebView.UrlChanged += OnUrlChanged;
+            _webViewPrefab.WebView.UrlChanged += OnUrlChanged;
 
-            webViewPrefab.WebView.LoadUrl(webViewPrefab.InitialUrl);
+            _webViewPrefab.WebView.LoadUrl(_webViewPrefab.InitialUrl);
         }
         
         private void OnApplicationFocus(bool hasFocus)
@@ -123,31 +130,31 @@ namespace BodyTrackingDemo
         private void OnBack()
         {
             _navigationBarHideTimer = 5;
-            webViewPrefab.WebView.GoBack();
+            _webViewPrefab.WebView.GoBack();
         }
 
         private void OnForward()
         {
             _navigationBarHideTimer = 5;
-            webViewPrefab.WebView.GoForward();
+            _webViewPrefab.WebView.GoForward();
         }
 
         private void OnRefresh()
         {
             _navigationBarHideTimer = 5;
-            webViewPrefab.WebView.Reload();
+            _webViewPrefab.WebView.Reload();
         }
 
         private void OnHome()
         {
             _navigationBarHideTimer = 5;
-            webViewPrefab.WebView.LoadUrl(webViewPrefab.InitialUrl);
+            _webViewPrefab.WebView.LoadUrl(_webViewPrefab.InitialUrl);
         }
         
         private void OnSubmitURL(string value)
         {
             _navigationBarHideTimer = 5;
-            webViewPrefab.WebView.LoadUrl(IsURL(value) ? value : $"{defaultSearchWeb}s?wd={value}");
+            _webViewPrefab.WebView.LoadUrl(IsURL(value) ? value : $"{defaultSearchWeb}s?wd={value}");
         }
         
         private void OnUrlChanged(object sender, UrlChangedEventArgs e)
@@ -161,6 +168,16 @@ namespace BodyTrackingDemo
 
             return isValidUrl;
         }
+        
 #endif
+        
+        public Material CreateMaterial()
+        {
+#if BROWSER
+            return _webViewPrefab.WebView.CreateMaterial();
+#else
+            return null;
+#endif
+        }
     }
 }

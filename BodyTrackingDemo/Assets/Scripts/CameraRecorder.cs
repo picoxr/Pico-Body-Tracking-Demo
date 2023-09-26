@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 #if RECORDER
@@ -17,7 +16,7 @@ namespace BodyTrackingDemo
         public bool recordMicrophone;
         public Camera targetCamera;
 
-        private AudioSource _microphoneSource;
+        // private AudioSource _microphoneSource;
 #if RECORDER
         private AudioInput _audioInputListener;
         private CameraInput _cameraInput;
@@ -27,28 +26,32 @@ namespace BodyTrackingDemo
 
         public bool IsRecording { get; private set; }
 
-        private IEnumerator Start()
+        
+        private void Awake()
         {
             if (targetCamera == null) targetCamera = GetComponent<Camera>();
 
             if (targetCamera == null) targetCamera = Camera.current;
-
-            // Start microphone
-            _microphoneSource = gameObject.AddComponent<AudioSource>();
-            _microphoneSource.mute =
-                _microphoneSource.loop = true;
-            _microphoneSource.bypassEffects =
-                _microphoneSource.bypassListenerEffects = false;
-            _microphoneSource.clip = Microphone.Start(null, true, 1, AudioSettings.outputSampleRate);
-            yield return new WaitUntil(() => Microphone.GetPosition(null) > 0);
-            _microphoneSource.Play();
         }
+
+        // private IEnumerator Start()
+        // {
+        //     // Start microphone
+        //     _microphoneSource = gameObject.AddComponent<AudioSource>();
+        //     _microphoneSource.mute =
+        //         _microphoneSource.loop = true;
+        //     _microphoneSource.bypassEffects =
+        //         _microphoneSource.bypassListenerEffects = false;
+        //     _microphoneSource.clip = Microphone.Start(null, true, 1, AudioSettings.outputSampleRate);
+        //     yield return new WaitUntil(() => Microphone.GetPosition(null) > 0);
+        //     _microphoneSource.Play();
+        // }
 
         private void OnDestroy()
         {
             // Stop microphone
-            _microphoneSource.Stop();
-            Microphone.End(null);
+            // _microphoneSource.Stop();
+            // Microphone.End(null);
             StopRecording();
         }
 
@@ -56,7 +59,7 @@ namespace BodyTrackingDemo
         public void StartRecording()
         {
             // Start recording
-            var frameRate = 60;
+            var frameRate = 30;
             var sampleRate = recordMicrophone ? AudioSettings.outputSampleRate : 0;
             var channelCount = recordMicrophone ? (int) AudioSettings.speakerMode : 0;
 #if RECORDER
@@ -80,7 +83,7 @@ namespace BodyTrackingDemo
             {
                 IsRecording = false;
                 // Mute microphone
-                _microphoneSource.mute = true;
+                // _microphoneSource.mute = true;
                 // Stop recording
 #if RECORDER
                 _audioInputListener?.Dispose();
