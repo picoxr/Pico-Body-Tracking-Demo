@@ -252,6 +252,8 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 11400000, guid: ef4284c80aa091340930021b2ccbc986, type: 2}
+  - {fileID: 11400000, guid: 5da521a102efbc946a2cf513e9193552, type: 2}
+  - {fileID: 3574766362303591076, guid: faa4114fc994ebf4296c8617165e8e9a, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -824,7 +826,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: UNITY_POST_PROCESSING_STACK_V2;RECORDER;VUPLEX_CCU;VUPLEX_XR_INTERACTION_TOOLKIT;VUPLEX_OCULUS
+    Android: UNITY_POST_PROCESSING_STACK_V2
     EmbeddedLinux: UNITY_POST_PROCESSING_STACK_V2
     GameCoreXboxOne: UNITY_POST_PROCESSING_STACK_V2
     Lumin: PHOTON_UNITY_NETWORKING;PUN_2_0_OR_NEWER;PUN_2_OR_NEWER;PUN_2_19_OR_NEWER;UNITY_POST_PROCESSING_STACK_V2
