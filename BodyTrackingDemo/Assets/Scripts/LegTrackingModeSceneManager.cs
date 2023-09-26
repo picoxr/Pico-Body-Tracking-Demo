@@ -371,9 +371,7 @@ namespace BodyTrackingDemo
                     vfx.transform.localScale = Vector3.one * _avatarScale;
                     vfx.SetActive(true);
 
-                    var sfx = Instantiate(stepOnToeSFX, targetPos, Quaternion.identity);
-                    sfx.gameObject.SetActive(true);
-                    sfx.Play();
+                    AudioManager.Instance.PlayEffect(stepOnToeSFX, targetPos);
                     Debug.Log($"LegTrackingModeSceneManager.PlayStepOnEffect: action = {action}, targetPos = {targetPos}");
                     return vfx;
                 }
@@ -383,10 +381,8 @@ namespace BodyTrackingDemo
                     var vfx = Instantiate(effect, targetPos, rotation);
                     vfx.transform.localScale = Vector3.one * _avatarScale;
                     vfx.SetActive(true);
-
-                    var sfx = Instantiate(stepOnHeelSFX, targetPos, Quaternion.identity);
-                    sfx.gameObject.SetActive(true);
-                    sfx.Play();
+                    
+                    AudioManager.Instance.PlayEffect(stepOnHeelSFX, targetPos);
                     Debug.Log($"LegTrackingModeSceneManager.PlayStepOnEffect: action = {action}, targetPos = {targetPos}");
                     return vfx;
                 }
