@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +12,7 @@ namespace BodyTrackingDemo
         public TMP_Dropdown dropdownMode;
         public Slider sliderHeight;
         public TextMeshProUGUI textHeightValue;
+        public TextMeshProUGUI textRayHint;
         
         private void Awake()
         {
@@ -25,6 +25,7 @@ namespace BodyTrackingDemo
         {
             dropdownMode.value = PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode;
             sliderHeight.value = PlayerPrefManager.Instance.PlayerPrefData.height;
+            textRayHint.gameObject.SetActive(PlayerPrefManager.Instance.PlayerPrefData.interactionRayMode == 0);
             
             textHeightValue.text = sliderHeight.value.ToString("f0");
         }

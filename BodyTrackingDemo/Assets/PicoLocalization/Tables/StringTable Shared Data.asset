@@ -193,7 +193,19 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 97898418945175552
-    m_Key: hold the grab key to display the ray
+    m_Key: hold the grib key to display the ray
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98838771592376320
+    m_Key: Hold grip key to show
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98838818300145664
+    m_Key: Awalys show
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98927853425176576
+    m_Key: Ray Interactor
     m_Metadata:
       m_Items: []
   m_Metadata:
