@@ -357,5 +357,12 @@ namespace BodyTrackingDemo
                 }
             }
         }
+
+        [ContextMenu("ApplyOffset")]
+        public void ApplyOffset()
+        {
+            var offset = target.position - transform.position;
+            m_TargetOffset = offset;
+        }
     }
 }

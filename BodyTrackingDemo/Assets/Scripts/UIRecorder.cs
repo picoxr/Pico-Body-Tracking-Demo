@@ -17,10 +17,12 @@ namespace BodyTrackingDemo
         {
             toggleAutoRecording.onValueChanged.AddListener(OnAutoRecordingChanged);
             btnRecording.onClick.AddListener(OnRecording);
+            cameraRecorder.gameObject.SetActive(false);
 
             toggleAutoRecording.isOn = PlayerPrefManager.Instance.PlayerPrefData.autoRecording;
             if (toggleAutoRecording.isOn)
             {
+                cameraRecorder.gameObject.SetActive(true);
                 cameraRecorder.StartRecording();
             }
 
@@ -38,6 +40,7 @@ namespace BodyTrackingDemo
         {
             if (cameraRecorder.IsRecording)
             {
+                cameraRecorder.gameObject.SetActive(false);
                 cameraRecorder.StopRecording();
                 if (browser.activeSelf)
                 {
@@ -46,6 +49,7 @@ namespace BodyTrackingDemo
             }
             else
             {
+                cameraRecorder.gameObject.SetActive(true);
                 cameraRecorder.StartRecording();
                 if (browser.activeSelf)
                 {
