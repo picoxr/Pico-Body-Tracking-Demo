@@ -96,6 +96,8 @@ namespace BodyTrackingDemo
 
         public int steppingEffect = 1;
         public int cameraStandMode = 0;
+        public int interactionRayMode = 1;
+        public bool backgroundMusic = true;
 
         public bool autoRecording;
 
