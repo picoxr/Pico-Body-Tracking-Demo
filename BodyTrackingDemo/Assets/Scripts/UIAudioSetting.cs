@@ -6,23 +6,21 @@ namespace BodyTrackingDemo
     public class UIAudioSetting : MonoBehaviour
     {
         [SerializeField] private Toggle toggleMusic;
-        [SerializeField] private AudioSource music;
-        
-        
+
         private void Start()
         {
             toggleMusic.onValueChanged.AddListener(OnMusic);
         }
 
-        private void OnMusic(bool arg0)
+        private void OnMusic(bool value)
         {
-            if (arg0)
+            if (value)
             {
-                music.Play();    
+                AudioManager.Instance.PlayMusic();    
             }
             else
             {
-                music.Pause();
+                AudioManager.Instance.PauseMusic();
             }
             
         }

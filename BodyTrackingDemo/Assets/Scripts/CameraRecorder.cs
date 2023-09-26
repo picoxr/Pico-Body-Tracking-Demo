@@ -19,9 +19,10 @@ namespace BodyTrackingDemo
 
         private AudioSource _microphoneSource;
 #if RECORDER
-        private AudioInput _audioInput;
+        private AudioInput _audioInputListener;
         private CameraInput _cameraInput;
         private MP4Recorder _recorder;
+        private RealtimeClock _clock;
 #endif
 
         public bool IsRecording { get; private set; }
@@ -48,6 +49,7 @@ namespace BodyTrackingDemo
             // Stop microphone
             _microphoneSource.Stop();
             Microphone.End(null);
+            StopRecording();
         }
 
         [ContextMenu("StartRecording")]
@@ -58,12 +60,12 @@ namespace BodyTrackingDemo
             var sampleRate = recordMicrophone ? AudioSettings.outputSampleRate : 0;
             var channelCount = recordMicrophone ? (int) AudioSettings.speakerMode : 0;
 #if RECORDER
-            var clock = new RealtimeClock();
+            _clock = new RealtimeClock();
             _recorder = new MP4Recorder(videoWidth, videoHeight, frameRate, sampleRate, channelCount, audioBitRate: 96_000);
-            _cameraInput = new CameraInput(_recorder, clock, targetCamera);
-            _audioInput = recordMicrophone ? new AudioInput(_recorder, clock, _microphoneSource) : null;
-            // Unmute microphone
-            _microphoneSource.mute = _audioInput == null;
+            _cameraInput = new CameraInput(_recorder, _clock, targetCamera);
+
+            var audioListener = FindObjectOfType<AudioListener>();
+           _audioInputListener = new AudioInput(_recorder, _clock, audioListener);
 #endif
 
             IsRecording = true;
@@ -81,7 +83,7 @@ namespace BodyTrackingDemo
                 _microphoneSource.mute = true;
                 // Stop recording
 #if RECORDER
-                _audioInput?.Dispose();
+                _audioInputListener?.Dispose();
                 _cameraInput.Dispose();
                 var path = await _recorder.FinishWriting();
                 // Playback recording
