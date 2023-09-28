@@ -16,4 +16,7 @@
             android:name="PICO.swift.feature"
             android:value="1" />
     </application>
+<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
 </manifest>
