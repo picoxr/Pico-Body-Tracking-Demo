@@ -1,0 +1,212 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: StringTable_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 1a283b417858a274f988939f8f4747d2, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 94854851154718720
+    m_Localized: Earth Shatter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301632
+    m_Localized: Press [Space] For more info
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301633
+    m_Localized: Magic Effect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301634
+    m_Localized: This 'earth shatter' effect is a n example of multiple particle
+      systems worknig together to make a magic effect that could be used in a game.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301635
+    m_Localized: Display Setting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301636
+    m_Localized: Stop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301637
+    m_Localized: Sensitivity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301638
+    m_Localized: Fixed Position
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301639
+    m_Localized: Calibrate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301640
+    m_Localized: Leg Tracking Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301641
+    m_Localized: Calibrate Now
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301642
+    m_Localized: Option A
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301643
+    m_Localized: Height
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301644
+    m_Localized: PICO Motion Tracker
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301645
+    m_Localized: Recording
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301646
+    m_Localized: Automatic Recording
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301647
+    m_Localized: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301648
+    m_Localized: 'Score:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301649
+    m_Localized: Continue Without Calibration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301650
+    m_Localized: Stepping effects
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301651
+    m_Localized: None
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301652
+    m_Localized: Position
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301653
+    m_Localized: 2D Video Recorder
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301654
+    m_Localized: Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301655
+    m_Localized: Stepping Game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301656
+    m_Localized: Align Ground
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94854851167301657
+    m_Localized: Mirror
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94903465147150336
+    m_Localized: Full Body Tracking Mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94903775819247616
+    m_Localized: Follow the View
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94904017272745984
+    m_Localized: Heel and Toe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94904093290311680
+    m_Localized: Heel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94904144343379968
+    m_Localized: Toe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94930303256932352
+    m_Localized: Fixed Position(Front)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94930318729719808
+    m_Localized: Fixed Position(Back)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94930349452996608
+    m_Localized: Following Position(Front)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94930371817025536
+    m_Localized: Following Position(Back)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 94948490618908672
+    m_Localized: Auto
+    m_Metadata:
+      m_Items: []
+  - m_Id: 96397821985206272
+    m_Localized: Heel and Toe (Same)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 96397841614548992
+    m_Localized: Heel and Toe  (Different)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97479743746387968
+    m_Localized: Audio Setting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97479953331564544
+    m_Localized: Background Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97480137952243712
+    m_Localized: Pause
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97480215802720256
+    m_Localized: Resume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97898418945175552
+    m_Localized: hold the grib key to display the ray
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98838771592376320
+    m_Localized: Hold grip key to show
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98838818300145664
+    m_Localized: Awalys show
+    m_Metadata:
+      m_Items: []
+  - m_Id: 98927853425176576
+    m_Localized: Ray Interactor
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
