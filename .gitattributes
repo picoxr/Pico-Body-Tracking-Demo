@@ -1,3 +1,1 @@
-# Auto detect text files and perform LF normalization
-* text=auto
-
+Sky_Moon.png filter=lfs diff=lfs merge=lfs -text
