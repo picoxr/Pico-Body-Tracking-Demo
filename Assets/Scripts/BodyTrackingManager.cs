@@ -8,7 +8,7 @@ using UnityEngine.XR;
 
 namespace BodyTrackingDemo
 {
-    public class LegTrackingModeSceneManager : MonoBehaviour
+    public class BodyTrackingManager : MonoBehaviour
     {
         public enum LegTrackingDemoState
         {
@@ -18,11 +18,11 @@ namespace BodyTrackingDemo
             PLAYING
         }
 
-        public static LegTrackingModeSceneManager Instance;
+        public static BodyTrackingManager Instance;
 
         private static List<XRInputSubsystem> s_InputSubsystems = new();
 
-        public LegTrackingModeUIManager startCanvas;
+        public UIStartup startCanvas;
         public DancePadsManager DancePadManager;
         public GameObject RecorderUI;
         public GameObject gameCanvas;
@@ -41,7 +41,7 @@ namespace BodyTrackingDemo
 
 
         [HideInInspector] public LegTrackingDemoState m_CurrentLegTrackingDemoState;
-        private SimpleSample _simpleSample;
+        private BodyTrackerSampler _bodyTrackerSampler;
         private float _startFootHeight;
         private float _startXROriginY;
         private float _initXROriginY;
@@ -100,8 +100,8 @@ namespace BodyTrackingDemo
         {
             if (m_CurrentLegTrackingDemoState == LegTrackingDemoState.PLAYING)
             {
-                m_LeftFootStepOnAction = _simpleSample.LeftTouchGroundAction;
-                m_RightFootStepOnAction = _simpleSample.RightTouchGroundAction;
+                m_LeftFootStepOnAction = _bodyTrackerSampler.LeftTouchGroundAction;
+                m_RightFootStepOnAction = _bodyTrackerSampler.RightTouchGroundAction;
                 DancePadManager.DancePadHoleStepOnDetection(m_AvatarLeftFoot.position, m_AvatarRightFoot.position, m_LeftFootStepOnAction, m_RightFootStepOnAction, m_LeftFootStepOnLastAction, m_RightFootStepOnLastAction);
 
                 if (DancePadManager.IsDancePadGamePlaying)
@@ -120,7 +120,7 @@ namespace BodyTrackingDemo
                             var particle = _curLeftToeVFX.GetComponentInChildren<ParticleSystem>();
                             particle.Stop(true);
                         }
-                        _curLeftToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _simpleSample.LeftFootToeBone, stepOnLeftEffect);
+                        _curLeftToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _bodyTrackerSampler.LeftFootToeBone, stepOnLeftEffect);
                     }
                     
                     if ((m_RightFootStepOnAction & (int) BodyActionList.PxrTouchGround) != 0 && (m_RightFootStepOnLastAction & (int) BodyActionList.PxrTouchGround) == 0 ||
@@ -131,7 +131,7 @@ namespace BodyTrackingDemo
                             var particle = _curRightToeVFX.GetComponentInChildren<ParticleSystem>();
                             particle.Stop(true);
                         }
-                        _curRightToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _simpleSample.RightFootToeBone, stepOnRightEffect);
+                        _curRightToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _bodyTrackerSampler.RightFootToeBone, stepOnRightEffect);
                     }
                 }
                 else
@@ -145,7 +145,7 @@ namespace BodyTrackingDemo
                                 var particle = _curLeftHeelVFX.GetComponentInChildren<ParticleSystem>();
                                 particle.Stop(true);
                             }
-                            _curLeftHeelVFX = PlayStepOnEffect(BodyActionList.PxrTouchGround, _simpleSample.LeftFootBone, stepOnLeftHeelEffect);
+                            _curLeftHeelVFX = PlayStepOnEffect(BodyActionList.PxrTouchGround, _bodyTrackerSampler.LeftFootBone, stepOnLeftHeelEffect);
                         }
 
                         if ((m_RightFootStepOnAction & (int) BodyActionList.PxrTouchGround) != 0 && (m_RightFootStepOnLastAction & (int) BodyActionList.PxrTouchGround) == 0)
@@ -155,7 +155,7 @@ namespace BodyTrackingDemo
                                 var particle = _curRightHeelVFX.GetComponentInChildren<ParticleSystem>();
                                 particle.Stop(true);
                             }
-                            _curRightHeelVFX = PlayStepOnEffect(BodyActionList.PxrTouchGround, _simpleSample.RightFootBone, stepOnHeelEffect);
+                            _curRightHeelVFX = PlayStepOnEffect(BodyActionList.PxrTouchGround, _bodyTrackerSampler.RightFootBone, stepOnHeelEffect);
                         }
                     }
 
@@ -168,7 +168,7 @@ namespace BodyTrackingDemo
                                 var particle = _curLeftToeVFX.GetComponentInChildren<ParticleSystem>();
                                 particle.Stop(true);
                             }
-                            _curLeftToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _simpleSample.LeftFootToeBone, stepOnLeftToeEffect);
+                            _curLeftToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _bodyTrackerSampler.LeftFootToeBone, stepOnLeftToeEffect);
                         }
 
                         if ((m_RightFootStepOnAction & (int) BodyActionList.PxrTouchGroundToe) != 0 && (m_RightFootStepOnLastAction & (int) BodyActionList.PxrTouchGroundToe) == 0)
@@ -178,7 +178,7 @@ namespace BodyTrackingDemo
                                 var particle = _curLeftToeVFX.GetComponentInChildren<ParticleSystem>();
                                 particle.Stop(true);
                             }
-                            _curRightToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _simpleSample.RightFootToeBone, stepOnToeEffect);
+                            _curRightToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _bodyTrackerSampler.RightFootToeBone, stepOnToeEffect);
                         }
                     }
                 }
@@ -220,12 +220,12 @@ namespace BodyTrackingDemo
 
             var xrOriginPos = XROrigin.transform.localPosition;
 
-            xrOriginPos.y = _startXROriginY + -(_startFootHeight - _simpleSample.soleHeight);
+            xrOriginPos.y = _startXROriginY + -(_startFootHeight - _bodyTrackerSampler.soleHeight);
 
             XROrigin.transform.localPosition = xrOriginPos;
             _startXROriginY = xrOriginPos.y;
 
-            Debug.Log($"LegTrackingModeSceneManager.AlignGround: StartFootHeight = {_startFootHeight}, xrOriginPos = {xrOriginPos}");
+            Debug.Log($"BodyTrackingManager.AlignGround: StartFootHeight = {_startFootHeight}, xrOriginPos = {xrOriginPos}");
         }
 
         [ContextMenu("LoadAvatar")]
@@ -281,19 +281,19 @@ namespace BodyTrackingDemo
             m_AvatarObj.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
             m_AvatarObj.SetActive(true);
 
-            _simpleSample = m_AvatarObj.GetComponent<SimpleSample>();
+            _bodyTrackerSampler = m_AvatarObj.GetComponent<BodyTrackerSampler>();
 
-            m_LeftFootStepOnAction = m_LeftFootStepOnLastAction = _simpleSample.LeftTouchGroundAction;
-            m_RightFootStepOnAction = m_RightFootStepOnLastAction = _simpleSample.RightTouchGroundAction;
+            m_LeftFootStepOnAction = m_LeftFootStepOnLastAction = _bodyTrackerSampler.LeftTouchGroundAction;
+            m_RightFootStepOnAction = m_RightFootStepOnLastAction = _bodyTrackerSampler.RightTouchGroundAction;
 
-            m_AvatarLeftFoot = _simpleSample.BonesList[10];
-            m_AvatarRightFoot = _simpleSample.BonesList[11];
+            m_AvatarLeftFoot = _bodyTrackerSampler.BonesList[10];
+            m_AvatarRightFoot = _bodyTrackerSampler.BonesList[11];
 
 
             _avatarScale = height / 175;
             
             // XROrigin.transform.localScale = Vector3.one * _avatarScale;
-            _simpleSample.UpdateBonesLength(_avatarScale);
+            _bodyTrackerSampler.UpdateBonesLength(_avatarScale);
 
             Avatar.SetActive(false);
             yield return new WaitForEndOfFrame();
@@ -309,7 +309,7 @@ namespace BodyTrackingDemo
 
             m_CurrentLegTrackingDemoState = LegTrackingDemoState.PLAYING;
 
-            Debug.Log($"LegTrackingModeSceneManager.LoadAvatar: Avatar = {m_AvatarObj.name}, height = {height}");
+            Debug.Log($"BodyTrackingManager.LoadAvatar: Avatar = {m_AvatarObj.name}, height = {height}");
         }
 
         private void UpdateFitnessBandState()
@@ -324,7 +324,7 @@ namespace BodyTrackingDemo
             {
                 startCanvas.startMenu.SetActive(false);
                 StartGame();
-                Debug.Log($"LegTrackingModeSceneManager.UpdateFitnessBandState: calibrated = {calibrated}");
+                Debug.Log($"BodyTrackingManager.UpdateFitnessBandState: calibrated = {calibrated}");
             }
             else
             {
@@ -343,7 +343,7 @@ namespace BodyTrackingDemo
                 startCanvas.startMenu.SetActive(true);
                 startCanvas.btnContinue.gameObject.SetActive(connectState.num == 2 && trackingState == 0);
 
-                Debug.Log($"LegTrackingModeSceneManager.UpdateFitnessBandState: connectedNum = {connectState.num}, trackingState = {trackingState}");
+                Debug.Log($"BodyTrackingManager.UpdateFitnessBandState: connectedNum = {connectState.num}, trackingState = {trackingState}");
             }
         }
 
@@ -372,7 +372,7 @@ namespace BodyTrackingDemo
                     vfx.SetActive(true);
 
                     AudioManager.Instance.PlayEffect(stepOnToeSFX, targetPos);
-                    Debug.Log($"LegTrackingModeSceneManager.PlayStepOnEffect: action = {action}, targetPos = {targetPos}");
+                    Debug.Log($"BodyTrackingManager.PlayStepOnEffect: action = {action}, targetPos = {targetPos}");
                     return vfx;
                 }
                 case BodyActionList.PxrTouchGround:
@@ -383,7 +383,7 @@ namespace BodyTrackingDemo
                     vfx.SetActive(true);
                     
                     AudioManager.Instance.PlayEffect(stepOnHeelSFX, targetPos);
-                    Debug.Log($"LegTrackingModeSceneManager.PlayStepOnEffect: action = {action}, targetPos = {targetPos}");
+                    Debug.Log($"BodyTrackingManager.PlayStepOnEffect: action = {action}, targetPos = {targetPos}");
                     return vfx;
                 }
             }

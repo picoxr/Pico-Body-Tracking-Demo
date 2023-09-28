@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BodyTrackingDemo
 {
-    public class SimpleSample : MonoBehaviour
+    public class BodyTrackerSampler : MonoBehaviour
     {
 
         public List<Transform> BonesList = new List<Transform>(new Transform[(int) BodyTrackerRole.ROLE_NUM]);
@@ -32,13 +32,6 @@ namespace BodyTrackingDemo
 
         private Vector3 m_hipJointPosition;
         private Quaternion m_JointRotation;
-        //private Vector3 rightFootPosition;
-        //private Vector3 leftAnklePos;
-        //private Vector3 rightAnklePos;
-        //private Vector3 footPosition;
-        //private int lastLeftAction;
-        //private int lastRightAction;
-
         private BodyTrackerJoint[] _joints;
         
         private void Awake()
@@ -152,7 +145,7 @@ namespace BodyTrackingDemo
             SkeletonLens[9] = (BonesList[18].position - BonesList[20].position).magnitude; //LowerArmLen
             SkeletonLens[10] = 0.169f; //HandLen
         
-            Debug.Log($"SimpleSample.FindBonesLength: NeckLen = {SkeletonLens[1]}, TorsoLen = {SkeletonLens[2]}, HipLen = {SkeletonLens[3]}, UpperLegLen = {SkeletonLens[4]}, LowerLegLen = {SkeletonLens[5]}, FootLen = {SkeletonLens[6]}, ShoulderLen = {SkeletonLens[7]}, UpperArmLen = {SkeletonLens[8]}, LowerArmLen = {SkeletonLens[9]}");
+            Debug.Log($"BodyTrackerSampler.FindBonesLength: NeckLen = {SkeletonLens[1]}, TorsoLen = {SkeletonLens[2]}, HipLen = {SkeletonLens[3]}, UpperLegLen = {SkeletonLens[4]}, LowerLegLen = {SkeletonLens[5]}, FootLen = {SkeletonLens[6]}, ShoulderLen = {SkeletonLens[7]}, UpperArmLen = {SkeletonLens[8]}, LowerArmLen = {SkeletonLens[9]}");
         }
 
         public void UpdateBonesLength(float scale = 1)
@@ -183,7 +176,7 @@ namespace BodyTrackingDemo
 
             int result = PXR_Input.SetBodyTrackingBoneLength(boneLength);
         
-            Debug.Log($"SimpleSample.SetBonesLength: boneLength = {boneLength}, result = {result}");
+            Debug.Log($"BodyTrackerSampler.SetBonesLength: boneLength = {boneLength}, result = {result}");
         }
 
         public static Vector3 GetPosition(BodyTrackerTransform bodyTrackerTransform)

@@ -55,8 +55,8 @@ namespace BodyTrackingDemo
         private void OnCalibration()
         {
             PXR_Input.OpenFitnessBandCalibrationAPP();
-            LegTrackingModeSceneManager.Instance.m_CurrentLegTrackingDemoState = LegTrackingModeSceneManager.LegTrackingDemoState.CALIBRATING;
-            LegTrackingModeSceneManager.Instance.HideAvatar();
+            BodyTrackingManager.Instance.m_CurrentLegTrackingDemoState = BodyTrackingManager.LegTrackingDemoState.CALIBRATING;
+            BodyTrackingManager.Instance.HideAvatar();
         }
     }
 }
