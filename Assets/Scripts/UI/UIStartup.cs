@@ -5,7 +5,7 @@ using Unity.XR.PXR;
 
 namespace BodyTrackingDemo
 {
-    public class LegTrackingModeUIManager : MonoBehaviour
+    public class UIStartup : MonoBehaviour
     {
         public GameObject startMenu;
         public Button btnContinue;
@@ -40,20 +40,20 @@ namespace BodyTrackingDemo
         {
             PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode = modeIdx;
             PXR_Input.SetSwiftMode(modeIdx);
-            Debug.Log($"LegTrackingModeUIManager.OnModeChanged: modeIdx = {modeIdx}");
+            Debug.Log($"UIStartup.OnModeChanged: modeIdx = {modeIdx}");
         }
 
         private void OnContinue()
         {
             startMenu.SetActive(false);
-            LegTrackingModeSceneManager.Instance.StartGame();
+            BodyTrackingManager.Instance.StartGame();
         }
 
         public void OnDemoStart()
         {
             startMenu.SetActive(false);
             PXR_Input.OpenFitnessBandCalibrationAPP();
-            LegTrackingModeSceneManager.Instance.m_CurrentLegTrackingDemoState = LegTrackingModeSceneManager.LegTrackingDemoState.CALIBRATING;
+            BodyTrackingManager.Instance.m_CurrentLegTrackingDemoState = BodyTrackingManager.LegTrackingDemoState.CALIBRATING;
         }
     }
 }

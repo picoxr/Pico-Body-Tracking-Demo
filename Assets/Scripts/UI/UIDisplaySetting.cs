@@ -22,7 +22,7 @@ namespace BodyTrackingDemo
 
         private void OnAlignGround()
         {
-            LegTrackingModeSceneManager.Instance.AlignGround();
+            BodyTrackingManager.Instance.AlignGround();
         }
         
         private void Start()
