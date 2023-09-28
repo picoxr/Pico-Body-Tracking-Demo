@@ -1,4 +1,4 @@
-## Motion Tracker Leg Tracking
+## Pico Body Tracking Demo
 
 ## Development Environment (For full-body tracking mode)
 - PUI v5.7.0 (Specific ROM version: China mainland - B4694, other region - B4692), contact with PICO AM to push the ROM OTA
