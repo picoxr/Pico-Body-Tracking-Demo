@@ -1,4 +1,4 @@
-## PICO Body Tracking
+## Pico Body Tracking Demo
 
 ## Development Environment (For full-body tracking mode)
 - PUI v5.8.2 or above
