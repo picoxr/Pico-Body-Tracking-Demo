@@ -13,11 +13,24 @@ PICO Technology Co., Ltd.
 using System.Runtime.InteropServices;
 using UnityEngine;
 
+#if PICO_LIVE_PREVIEW && UNITY_EDITOR
+using Unity.XR.PICO.LivePreview;
+#endif
+
 namespace Unity.XR.PXR
 {
+    /// <summary>
+    /// Hand types.
+    /// </summary>
     public enum HandType
     {
+        /// <summary>
+        /// Left hand.
+        /// </summary>
         HandLeft = 0,
+        /// <summary>
+        /// Right hand.
+        /// </summary>
         HandRight = 1,
     }
 
@@ -280,7 +293,11 @@ namespace Unity.XR.PXR
         /// </returns>
         public static bool GetSettingState()
         {
+#if PICO_LIVE_PREVIEW && UNITY_EDITOR
+            return PXR_PTApi.UPxr_GetSettingState();
+#endif
             return PXR_Plugin.HandTracking.UPxr_GetHandTrackerSettingState();
+            
         }
 
         /// <summary>Gets the current active input device.</summary>
@@ -291,6 +308,9 @@ namespace Unity.XR.PXR
         /// </returns>
         public static ActiveInputDevice GetActiveInputDevice()
         {
+#if PICO_LIVE_PREVIEW && UNITY_EDITOR
+            return PXR_PTApi.UPxr_GetGetHandTrackerActiveState() ? ActiveInputDevice.HandTrackingActive : ActiveInputDevice.ControllerActive;
+#endif
             return PXR_Plugin.HandTracking.UPxr_GetHandTrackerActiveInputType();
         }
 
@@ -306,15 +326,14 @@ namespace Unity.XR.PXR
         /// {
         ///     // Whether the data is valid.
         ///     public bool Computed { get; private set; }
-        ///
         ///     // The ray pose.
         ///     public Posef RayPose { get; private set; }
         ///     // Whether the ray was displayed.
         ///     public bool RayValid { get; private set; }
-        ///     // Whether the ray touched.
-        ///     public bool RayTouched { get; private set; }
-        ///     // The strength of ray touch.
-        ///     public float TouchStrengthRay { get; private set; }
+        ///     // Whether the ray pinched.
+        ///     public bool Pinch { get; private set; }
+        ///     // The strength of ray pinch.
+        ///     public float PinchStrength { get; private set; }
         /// ```
         /// </param>
         /// <returns>
@@ -323,7 +342,23 @@ namespace Unity.XR.PXR
         /// </returns>
         public static bool GetAimState(HandType hand, ref HandAimState aimState)
         {
-            if (!PXR_ProjectSetting.GetProjectConfig().handTracking) return false;
+            if (!PXR_ProjectSetting.GetProjectConfig().handTracking) 
+                return false;
+
+#if PICO_LIVE_PREVIEW && UNITY_EDITOR
+            PICO.LivePreview.HandAimState lPHandAimState = new PICO.LivePreview.HandAimState();
+            PXR_PTApi.UPxr_GetHandTrackerAimState((int)hand, ref lPHandAimState);
+            aimState.aimStatus = (HandAimStatus)lPHandAimState.aimStatus;
+            aimState.touchStrengthRay = lPHandAimState.touchStrengthRay;
+            aimState.aimRayPose.Position.x = lPHandAimState.aimRayPose.Position.x;
+            aimState.aimRayPose.Position.y = lPHandAimState.aimRayPose.Position.y;
+            aimState.aimRayPose.Position.z = lPHandAimState.aimRayPose.Position.z;
+            aimState.aimRayPose.Orientation.x = lPHandAimState.aimRayPose.Orientation.x;
+            aimState.aimRayPose.Orientation.y = lPHandAimState.aimRayPose.Orientation.y;
+            aimState.aimRayPose.Orientation.z = lPHandAimState.aimRayPose.Orientation.z;
+            aimState.aimRayPose.Orientation.w = lPHandAimState.aimRayPose.Orientation.w;
+            return true;
+#endif
             return PXR_Plugin.HandTracking.UPxr_GetHandTrackerAimState(hand, ref aimState);
         }
 
@@ -339,8 +374,48 @@ namespace Unity.XR.PXR
         /// </returns>
         public static bool GetJointLocations(HandType hand, ref HandJointLocations jointLocations)
         {
-            if (!PXR_ProjectSetting.GetProjectConfig().handTracking) return false;
+            if (!PXR_ProjectSetting.GetProjectConfig().handTracking) 
+                return false;
+#if PICO_LIVE_PREVIEW && UNITY_EDITOR
+            PICO.LivePreview.HandJointLocations lPHandJointLocations = new PICO.LivePreview.HandJointLocations();
+            PXR_PTApi.UPxr_GetHandTrackerJointLocations((int)hand,ref lPHandJointLocations);
+            jointLocations.handScale = lPHandJointLocations.handScale;
+            jointLocations.isActive = lPHandJointLocations.isActive;
+            jointLocations.jointCount = lPHandJointLocations.jointCount;
+            jointLocations.jointLocations = new HandJointLocation[lPHandJointLocations.jointCount];
+            for (int i = 0; i < lPHandJointLocations.jointCount; i++)
+            {
+                jointLocations.jointLocations[i].locationStatus = (HandLocationStatus)lPHandJointLocations.jointLocations[i].locationStatus;
+                jointLocations.jointLocations[i].radius = lPHandJointLocations.jointLocations[i].radius;
+                jointLocations.jointLocations[i].pose.Position.x = lPHandJointLocations.jointLocations[i].pose.Position.x;
+                jointLocations.jointLocations[i].pose.Position.y = lPHandJointLocations.jointLocations[i].pose.Position.y;
+                jointLocations.jointLocations[i].pose.Position.z = lPHandJointLocations.jointLocations[i].pose.Position.z;
+                jointLocations.jointLocations[i].pose.Orientation.x = lPHandJointLocations.jointLocations[i].pose.Orientation.x;
+                jointLocations.jointLocations[i].pose.Orientation.y = lPHandJointLocations.jointLocations[i].pose.Orientation.y;
+                jointLocations.jointLocations[i].pose.Orientation.z = lPHandJointLocations.jointLocations[i].pose.Orientation.z;
+                jointLocations.jointLocations[i].pose.Orientation.w = lPHandJointLocations.jointLocations[i].pose.Orientation.w;
+
+            }
+            return true;
+#endif
             return PXR_Plugin.HandTracking.UPxr_GetHandTrackerJointLocations(hand, ref jointLocations);
+        }
+
+        /// <summary>
+        /// Gets the scaling ratio of the hand model.
+        /// </summary>
+        /// <param name="hand">Specifies the hand to get scaling ratio for:
+        /// * `HandLeft`: left hand
+        /// * `HandRight`: right hand
+        /// </param>
+        /// <param name="scale">Returns the scaling ratio for the specified hand.</param>
+        /// <returns>
+        /// * `true`: success
+        /// * `false`: failure
+        /// </returns>
+        public static bool GetHandScale(HandType hand,ref float scale)
+        {
+            return PXR_Plugin.HandTracking.UPxr_GetHandScale((int)hand, ref scale);
         }
 
     }

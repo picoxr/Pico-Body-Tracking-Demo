@@ -10,7 +10,7 @@ namespace BodyTrackingDemo
 {
     public class BodyTrackingManager : MonoBehaviour
     {
-        public enum LegTrackingDemoState
+        public enum BodyTrackingDemoState
         {
             START,
             CALIBRATING,
@@ -40,7 +40,8 @@ namespace BodyTrackingDemo
         [SerializeField] private AudioSource stepOnHeelSFX;
 
 
-        [HideInInspector] public LegTrackingDemoState m_CurrentLegTrackingDemoState;
+        [HideInInspector] public BodyTrackingDemoState m_CurrentBodyTrackingDemoState;
+        [HideInInspector] public static int SteppingEffectType;
         private BodyTrackerSampler _bodyTrackerSampler;
         private float _startFootHeight;
         private float _startXROriginY;
@@ -54,7 +55,7 @@ namespace BodyTrackingDemo
         private int m_RightFootStepOnAction;
         private int m_RightFootStepOnLastAction;
 
-        private bool m_SwiftCalibratedState;
+        private bool m_MotionTrackerCalibrateState;
         private float _avatarScale;
         private GameObject _curLeftHeelVFX;
         private GameObject _curLeftToeVFX;
@@ -83,122 +84,155 @@ namespace BodyTrackingDemo
             {
                 t.TryRecenter();
             }
+            PXR_MotionTracking.CheckMotionTrackerModeAndNumber(MotionTrackerMode.BodyTracking, MotionTrackerNum.TWO);
+            UpdateMotionTrackerState();
 
-            UpdateFitnessBandState();
+            // StartBodyTracking must be called, otherwise the body tracking will stop working (no update data) after 5mins.
+            BodyTrackingBoneLength boneLength = new BodyTrackingBoneLength();
+            PXR_MotionTracking.StartBodyTracking((BodyTrackingMode)PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode, boneLength);
+
+            SteppingEffectType = PlayerPrefManager.Instance.PlayerPrefData.steppingEffect;
+            PXR_MotionTracking.BodyTrackingAction += OnBodyTrackingStepAction;
         }
 
         private void OnApplicationPause(bool pauseStatus)
         {
             if (!pauseStatus)
             {
-                UpdateFitnessBandState();
+                UpdateMotionTrackerState();
             }
         }
         
         // Update is called once per frame
         private void LateUpdate()
         {
-            if (m_CurrentLegTrackingDemoState == LegTrackingDemoState.PLAYING)
+            if (m_CurrentBodyTrackingDemoState == BodyTrackingDemoState.PLAYING)
             {
                 m_LeftFootStepOnAction = _bodyTrackerSampler.LeftTouchGroundAction;
                 m_RightFootStepOnAction = _bodyTrackerSampler.RightTouchGroundAction;
                 DancePadManager.DancePadHoleStepOnDetection(m_AvatarLeftFoot.position, m_AvatarRightFoot.position, m_LeftFootStepOnAction, m_RightFootStepOnAction, m_LeftFootStepOnLastAction, m_RightFootStepOnLastAction);
 
-                if (DancePadManager.IsDancePadGamePlaying)
+                if (DancePadManager.IsDancePadGamePlaying) return;
+
+                if (SteppingEffectType == 1) return;
+                //{
+                //    if ((m_LeftFootStepOnAction & (int)BodyActionList.PxrTouchGround) != 0 && (m_LeftFootStepOnLastAction & (int)BodyActionList.PxrTouchGround) == 0 ||
+                //        (m_LeftFootStepOnAction & (int)BodyActionList.PxrTouchGroundToe) != 0 && (m_LeftFootStepOnLastAction & (int)BodyActionList.PxrTouchGroundToe) == 0)
+                //    {
+                //        if (_curLeftToeVFX != null)
+                //        {
+                //            var particle = _curLeftToeVFX.GetComponentInChildren<ParticleSystem>();
+                //            particle.Stop(true);
+                //        }
+                //        _curLeftToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _bodyTrackerSampler.LeftFootToeBone, stepOnLeftEffect);
+                //    }
+
+                //    if ((m_RightFootStepOnAction & (int)BodyActionList.PxrTouchGround) != 0 && (m_RightFootStepOnLastAction & (int)BodyActionList.PxrTouchGround) == 0 ||
+                //        (m_RightFootStepOnAction & (int)BodyActionList.PxrTouchGroundToe) != 0 && (m_RightFootStepOnLastAction & (int)BodyActionList.PxrTouchGroundToe) == 0)
+                //    {
+                //        if (_curRightToeVFX != null)
+                //        {
+                //            var particle = _curRightToeVFX.GetComponentInChildren<ParticleSystem>();
+                //            particle.Stop(true);
+                //        }
+                //        _curRightToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _bodyTrackerSampler.RightFootToeBone, stepOnRightEffect);
+                //    }
+                //}
+                //else
+                //{
+                if (SteppingEffectType == 2 || SteppingEffectType == 3)
                 {
-                    return;
+                    if ((m_LeftFootStepOnAction & (int)BodyActionList.PxrTouchGround) != 0 && (m_LeftFootStepOnLastAction & (int)BodyActionList.PxrTouchGround) == 0)
+                    {
+                        if (_curLeftHeelVFX != null)
+                        {
+                            var particle = _curLeftHeelVFX.GetComponentInChildren<ParticleSystem>();
+                            particle.Stop(true);
+                        }
+                        _curLeftHeelVFX = PlayStepOnEffect(BodyActionList.PxrTouchGround, _bodyTrackerSampler.LeftFootBone, stepOnLeftHeelEffect);
+                    }
+
+                    if ((m_RightFootStepOnAction & (int)BodyActionList.PxrTouchGround) != 0 && (m_RightFootStepOnLastAction & (int)BodyActionList.PxrTouchGround) == 0)
+                    {
+                        if (_curRightHeelVFX != null)
+                        {
+                            var particle = _curRightHeelVFX.GetComponentInChildren<ParticleSystem>();
+                            particle.Stop(true);
+                        }
+                        _curRightHeelVFX = PlayStepOnEffect(BodyActionList.PxrTouchGround, _bodyTrackerSampler.RightFootBone, stepOnHeelEffect);
+                    }
                 }
 
-                int effectType = PlayerPrefManager.Instance.PlayerPrefData.steppingEffect;
-                if (effectType == 1)
+                if (SteppingEffectType == 2 || SteppingEffectType == 4)
                 {
-                    if ((m_LeftFootStepOnAction & (int) BodyActionList.PxrTouchGround) != 0 && (m_LeftFootStepOnLastAction & (int) BodyActionList.PxrTouchGround) == 0 ||
-                        (m_LeftFootStepOnAction & (int) BodyActionList.PxrTouchGroundToe) != 0 && (m_LeftFootStepOnLastAction & (int) BodyActionList.PxrTouchGroundToe) == 0)
+                    if ((m_LeftFootStepOnAction & (int)BodyActionList.PxrTouchGroundToe) != 0 && (m_LeftFootStepOnLastAction & (int)BodyActionList.PxrTouchGroundToe) == 0)
                     {
                         if (_curLeftToeVFX != null)
                         {
                             var particle = _curLeftToeVFX.GetComponentInChildren<ParticleSystem>();
                             particle.Stop(true);
                         }
-                        _curLeftToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _bodyTrackerSampler.LeftFootToeBone, stepOnLeftEffect);
+                        _curLeftToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _bodyTrackerSampler.LeftFootToeBone, stepOnLeftToeEffect);
                     }
-                    
-                    if ((m_RightFootStepOnAction & (int) BodyActionList.PxrTouchGround) != 0 && (m_RightFootStepOnLastAction & (int) BodyActionList.PxrTouchGround) == 0 ||
-                        (m_RightFootStepOnAction & (int) BodyActionList.PxrTouchGroundToe) != 0 && (m_RightFootStepOnLastAction & (int) BodyActionList.PxrTouchGroundToe) == 0)
+
+                    if ((m_RightFootStepOnAction & (int)BodyActionList.PxrTouchGroundToe) != 0 && (m_RightFootStepOnLastAction & (int)BodyActionList.PxrTouchGroundToe) == 0)
                     {
-                        if (_curRightToeVFX != null)
+                        if (_curLeftToeVFX != null)
                         {
-                            var particle = _curRightToeVFX.GetComponentInChildren<ParticleSystem>();
+                            var particle = _curLeftToeVFX.GetComponentInChildren<ParticleSystem>();
                             particle.Stop(true);
                         }
-                        _curRightToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _bodyTrackerSampler.RightFootToeBone, stepOnRightEffect);
+                        _curRightToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _bodyTrackerSampler.RightFootToeBone, stepOnToeEffect);
                     }
                 }
-                else
-                {
-                    if (effectType == 2 || effectType == 3)
-                    {
-                        if ((m_LeftFootStepOnAction & (int) BodyActionList.PxrTouchGround) != 0 && (m_LeftFootStepOnLastAction & (int) BodyActionList.PxrTouchGround) == 0)
-                        {
-                            if (_curLeftHeelVFX != null)
-                            {
-                                var particle = _curLeftHeelVFX.GetComponentInChildren<ParticleSystem>();
-                                particle.Stop(true);
-                            }
-                            _curLeftHeelVFX = PlayStepOnEffect(BodyActionList.PxrTouchGround, _bodyTrackerSampler.LeftFootBone, stepOnLeftHeelEffect);
-                        }
-
-                        if ((m_RightFootStepOnAction & (int) BodyActionList.PxrTouchGround) != 0 && (m_RightFootStepOnLastAction & (int) BodyActionList.PxrTouchGround) == 0)
-                        {
-                            if (_curRightHeelVFX != null)
-                            {
-                                var particle = _curRightHeelVFX.GetComponentInChildren<ParticleSystem>();
-                                particle.Stop(true);
-                            }
-                            _curRightHeelVFX = PlayStepOnEffect(BodyActionList.PxrTouchGround, _bodyTrackerSampler.RightFootBone, stepOnHeelEffect);
-                        }
-                    }
-
-                    if (effectType == 2 || effectType == 4)
-                    {
-                        if ((m_LeftFootStepOnAction & (int) BodyActionList.PxrTouchGroundToe) != 0 && (m_LeftFootStepOnLastAction & (int) BodyActionList.PxrTouchGroundToe) == 0)
-                        {
-                            if (_curLeftToeVFX != null)
-                            {
-                                var particle = _curLeftToeVFX.GetComponentInChildren<ParticleSystem>();
-                                particle.Stop(true);
-                            }
-                            _curLeftToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _bodyTrackerSampler.LeftFootToeBone, stepOnLeftToeEffect);
-                        }
-
-                        if ((m_RightFootStepOnAction & (int) BodyActionList.PxrTouchGroundToe) != 0 && (m_RightFootStepOnLastAction & (int) BodyActionList.PxrTouchGroundToe) == 0)
-                        {
-                            if (_curLeftToeVFX != null)
-                            {
-                                var particle = _curLeftToeVFX.GetComponentInChildren<ParticleSystem>();
-                                particle.Stop(true);
-                            }
-                            _curRightToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _bodyTrackerSampler.RightFootToeBone, stepOnToeEffect);
-                        }
-                    }
-                }
-
-                m_LeftFootStepOnLastAction = m_LeftFootStepOnAction;
-                m_RightFootStepOnLastAction = m_RightFootStepOnAction;
             }
+
+            m_LeftFootStepOnLastAction = m_LeftFootStepOnAction;
+            m_RightFootStepOnLastAction = m_RightFootStepOnAction;
+            //}
         }
 
-        private void OnApplicationFocus(bool focus)
+        //private void OnApplicationFocus(bool focus)
+        //{
+        //    if (focus)
+        //    {
+        //        UpdateMotionTrackerState();
+        //    }
+        //}
+
+        private void OnBodyTrackingStepAction(int joint, BodyActionList action)
         {
-            if (focus)
+            if (m_CurrentBodyTrackingDemoState != BodyTrackingDemoState.PLAYING) return;
+            if (DancePadManager.IsDancePadGamePlaying) return;
+            if (SteppingEffectType != 1) return;
+            if (action != BodyActionList.PxrFootDownAction) return;
+
+            if (joint == (int)BodyTrackerRole.LEFT_ANKLE)
             {
-                UpdateFitnessBandState();
+                if (_curLeftToeVFX != null)
+                {
+                    var particle = _curLeftToeVFX.GetComponentInChildren<ParticleSystem>();
+                    particle.Stop(true);
+                }
+                _curLeftToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _bodyTrackerSampler.LeftFootToeBone, stepOnLeftEffect);
             }
+
+            if (joint == (int)BodyTrackerRole.RIGHT_ANKLE)
+            {
+                if (_curRightToeVFX != null)
+                {
+                    var particle = _curRightToeVFX.GetComponentInChildren<ParticleSystem>();
+                    particle.Stop(true);
+                }
+                _curRightToeVFX = PlayStepOnEffect(BodyActionList.PxrTouchGroundToe, _bodyTrackerSampler.RightFootToeBone, stepOnRightEffect);
+            }
+
         }
+
 
         private void StartGame(float height)
         {
-            m_CurrentLegTrackingDemoState = LegTrackingDemoState.CALIBRATED;
+            m_CurrentBodyTrackingDemoState = BodyTrackingDemoState.CALIBRATED;
             
             var xrOriginPos = XROrigin.transform.localPosition;
             xrOriginPos.y = _startXROriginY = _initXROriginY;
@@ -293,7 +327,7 @@ namespace BodyTrackingDemo
             _avatarScale = height / 175;
             
             // XROrigin.transform.localScale = Vector3.one * _avatarScale;
-            _bodyTrackerSampler.UpdateBonesLength(_avatarScale);
+            //_bodyTrackerSampler.UpdateBonesLength(_avatarScale);
 
             Avatar.SetActive(false);
             yield return new WaitForEndOfFrame();
@@ -307,22 +341,22 @@ namespace BodyTrackingDemo
             
             DancePadManager.gameObject.SetActive(true);
 
-            m_CurrentLegTrackingDemoState = LegTrackingDemoState.PLAYING;
+            m_CurrentBodyTrackingDemoState = BodyTrackingDemoState.PLAYING;
 
             Debug.Log($"BodyTrackingManager.LoadAvatar: Avatar = {m_AvatarObj.name}, height = {height}");
         }
 
-        private void UpdateFitnessBandState()
+        private void UpdateMotionTrackerState()
         {
-            PXR_Input.SetSwiftMode(PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode);
 
             //Update Swift calibration state after resuming
             var calibrated = -1;
-            PXR_Input.GetFitnessBandCalibState(ref calibrated);
-            m_SwiftCalibratedState = calibrated == 1;
-            if (m_SwiftCalibratedState)
+            PXR_Input.GetMotionTrackerCalibState(ref calibrated);
+            m_MotionTrackerCalibrateState = calibrated == 1;
+            if (m_MotionTrackerCalibrateState)
             {
                 startCanvas.startMenu.SetActive(false);
+                
                 StartGame();
                 Debug.Log($"BodyTrackingManager.UpdateFitnessBandState: calibrated = {calibrated}");
             }
@@ -330,20 +364,20 @@ namespace BodyTrackingDemo
             {
                 if (m_AvatarObj != null && m_AvatarObj.activeSelf) m_AvatarObj.SetActive(false);
 
-                var connectState = new PxrFitnessBandConnectState();
-                PXR_Input.GetFitnessBandConnectState(ref connectState);
+                MotionTrackerConnectState connectState = new MotionTrackerConnectState();
+                PXR_MotionTracking.GetMotionTrackerConnectStateWithSN(ref connectState);
                 
                 BodyTrackerResult bodyTrackerResult = new BodyTrackerResult();
                 var trackingState = PXR_Input.GetBodyTrackingPose(0, ref bodyTrackerResult);
 #if UNITY_EDITOR
-                connectState.num = 2;
+                connectState.trackerSum = 2;
                 trackingState = 0;
 #endif
 
                 startCanvas.startMenu.SetActive(true);
-                startCanvas.btnContinue.gameObject.SetActive(connectState.num == 2 && trackingState == 0);
+                startCanvas.btnContinue.gameObject.SetActive(connectState.trackerSum >= 2 && trackingState == 0);
 
-                Debug.Log($"BodyTrackingManager.UpdateFitnessBandState: connectedNum = {connectState.num}, trackingState = {trackingState}");
+                Debug.Log($"BodyTrackingManager.UpdateFitnessBandState: connectedNum = {connectState.trackerSum}, trackingState = {trackingState}");
             }
         }
 

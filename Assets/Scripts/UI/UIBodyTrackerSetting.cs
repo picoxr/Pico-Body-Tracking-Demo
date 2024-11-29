@@ -48,14 +48,14 @@ namespace BodyTrackingDemo
         public void OnModeChanged(int modeIdx)
         {
             PlayerPrefManager.Instance.PlayerPrefData.bodyTrackMode = modeIdx;
-            PXR_Input.SetSwiftMode(modeIdx);
+            PXR_Input.SetBodyTrackingMode((BodyTrackingMode)modeIdx);
             Debug.Log($"UIBodyTrackerSetting.OnModeChanged: modeIdx = {modeIdx}");
         }
 
         private void OnCalibration()
         {
-            PXR_Input.OpenFitnessBandCalibrationAPP();
-            BodyTrackingManager.Instance.m_CurrentLegTrackingDemoState = BodyTrackingManager.LegTrackingDemoState.CALIBRATING;
+            PXR_MotionTracking.StartMotionTrackerCalibApp();
+            BodyTrackingManager.Instance.m_CurrentBodyTrackingDemoState = BodyTrackingManager.BodyTrackingDemoState.CALIBRATING;
             BodyTrackingManager.Instance.HideAvatar();
         }
     }

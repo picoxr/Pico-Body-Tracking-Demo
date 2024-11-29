@@ -35,6 +35,7 @@ namespace BodyTrackingDemo
         private void OnSteppingEffectChanged(int value)
         {
             PlayerPrefManager.Instance.PlayerPrefData.steppingEffect = value;
+            BodyTrackingManager.SteppingEffectType = PlayerPrefManager.Instance.PlayerPrefData.steppingEffect;
             Debug.Log($"UIDisplaySetting.OnSteppingEffectChanged: value = {value}");
         }
         

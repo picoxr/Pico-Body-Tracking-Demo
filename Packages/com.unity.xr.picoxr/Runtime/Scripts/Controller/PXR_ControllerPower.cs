@@ -30,17 +30,30 @@ public class PXR_ControllerPower : MonoBehaviour
     private Texture power5;
 
     private Material powerMaterial;
+    private float interval = 2f;
     public PXR_Input.Controller hand;
 
     // Start is called before the first frame update
     void Start()
     {
-        powerMaterial = GetComponent<MeshRenderer>().material;
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            powerMaterial = GetComponent<MeshRenderer>().material;
+            
+        }
+        else
+        {
+            powerMaterial = GetComponent<SkinnedMeshRenderer>().material;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        interval -= Time.deltaTime;
+        if (interval > 0) return; 
+        interval = 2f;
+
         var curBattery = 0f;
         switch (hand)
         {

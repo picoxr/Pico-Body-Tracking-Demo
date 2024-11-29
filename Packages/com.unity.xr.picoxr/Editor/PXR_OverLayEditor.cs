@@ -61,6 +61,11 @@ namespace Unity.XR.PXR.Editor
                     overlayTarget.textureType = (PXR_OverLay.TextureType)EditorGUILayout.EnumPopup(guiContent, overlayTarget.textureType);
                     EditorGUILayout.Separator();
 
+                    if (overlayTarget.overlayShape == PXR_OverLay.OverlayShape.BlurredQuad)
+                    {
+                        overlayTarget.textureType = PXR_OverLay.TextureType.ExternalSurface;
+                    }
+
                     if (overlayTarget.textureType == PXR_OverLay.TextureType.ExternalSurface)
                     {
                         overlayTarget.isExternalAndroidSurface = true;
@@ -86,6 +91,28 @@ namespace Unity.XR.PXR.Editor
                         guiContent.text = "3D Surface Type";
                         overlayTarget.externalAndroidSurface3DType = (PXR_OverLay.Surface3DType)EditorGUILayout.EnumPopup(guiContent, overlayTarget.externalAndroidSurface3DType);
                         EditorGUILayout.EndVertical();
+
+                        if (overlayTarget.overlayShape == PXR_OverLay.OverlayShape.BlurredQuad)
+                        {
+                            EditorGUILayout.LabelField("Blurred Quad");
+                            EditorGUILayout.BeginVertical("frameBox");
+                            guiContent.text = "Mode";
+                            overlayTarget.blurredQuadMode = (PXR_OverLay.BlurredQuadMode)EditorGUILayout.EnumPopup(guiContent, overlayTarget.blurredQuadMode);
+
+                            guiContent.text = "Scale";
+                            overlayTarget.blurredQuadScale = EditorGUILayout.FloatField(guiContent, Mathf.Abs(overlayTarget.blurredQuadScale));
+
+                            guiContent.text = "Shift";
+                            overlayTarget.blurredQuadShift = EditorGUILayout.Slider(guiContent, overlayTarget.blurredQuadShift, -1, 1);
+
+                            guiContent.text = "FOV";
+                            overlayTarget.blurredQuadFOV = EditorGUILayout.Slider(guiContent, overlayTarget.blurredQuadFOV, 0, 180f);
+
+                            guiContent.text = "IPD";
+                            overlayTarget.blurredQuadIPD = EditorGUILayout.Slider(guiContent, overlayTarget.blurredQuadIPD, 0.01f, 1.0f);
+
+                            EditorGUILayout.EndVertical();
+                        }
                     }
                     else
                     {
@@ -104,7 +131,8 @@ namespace Unity.XR.PXR.Editor
                     }
                     EditorGUILayout.Separator();
 
-                    if (overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Equirect)
+                    if (overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Equirect ||
+                        overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Fisheye)
                     {
                         guiContent.text = "Radius";
                         overlayTarget.radius = EditorGUILayout.FloatField(guiContent, Mathf.Abs(overlayTarget.radius));
@@ -112,7 +140,11 @@ namespace Unity.XR.PXR.Editor
 
                 }
 
-                if (overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Quad || overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Cylinder || overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Equirect || overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Eac)
+                if (overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Quad ||
+                    overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Cylinder ||
+                    overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Equirect ||
+                    overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Eac ||
+                    overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Fisheye)
                 {
                     guiContent.text = "Texture Rects";
                     overlayTarget.useImageRect = EditorGUILayout.Toggle(guiContent, overlayTarget.useImageRect);
@@ -151,7 +183,9 @@ namespace Unity.XR.PXR.Editor
                             overlayTarget.srcRectRight = new Rect(0.5f, 0, 0.5f, 1);
                         }
 
-                        if (overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Quad || overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Equirect)
+                        if (overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Quad ||
+                            overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Equirect ||
+                            overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Fisheye)
                         {
                             guiContent.text = "Destination Rects";
                             overlayTarget.destinationRect = (PXR_OverLay.DestinationRect)EditorGUILayout.EnumPopup(guiContent, overlayTarget.destinationRect);
@@ -204,31 +238,35 @@ namespace Unity.XR.PXR.Editor
                 EditorGUILayout.Separator();
                 if (overlayTarget.overlayShape == PXR_OverLay.OverlayShape.Eac)
                 {
-                    guiContent.text = "Offset Pos Left";
-                    Vector3 offsetPosLeft = EditorGUILayout.Vector3Field(guiContent, overlayTarget.offsetPosLeft);
+                    guiContent.text = "Model Type";
+                    overlayTarget.eacModelType = (PXR_OverLay.EACModelType)EditorGUILayout.EnumPopup(guiContent, overlayTarget.eacModelType);
+
+                    if (PXR_OverLay.EACModelType.Eac360ViewPort == overlayTarget.eacModelType ||
+                        PXR_OverLay.EACModelType.Eac180ViewPort == overlayTarget.eacModelType)
+                    {
+
+                        guiContent.text = "Offset Pos Left";
+                        Vector3 offsetPosLeft = EditorGUILayout.Vector3Field(guiContent, overlayTarget.offsetPosLeft);
 
 
-                    guiContent.text = "Offset Pos Right";
-                    Vector3 offsetPosRight = EditorGUILayout.Vector3Field(guiContent, overlayTarget.offsetPosRight);
+                        guiContent.text = "Offset Pos Right";
+                        Vector3 offsetPosRight = EditorGUILayout.Vector3Field(guiContent, overlayTarget.offsetPosRight);
 
 
-                    guiContent.text = "Offset Rot Left";
-                    Vector4 offsetRotLeft = EditorGUILayout.Vector4Field(guiContent, overlayTarget.offsetRotLeft);
+                        guiContent.text = "Offset Rot Left";
+                        Vector4 offsetRotLeft = EditorGUILayout.Vector4Field(guiContent, overlayTarget.offsetRotLeft);
 
 
-                    guiContent.text = "Offset Rot Right";
-                    Vector4 offsetRotRight = EditorGUILayout.Vector4Field(guiContent, overlayTarget.offsetRotRight);
+                        guiContent.text = "Offset Rot Right";
+                        Vector4 offsetRotRight = EditorGUILayout.Vector4Field(guiContent, overlayTarget.offsetRotRight);
 
-
-
-                    guiContent.text = "No View Port";
-                    overlayTarget.degreeType = (PXR_OverLay.DegreeType)EditorGUILayout.EnumPopup(guiContent, overlayTarget.degreeType);
-
+                        overlayTarget.SetEACOffsetPosAndRot(offsetPosLeft, offsetPosRight, offsetRotLeft, offsetRotRight);
+                    }
 
                     guiContent.text = "Overlap Factor";
-                    float overlapFactor = EditorGUILayout.FloatField(guiContent, overlayTarget.overlapFactor);
+                    overlayTarget.overlapFactor = EditorGUILayout.FloatField(guiContent, overlayTarget.overlapFactor);
+                    //overlayTarget.SetEACFactor(overlapFactor);
 
-                    overlayTarget.SetEACOffsetPosAndRot(offsetPosLeft, offsetPosRight, offsetRotLeft, offsetRotRight, overlapFactor);
                 }
 
                 guiContent.text = "Override Color Scale";
@@ -246,6 +284,9 @@ namespace Unity.XR.PXR.Editor
 
                     EditorGUILayout.EndVertical();
                 }
+
+                guiContent.text = "isAlphaPremultiplied";
+                overlayTarget.isPremultipliedAlpha = EditorGUILayout.Toggle(guiContent, overlayTarget.isPremultipliedAlpha);
             }
 
             if (GUI.changed)

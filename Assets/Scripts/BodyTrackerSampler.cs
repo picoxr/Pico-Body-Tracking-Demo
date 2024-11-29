@@ -97,87 +97,87 @@ namespace BodyTrackingDemo
             RightToeTouchGroundAction = (int) m_BodyTrackerResult.trackingdata[11].Action;
         }
 
-        /// <summary>
-        /// For Demo Avatar use only
-        /// </summary>
-        [ContextMenu("AutoBindAvatarBones")]
-        public void FindBonesReference()
-        {
-            BonesList[0] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips").transform;
-            BonesList[1] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_L").transform;
-            BonesList[2] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_R").transform;
-            BonesList[3] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1").transform;
-            BonesList[4] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_L/Leg_L").transform;
-            BonesList[5] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_R/Leg_R").transform;
-            BonesList[6] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2").transform;
-            BonesList[7] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_L/Leg_L/Foot_L").transform;
-            BonesList[8] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_R/Leg_R/Foot_R").transform;
-            BonesList[9] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest").transform;
-            BonesList[10] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_L/Leg_L/Foot_L/Foot_rotate_L/HeelToes_L/Toes_rotate_L/Toes_L").transform;
-            BonesList[11] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_R/Leg_R/Foot_R/Foot_rotate_R/HeelToes_R/Toes_rotate_R/Toes_R").transform;
-            BonesList[12] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Neck").transform;
-            BonesList[13] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_L").transform;
-            BonesList[14] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_R").transform;
-            BonesList[15] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Neck/Head").transform;
-            BonesList[16] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_L/Arm_L").transform;
-            BonesList[17] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_R/Arm_R").transform;
-            BonesList[18] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_L/Arm_L/Arm_L_twist/ForeArm_L").transform;
-            BonesList[19] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_R/Arm_R/Arm_R_twist/ForeArm_R").transform;
-            BonesList[20] = GameObject
-                .Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_L/Arm_L/Arm_L_twist/ForeArm_L/ForeArm_L_twist01/ForeArm_L_twist02/Hand_L").transform;
-            BonesList[21] = GameObject
-                .Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_R/Arm_R/Arm_R_twist/ForeArm_R/ForeArm_R_twist01/ForeArm_R_twist02/Hand_R").transform;
-        }
+        ///// <summary>
+        ///// For Demo Avatar use only
+        ///// </summary>
+        //[ContextMenu("AutoBindAvatarBones")]
+        //public void FindBonesReference()
+        //{
+        //    BonesList[0] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips").transform;
+        //    BonesList[1] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_L").transform;
+        //    BonesList[2] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_R").transform;
+        //    BonesList[3] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1").transform;
+        //    BonesList[4] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_L/Leg_L").transform;
+        //    BonesList[5] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_R/Leg_R").transform;
+        //    BonesList[6] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2").transform;
+        //    BonesList[7] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_L/Leg_L/Foot_L").transform;
+        //    BonesList[8] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_R/Leg_R/Foot_R").transform;
+        //    BonesList[9] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest").transform;
+        //    BonesList[10] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_L/Leg_L/Foot_L/Foot_rotate_L/HeelToes_L/Toes_rotate_L/Toes_L").transform;
+        //    BonesList[11] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/UpLeg_R/Leg_R/Foot_R/Foot_rotate_R/HeelToes_R/Toes_rotate_R/Toes_R").transform;
+        //    BonesList[12] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Neck").transform;
+        //    BonesList[13] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_L").transform;
+        //    BonesList[14] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_R").transform;
+        //    BonesList[15] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Neck/Head").transform;
+        //    BonesList[16] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_L/Arm_L").transform;
+        //    BonesList[17] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_R/Arm_R").transform;
+        //    BonesList[18] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_L/Arm_L/Arm_L_twist/ForeArm_L").transform;
+        //    BonesList[19] = GameObject.Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_R/Arm_R/Arm_R_twist/ForeArm_R").transform;
+        //    BonesList[20] = GameObject
+        //        .Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_L/Arm_L/Arm_L_twist/ForeArm_L/ForeArm_L_twist01/ForeArm_L_twist02/Hand_L").transform;
+        //    BonesList[21] = GameObject
+        //        .Find(this.name + "/RIG/DeformationSystem/Root/GlobalScale/Hips/Spine1/Spine2/Chest/Shoulder_R/Arm_R/Arm_R_twist/ForeArm_R/ForeArm_R_twist01/ForeArm_R_twist02/Hand_R").transform;
+        //}
 
-        //For demo Avatar only
-        [ContextMenu("AutoFindAvatarBonesLenth")]
-        public void FindBonesLength()
-        {
-            SkeletonLens[0] = 0.2f; //HeadLen
-            SkeletonLens[1] = (BonesList[12].position - BonesList[15].position).magnitude; //NeckLen
-            SkeletonLens[2] = (BonesList[12].position - (BonesList[0].position + BonesList[3].position) * 0.5f).magnitude; //TorsoLen
-            SkeletonLens[3] = ((BonesList[0].position + BonesList[3].position) * 0.5f - (BonesList[1].position + BonesList[2].position) * 0.5f).magnitude; //HipLen
-            SkeletonLens[4] = (BonesList[1].position - BonesList[4].position).magnitude; //UpperLegLen
-            SkeletonLens[5] = (BonesList[4].position - BonesList[7].position).magnitude; //LowerLegLen
-            SkeletonLens[6] = (BonesList[7].position - BonesList[10].position).magnitude; //FootLen
-            SkeletonLens[7] = (BonesList[16].position - BonesList[17].position).magnitude; //ShoulderLen
-            SkeletonLens[8] = (BonesList[16].position - BonesList[18].position).magnitude; //UpperArmLen
-            SkeletonLens[9] = (BonesList[18].position - BonesList[20].position).magnitude; //LowerArmLen
-            SkeletonLens[10] = 0.169f; //HandLen
+        ////For demo Avatar only
+        //[ContextMenu("AutoFindAvatarBonesLenth")]
+        //public void FindBonesLength()
+        //{
+        //    SkeletonLens[0] = 0.2f; //HeadLen
+        //    SkeletonLens[1] = (BonesList[12].position - BonesList[15].position).magnitude; //NeckLen
+        //    SkeletonLens[2] = (BonesList[12].position - (BonesList[0].position + BonesList[3].position) * 0.5f).magnitude; //TorsoLen
+        //    SkeletonLens[3] = ((BonesList[0].position + BonesList[3].position) * 0.5f - (BonesList[1].position + BonesList[2].position) * 0.5f).magnitude; //HipLen
+        //    SkeletonLens[4] = (BonesList[1].position - BonesList[4].position).magnitude; //UpperLegLen
+        //    SkeletonLens[5] = (BonesList[4].position - BonesList[7].position).magnitude; //LowerLegLen
+        //    SkeletonLens[6] = (BonesList[7].position - BonesList[10].position).magnitude; //FootLen
+        //    SkeletonLens[7] = (BonesList[16].position - BonesList[17].position).magnitude; //ShoulderLen
+        //    SkeletonLens[8] = (BonesList[16].position - BonesList[18].position).magnitude; //UpperArmLen
+        //    SkeletonLens[9] = (BonesList[18].position - BonesList[20].position).magnitude; //LowerArmLen
+        //    SkeletonLens[10] = 0.169f; //HandLen
         
-            Debug.Log($"BodyTrackerSampler.FindBonesLength: NeckLen = {SkeletonLens[1]}, TorsoLen = {SkeletonLens[2]}, HipLen = {SkeletonLens[3]}, UpperLegLen = {SkeletonLens[4]}, LowerLegLen = {SkeletonLens[5]}, FootLen = {SkeletonLens[6]}, ShoulderLen = {SkeletonLens[7]}, UpperArmLen = {SkeletonLens[8]}, LowerArmLen = {SkeletonLens[9]}");
-        }
+        //    Debug.Log($"BodyTrackerSampler.FindBonesLength: NeckLen = {SkeletonLens[1]}, TorsoLen = {SkeletonLens[2]}, HipLen = {SkeletonLens[3]}, UpperLegLen = {SkeletonLens[4]}, LowerLegLen = {SkeletonLens[5]}, FootLen = {SkeletonLens[6]}, ShoulderLen = {SkeletonLens[7]}, UpperArmLen = {SkeletonLens[8]}, LowerArmLen = {SkeletonLens[9]}");
+        //}
 
-        public void UpdateBonesLength(float scale = 1)
-        {
-            BonesList[0].localScale = Vector3.one * scale;
+        //public void UpdateBonesLength(float scale = 1)
+        //{
+        //    BonesList[0].localScale = Vector3.one * scale;
             
-            SkeletonLens[0] = 0.2f * scale;
-            SkeletonLens[1] = 0.169f * scale;
-            FindBonesLength();
-            SetBonesLength();
-            Update();
-        }
+        //    SkeletonLens[0] = 0.2f * scale;
+        //    SkeletonLens[1] = 0.169f * scale;
+        //    FindBonesLength();
+        //    SetBonesLength();
+        //    Update();
+        //}
         
-        public void SetBonesLength()
-        {
-            BodyTrackingBoneLength boneLength = new BodyTrackingBoneLength();
-            boneLength.headLen = 100 * SkeletonLens[0];
-            boneLength.neckLen = 100 * SkeletonLens[1]; //6.1f;
-            boneLength.torsoLen = 100 * SkeletonLens[2]; //37.1f;
-            boneLength.hipLen = 100 * SkeletonLens[3]; //9.1f;
-            boneLength.upperLegLen = 100 * SkeletonLens[4]; //34.1f;
-            boneLength.lowerLegLen = 100 * SkeletonLens[5]; //40.1f;
-            boneLength.footLen = 100 * SkeletonLens[6]; //14.1f;
-            boneLength.shoulderLen = 100 * SkeletonLens[7]; //27.1f;
-            boneLength.upperArmLen = 100 * SkeletonLens[8]; //20.1f;
-            boneLength.lowerArmLen = 100 * SkeletonLens[9]; //22.1f;
-            boneLength.handLen = 100 * SkeletonLens[10];
+        //public void SetBonesLength()
+        //{
+        //    BodyTrackingBoneLength boneLength = new BodyTrackingBoneLength();
+        //    boneLength.headLen = 100 * SkeletonLens[0];
+        //    boneLength.neckLen = 100 * SkeletonLens[1]; //6.1f;
+        //    boneLength.torsoLen = 100 * SkeletonLens[2]; //37.1f;
+        //    boneLength.hipLen = 100 * SkeletonLens[3]; //9.1f;
+        //    boneLength.upperLegLen = 100 * SkeletonLens[4]; //34.1f;
+        //    boneLength.lowerLegLen = 100 * SkeletonLens[5]; //40.1f;
+        //    boneLength.footLen = 100 * SkeletonLens[6]; //14.1f;
+        //    boneLength.shoulderLen = 100 * SkeletonLens[7]; //27.1f;
+        //    boneLength.upperArmLen = 100 * SkeletonLens[8]; //20.1f;
+        //    boneLength.lowerArmLen = 100 * SkeletonLens[9]; //22.1f;
+        //    boneLength.handLen = 100 * SkeletonLens[10];
 
-            int result = PXR_Input.SetBodyTrackingBoneLength(boneLength);
+        //    int result = PXR_Input.SetBodyTrackingBoneLength(boneLength);
         
-            Debug.Log($"BodyTrackerSampler.SetBonesLength: boneLength = {boneLength}, result = {result}");
-        }
+        //    Debug.Log($"BodyTrackerSampler.SetBonesLength: boneLength = {boneLength}, result = {result}");
+        //}
 
         public static Vector3 GetPosition(BodyTrackerTransform bodyTrackerTransform)
         {

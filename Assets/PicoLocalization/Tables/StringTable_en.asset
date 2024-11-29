@@ -56,7 +56,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 94854851167301640
-    m_Localized: Leg Tracking Mode
+    m_Localized: Low latency
     m_Metadata:
       m_Items: []
   - m_Id: 94854851167301641
@@ -205,6 +205,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 98927853425176576
     m_Localized: Ray Interactor
+    m_Metadata:
+      m_Items: []
+  - m_Id: 254034215552413696
+    m_Localized: High precision
     m_Metadata:
       m_Items: []
   references:
