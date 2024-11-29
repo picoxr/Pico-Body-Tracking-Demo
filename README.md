@@ -1,10 +1,10 @@
 ## Pico Body Tracking Demo
 
 ## Development Environment (For full-body tracking mode)
-- PUI v5.8.2 or above
+- PUI v5.11.0 or above
 
-- Swift SDK version
-PICO Unity Integration SDK v2.3.0 or above
+- PICO XR Unity Integration SDK version
+PICO Unity Integration SDK v3.0.0 or above
 
 - PICO Motion Tracker App
 Download from PICO App store
@@ -23,9 +23,9 @@ Demo main features:
 
 ## Usage：
 Experience steps:
-1. Wear the Swift Tracker correctly
+1. Wear the Motion Tracker correctly
 2. Open the BodyTrackingDemo app
-  1. Click the Start Calibration button to launch the calibration application
-  2. Wearing calibration guided by the "PICO Somatosensory Tracker" app
-  3. Back to the app to experience the Avatar drive effect after completing the calibration
+  1. Click the Start Calibration button to launch the "PICO Motion Tracker" application
+  2. Follow quick calibration process in the "PICO Motion Tracker" app
+  3. Back to the app to experience the Avatar drive effect
 
