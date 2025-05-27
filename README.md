@@ -19,7 +19,9 @@ Demo main features:
 3. Mirroring function, you can see your Avatar's posture and movements in the mirror
 4. Little mole game in BodyTracking scene to show motion tracker step on detection ability.
 
-|<img src="./Unity_mole.gif" width="500"> |
+<div align="center">
+  <img src="./Unity_mole.gif" width="500">
+</div>
 
 ## Usage：
 Experience steps:
